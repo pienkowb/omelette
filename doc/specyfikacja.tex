@@ -1,5 +1,5 @@
-\documentclass[a4paper,11pt,notitlepage]{article}
-\usepackage[utf8]{inputenc}	% latin2 - kodowanie iso-8859-2; cp1250 - kodowanie windows
+﻿\documentclass[a4paper,11pt,notitlepage]{article}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[polish]{babel}
 \usepackage[MeX]{polski}
@@ -9,12 +9,12 @@
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 
 \author{
-  Barnaba Turek\and
-  Bartosz Pieńkowski\and
-  Michał Zochniak \and
   Sławomir Blatkiewicz\and
-  Jakub Górniak\and
-  Piotr Piechal
+  Jakub Górniak       \and
+  Piotr Piechal       \and
+  Bartosz Pieńkowski  \and
+  Barnaba Turek       \and
+  Michał Zochniak
 }
 \title{Projekt zespołowy - wstępne rozpoznanie problemu}
 %todo nazwa projektu. Moja propozycja to "tUML" t=text albo "tUMLgen" gen=generator albo "gUMt" = generate UML from text
@@ -25,18 +25,19 @@
 \tableofcontents
 \section{Przedmiot projektu}
 Projekt obejmuje cały proces powstawania oprogramowania umożliwiającego generowanie diagramów UML w postaci graficznej na podstawie plików tekstowych o określonej strukturze opartej na konkretnej składni.
+%todo opisać tę konkretną składnie gdzieś, miałem wrażenie że o~tym jest ten doc - barnaba
 \section{Ograniczenia projektu}
 \subsection{Zasoby czasowe}
 Projekt ma trwać około 9 miesięcy. Nieprzekraczalny termin zakończenia prac nad projektem to 10 czerwca 2011.
 \subsection{Zasoby ludzkie}
 Do realizacji projektu przydzielony został zespół 6 programistów w składzie:
   \begin{itemize}
-    \item{Barnaba Turek}
-    \item{Bartosz Pieńkowski}
-    \item{Michał Zochniak}
     \item{Sławomir Blatkiewicz}
-    \item{Jakub Górski}
+    \item{Jakub Górniak}
     \item{Piotr Piechal}
+    \item{Bartosz Pieńkowski}
+    \item{Barnaba Turek}
+    \item{Michał Zochniak}
   \end{itemize}
 \section{Rozpoznanie problemu}
 Podstawą całego projektu jest stworzenie języka, który umożliwi precyzyjny opis elementów diagramu klas w notacji UML, zgodnie ze standardami wersji 2.0.
@@ -46,19 +47,21 @@ Język powinien umożliwiać opisanie podstawowych elementów diagramu klas, opi
 \begin{itemize}
 %todo uzupełnijcie jeśli o czymś zapomniałem
 \item{klasa}
-\item{stereotyp}
 \item{relacja (asocjacja, agregacja, generalizacja) wraz z określeniem liczebności i ról}
 \item{notatka}
+\item{paczka/moduł}
 \end{itemize}
 Dodatkowo zakładamy iż język powinien umożliwiać definiowanie:
 \begin{itemize} %tutaj też proszę o ewentualne uzupełnienie
 \item{relacji n-arnej}
 \item{klasy asocjacyjnej}
+\item{ograniczenia (constraint)}
 \end{itemize}
 \subsection{Parser}
 %todo jak realizujemy parser? nie znam się na tym ale mówiliście o wyrażeniach regularnych itp - chodzi o samą ideę
+% nie mamy pojęcia, po oddaniu tego dokumentu i~przegadaniu z~sawickim będziemy to robić
 \subsection{Generator plików graficznych}
-Generator plików graficznych powinien domyślnie korzystać z formatu JPEG. Dodatkowo powinien automatycznie optymalizować ułożenie elementów na diagramie. %można też napisać ogólnie o idei tej optymalizacji, choć pewnie trzebaby o tym trochę poczytać.
+Generator plików graficznych powinien domyślnie korzystać z formatu PNG. Dodatkowo powinien automatycznie optymalizować ułożenie elementów na diagramie. %można też napisać ogólnie o idei tej optymalizacji, choć pewnie trzebaby o tym trochę poczytać.
 \section{Założenia projektu}
 \subsection{Cel podstawowy}
 Celem podstawowym jest stworzenie programu sterowanego z linii komend, który wygeneruje plik graficzny zawierający diagram klas odwzorowujący wskazany plik tekstowy zawierający kod w utworzonym języku.
@@ -73,12 +76,6 @@ Celami dodatkowymi, których realizacja rozważona zostanie po osiągnięciu cel
     \end{itemize}
   }
   \item{rozszerzenie funkcjonalności IDE o możliwość redefiniowania położenia poszczególnych elementów na diagramie w trybie graficznym (\emph{drag and drop}).}
-  \item{rozszerzenie funkcjonalności generatora plików graficznych o możliwość wyboru formatu, w jakim ma zostać zapisany obraz spośród następujących:
-    \begin{itemize}
-      \item{GIF}
-      \item{PNG}
-    \end{itemize}
-  } %wiem że o tym nie rozmawialiśmy, ale myślę, że taki feature może być przydatny np żeby nie używać dodatkowych programów graficznych do zmniejszania lub konwersji plików
 \end{enumerate}
 \section{Proponowane rozwiązania}
 %todo napisać przykład syntaxu
@@ -89,7 +86,5 @@ Proponujemy do osiągnięcia celu głównego wykorzystanie technologii języka P
   \item{łatwość użytkowania - brak potrzeby instalacji oprogramowania do jego poprawnego działania}
   \item{aspekt dydaktyczny - chęć zapoznania się z proponowaną technologią}
 \end{enumerate}
-Do realizacji generatora plików graficznych proponujemy użycie biblioteki Cute.
-%todo ponieważ?
-%todo czego użyjemy do IDE?
+Do realizacji IDE proponujemy użycie biblioteki Qt.
 \end{document}
