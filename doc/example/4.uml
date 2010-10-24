@@ -1,0 +1,11 @@
+prototype association one-to-many
+  source-count : 1
+  target-count : *
+
+// one Student owns many books
+
+one-to-many
+  source : Student
+  target : Book
+
+  label : "owns"

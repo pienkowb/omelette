@@ -1,0 +1,3 @@
+association
+  target: Student 1..*
+  source: University 1 "teaches"
