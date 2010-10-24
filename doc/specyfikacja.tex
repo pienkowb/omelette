@@ -1,4 +1,4 @@
-﻿\documentclass[a4paper,11pt,notitlepage]{article}
+\documentclass[a4paper,11pt]{article}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[polish]{babel}
@@ -8,6 +8,8 @@
 %\linespread{1.5}
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 
+\begin{document}
+
 \author{
   Sławomir Blatkiewicz\and
   Jakub Górniak       \and
@@ -16,19 +18,31 @@
   Barnaba Turek       \and
   Michał Zochniak
 }
+
 \title{Projekt zespołowy - wstępne rozpoznanie problemu}
-%todo nazwa projektu. Moja propozycja to "tUML" t=text albo "tUMLgen" gen=generator albo "gUMt" = generate UML from text
+
+%todo nazwa projektu. Moja propozycja to "tUML" t=text albo "tUMLgen" gen=generator albo "gUMt" =
+%generate UML from text
+
 \date{\today}
-\begin{document}
+
 \maketitle %przedefiniować maketitle aby wypisał autorów jeden pod drugim
 %todo przedefiniować maketitle i toc aby były osobne strony
+
 \tableofcontents
+
 \section{Przedmiot projektu}
-Projekt obejmuje cały proces powstawania oprogramowania umożliwiającego generowanie diagramów UML w postaci graficznej na podstawie plików tekstowych o określonej strukturze opartej na konkretnej składni.
+Projekt obejmuje cały proces powstawania oprogramowania umożliwiającego generowanie diagramów UML w
+postaci graficznej na podstawie plików tekstowych o określonej strukturze opartej na konkretnej
+składni.
 %todo opisać tę konkretną składnie gdzieś, miałem wrażenie że o~tym jest ten doc - barnaba
+
 \section{Ograniczenia projektu}
+
 \subsection{Zasoby czasowe}
-Projekt ma trwać około 9 miesięcy. Nieprzekraczalny termin zakończenia prac nad projektem to 10 czerwca 2011.
+Projekt ma trwać około 9 miesięcy. Nieprzekraczalny termin zakończenia prac nad projektem to 10
+czerwca 2011.
+
 \subsection{Zasoby ludzkie}
 Do realizacji projektu przydzielony został zespół 6 programistów w składzie:
   \begin{itemize}
@@ -39,11 +53,16 @@ Do realizacji projektu przydzielony został zespół 6 programistów w składzie
     \item{Barnaba Turek}
     \item{Michał Zochniak}
   \end{itemize}
+
 \section{Rozpoznanie problemu}
-Podstawą całego projektu jest stworzenie języka, który umożliwi precyzyjny opis elementów diagramu klas w notacji UML, zgodnie ze standardami wersji 2.0.
-Dodatkowymi modułami potrzebnymi do realizacji tego rozwiązania będą parser oraz generator plików graficznych.
+Podstawą całego projektu jest stworzenie języka, który umożliwi precyzyjny opis elementów diagramu
+klas w notacji UML, zgodnie ze standardami wersji 2.0.
+Dodatkowymi modułami potrzebnymi do realizacji tego rozwiązania będą parser oraz generator plików
+graficznych.
+
 \subsection{Język}
-Język powinien umożliwiać opisanie podstawowych elementów diagramu klas, opisanych w specyfikacji notacji UML 2.0:
+Język powinien umożliwiać opisanie podstawowych elementów diagramu klas, opisanych w specyfikacji
+notacji UML 2.0:
 \begin{itemize}
 %todo uzupełnijcie jeśli o czymś zapomniałem
 \item{klasa}
@@ -57,30 +76,43 @@ Dodatkowo zakładamy iż język powinien umożliwiać definiowanie:
 \item{klasy asocjacyjnej}
 \item{ograniczenia (constraint)}
 \end{itemize}
+
 \subsection{Parser}
 %todo jak realizujemy parser? nie znam się na tym ale mówiliście o wyrażeniach regularnych itp - chodzi o samą ideę
 % nie mamy pojęcia, po oddaniu tego dokumentu i~przegadaniu z~sawickim będziemy to robić
+
 \subsection{Generator plików graficznych}
-Generator plików graficznych powinien domyślnie korzystać z formatu PNG. Dodatkowo powinien automatycznie optymalizować ułożenie elementów na diagramie. %można też napisać ogólnie o idei tej optymalizacji, choć pewnie trzebaby o tym trochę poczytać.
+Generator plików graficznych powinien domyślnie korzystać z formatu PNG. Dodatkowo powinien
+automatycznie optymalizować ułożenie elementów na diagramie. 
+%można też napisać ogólnie o idei tej optymalizacji, choć pewnie trzebaby o tym trochę poczytać.
+
 \section{Założenia projektu}
+
 \subsection{Cel podstawowy}
-Celem podstawowym jest stworzenie programu sterowanego z linii komend, który wygeneruje plik graficzny zawierający diagram klas odwzorowujący wskazany plik tekstowy zawierający kod w utworzonym języku.
+Celem podstawowym jest stworzenie programu sterowanego z linii komend, który wygeneruje plik
+graficzny zawierający diagram klas odwzorowujący wskazany plik tekstowy zawierający kod w utworzonym
+języku.
+
 \subsection{Cele dodatkowe}
 Celami dodatkowymi, których realizacja rozważona zostanie po osiągnięciu celu podstawowego są:
 \begin{enumerate}
   \item{
-    utworzenie zintegrowanego środowiska programistycznego (IDE) do tego języka, w skład którego wchodziłyby następujace elementy:
+    utworzenie zintegrowanego środowiska programistycznego (IDE) do tego języka, w skład którego
+    wchodziłyby następujace elementy:
     \begin{itemize}
       \item{edytor tekstowy oferujący kolorowanie składni, oraz inteligentne formatowanie tekstu}
       \item{podgląd diagramu na bieżąco}
     \end{itemize}
   }
-  \item{rozszerzenie funkcjonalności IDE o możliwość redefiniowania położenia poszczególnych elementów na diagramie w trybie graficznym (\emph{drag and drop}).}
+  \item{rozszerzenie funkcjonalności IDE o możliwość redefiniowania położenia poszczególnych
+    elementów na diagramie w trybie graficznym (\emph{drag and drop}).}
 \end{enumerate}
 \section{Proponowane rozwiązania}
 %todo napisać przykład syntaxu
+
 \section{Proponowane technologie}
-Proponujemy do osiągnięcia celu głównego wykorzystanie technologii języka Python. Za takim rozwiązaniem przemawiają następujące argumenty:
+Proponujemy do osiągnięcia celu głównego wykorzystanie technologii języka Python. Za takim
+rozwiązaniem przemawiają następujące argumenty:
 \begin{enumerate}
   \item{przenośność rozwiązania spowodowana skryptowym charakterem języka}
   \item{łatwość użytkowania - brak potrzeby instalacji oprogramowania do jego poprawnego działania}
