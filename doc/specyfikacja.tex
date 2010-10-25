@@ -1,46 +1,46 @@
-\documentclass[a4paper,11pt,title]{report}
+\documentclass[a4paper, 11pt]{report}
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage[polish]{babel}
 \usepackage[MeX]{polski}
-\selectlanguage{polish}
 
 \usepackage{color}
 \usepackage{xcolor}
 
-%nice paragraphs
+% nice paragraphs
 \setlength{\parindent}{0pt}
 \setlength{\parskip}{2ex}
 
-%listings 
+% listings
 \usepackage{listings}
 \usepackage{caption}
+
 \DeclareCaptionFont{white}{\color{white}}
-\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35,0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35, 0.01}{\parbox{\textwidth}{\hspace{15pt}#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white, singlelinecheck=false, margin=0pt, font={bf,footnotesize}}
 
 \lstset{
-  basicstyle=\footnotesize\ttfamily, 
-  numbers=left,               
-  numberstyle=\tiny,         
-  stepnumber=1,            
-  numbersep=5pt,          
-  tabsize=2,             
-  extendedchars=true,   
-  breaklines=true,     
+  basicstyle=\footnotesize\ttfamily,
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  tabsize=2,
+  extendedchars=true,
+  breaklines=true,
   keywordstyle=\color{red},
-        frame=B,         
-  stringstyle=\color{white}\ttfamily, 
-  showspaces=false,          
-  showtabs=false,           
+  frame=B,
+  stringstyle=\color{white}\ttfamily,
+  showspaces=false,
+  showtabs=false,
   xleftmargin=17pt,
   framexleftmargin=17pt,
   framexrightmargin=5pt,
   framexbottommargin=4pt,
   xrightmargin=-1pt,
-  showstringspaces=false   
+  showstringspaces=false
 }
 
 
@@ -60,32 +60,30 @@
 %todo nazwa projektu. Moja propozycja to "tUML" t=text albo "tUMLgen" gen=generator albo "gUMt" =
 %generate UML from text
 
-\date{\today}
-
 \maketitle %przedefiniować maketitle aby wypisał autorów jeden pod drugim
 
 \tableofcontents
 
 \section{Przedmiot projektu}
-Projekt obejmuje cały proces powstawania oprogramowania umożliwiającego generowanie diagramów UML w
-postaci graficznej na podstawie plików tekstowych o określonej strukturze opartej na konkretnej
+Projekt obejmuje cały proces powstawania oprogramowania umożliwiającego generowanie diagramów UML 
+w~postaci graficznej na podstawie plików tekstowych o~określonej strukturze opartej na konkretnej
 składni.
 
 \section{Ograniczenia projektu}
 
 \subsection{Zasoby czasowe}
-Projekt ma trwać około 9 miesięcy. Nieprzekraczalny termin zakończenia prac nad projektem to 10
-czerwca 2011.
+Projekt ma trwać około 9~miesięcy. Nieprzekraczalny termin zakończenia prac nad projektem to
+10~czerwca~2011.
 
 \subsection{Zasoby ludzkie}
-Do realizacji projektu przydzielony został zespół 6 programistów w składzie:
+Do realizacji projektu przydzielony został zespół 6~programistów w składzie:
   \begin{itemize}
-    \item{Sławomir Blatkiewicz}
-    \item{Jakub Górniak}
-    \item{Piotr Piechal}
-    \item{Bartosz Pieńkowski}
-    \item{Barnaba Turek}
-    \item{Michał Zochniak}
+    \item{Sławomir Blatkiewicz,}
+    \item{Jakub Górniak,}
+    \item{Piotr Piechal,}
+    \item{Bartosz Pieńkowski,}
+    \item{Barnaba Turek,}
+    \item{Michał Zochniak.}
   \end{itemize}
 
 \section{Rozpoznanie problemu}
@@ -95,15 +93,15 @@ Dodatkowymi modułami potrzebnymi do realizacji tego rozwiązania będą parser 
 graficznych.
 
 \subsection{Język}
-Język powinien umożliwiać opisanie podstawowych elementów diagramu klas, opisanych w specyfikacji
+Język powinien umożliwiać opisanie podstawowych elementów diagramu klas, opisanych w~specyfikacji
 notacji UML 2.0:
 \begin{itemize}
 \item{klasa}
-\item{relacja (asocjacja, agregacja, generalizacja) wraz z określeniem liczebności i ról}
+\item{relacja (asocjacja, agregacja, generalizacja) wraz z określeniem liczebności i~ról}
 \item{notatka}
 \item{paczka/moduł}
 \end{itemize}
-Dodatkowo zakładamy iż język powinien umożliwiać definiowanie:
+Dodatkowo zakładamy, iż język powinien umożliwiać definiowanie:
 \begin{itemize}
 \item{relacji n-arnej}
 \item{klasy asocjacyjnej}
@@ -115,51 +113,51 @@ Dodatkowo zakładamy iż język powinien umożliwiać definiowanie:
 % nie mamy pojęcia, po oddaniu tego dokumentu i~przegadaniu z~sawickim będziemy to robić
 
 \subsection{Generator plików graficznych}
-Generator plików graficznych powinien domyślnie korzystać z formatu PNG. Dodatkowo powinien
+Generator plików graficznych powinien domyślnie korzystać z~formatu PNG. Dodatkowo powinien
 automatycznie optymalizować ułożenie elementów na diagramie. 
 %można też napisać ogólnie o idei tej optymalizacji, choć pewnie trzebaby o tym trochę poczytać.
 
 \section{Założenia projektu}
 
 \subsection{Cel podstawowy}
-Celem podstawowym jest stworzenie programu sterowanego z linii komend, który wygeneruje plik
-graficzny zawierający diagram klas odwzorowujący wskazany plik tekstowy zawierający kod w utworzonym
+Celem podstawowym jest stworzenie programu sterowanego z~linii komend, który wygeneruje plik
+graficzny zawierający diagram klas odwzorowujący wskazany plik tekstowy zawierający kod w~utworzonym
 języku.
 
 \subsection{Cele dodatkowe}
 Celami dodatkowymi, których realizacja rozważona zostanie po osiągnięciu celu podstawowego są:
 \begin{enumerate}
   \item{
-    utworzenie zintegrowanego środowiska programistycznego (IDE) do tego języka, w skład którego
-    wchodziłyby następujace elementy:
+    Utworzenie zintegrowanego środowiska programistycznego (IDE) do tego języka, w~skład którego
+    wchodziłyby następujące elementy:
     \begin{itemize}
-      \item{edytor tekstowy oferujący kolorowanie składni, oraz inteligentne formatowanie tekstu}
-      \item{podgląd diagramu na bieżąco}
+      \item{edytor tekstowy oferujący kolorowanie składni oraz inteligentne formatowanie tekstu,}
+      \item{podgląd diagramu na bieżąco.}
     \end{itemize}
   }
-  \item{rozszerzenie funkcjonalności IDE o możliwość redefiniowania położenia poszczególnych
-    elementów na diagramie w trybie graficznym (\emph{drag and drop}).}
+  \item{Rozszerzenie funkcjonalności IDE o~możliwość przedefiniowania położenia poszczególnych
+    elementów na diagramie w~trybie graficznym (\emph{drag and drop}).}
 \end{enumerate}
 \section{Proponowane rozwiązania}
 \subsection{Składnia języka}
-Składnia języka z~założenia ma być nieco podobna do CSS. Główną rolę w~określeniu relacji odgrywają
-pary klucz - wartość, gdzie wartością może być także lista wartości. Pierwszy przykład, to asocjacja
-łącząca dwie klasy:
+Składnia języka z~założenia ma być nieco podobna do CSS. Główną rolę w~określeniu relacji
+odgrywają pary klucz-wartość, gdzie wartością może być także lista wartości. Pierwszy przykład to
+asocjacja łącząca dwie klasy:
 
 \subsubsection{Prosta asocjacja}
-\lstinputlisting[caption=przyklad 1]{example/1.uml}
+\lstinputlisting[caption=Przykład 1]{example/1.uml}
 
-\textbf{association} określa na podstawie jakiego obiektu ma zostać utworzony nowy obiekt; W~naszym
+\textbf{association} określa na podstawie jakiego obiektu ma zostać utworzony nowy obiekt. W~naszym
 przypadku tworzymy nowy obiekt na podstawie istniejącego (w~bibliotece standardowej języka) obiektu
 asocjacji. Następnie w~tej samej linii może wystąpić (koniecznie unikalny) identyfikator obiektu.
-W~\emph{przykładzie 1} assocjacja jest anonimowa, co oznacza, że nie będziemy mogli się później do
+W~\emph{przykładzie 1} asocjacja jest anonimowa, co oznacza, że nie będziemy mogli się później do
 niej odwołać.
 
 Po utworzeniu obiektu możemy modyfikować jego właściwości. Dwukropek oddziela klucze od wartości.
 Ustawiamy wartość klucza \textbf{target} na \textbf{Student 1..*}. Spacja (lub inny biały znak)
 oddziela od siebie elementy listy wartości. Student to identyfikator innego obiektu (prawdopodobnie
 klasy, ale w~przykładzie nie widać deklaracji tego obiektu), a~1..* to liczebność. Analogicznie
-\textbf{source} w~linii 3 wskazuje na drugi koniec asocjacji. Tutaj oprócz nazwy przyłączonego
+\textbf{source} w~linii 3. wskazuje na drugi koniec asocjacji. Tutaj oprócz nazwy przyłączonego
 obiektu i~jego liczebności możemy też zauważyć jego rolę.
 
 Liczebności, napisy i~identyfikatory obiektów to najczęściej występujące typy danych używane jako
@@ -167,28 +165,28 @@ wartości.
 
 \subsubsection{Klasa}
 Oczywiście najważniejsze w~diagramie UML są klasy. Zwykła klasa to obiekt zbudowany na podstawie
-obiektu class:
+prototypu class:
 
-\lstinputlisting[caption=przyklad 2]{example/2.uml}
+\lstinputlisting[caption=Przykład 2]{example/2.uml}
 
 W~linii pierwszej tworzymy nowy obiekt na bazie klasy, którego identyfikatorem jest Student.
 Identyfikator ten posłuży nam do wiązania studenta relacjami z~innymi obiektami takimi jak notatki,
 inne klasy, a~nawet relacje. Przy okazji identyfikator automatycznie staje się nazwą klasy. Można to
 zmienić ustawiając nową nazwę (napis) jako wartość klucza \textbf{name}.
 
-Student jak student, ma kilka metod o~określonych argumentach, widocznościach (znaki +,
-\# i~-) oraz zwracanym typie. Ma też kilka pól, które poza typem mogą przyjmować domyślną wartość.
-Znak podkreślenia oznacza, że dane pole lub metoda jest statyczne.
+Student jak student, ma kilka metod o~określonych argumentach, widocznościach (znaki +, - i~\#)
+oraz zwracanym typie. Ma też kilka pól, które poza typem mogą przyjmować domyślną wartość.
+Znak podkreślenia oznacza, że dane pole lub metoda są statyczne.
 
-\subsubsection{Dziedziczenie}
+\subsubsection{Obiekty pochodne}
 Przypuśćmy, że nie wszyscy studenci są tak dobrzy, jak przewidział analityk. Okazuje się, że
-potrzebujemy klasy \textbf{PrzecietnyStudent} ktory zaczyna z~oceną 3. Pisanie całej klasy od nowa
-zużyłoby i~tak zużyte klawisze ctrl, c i~v, a~ponadto zaciemniło kod. Zbudujemy wiec nowego Studenta
-bazujac na poprzednim, i~zmienimy mu tylko domyslna ocene.
+potrzebujemy klasy \textbf{PrzecietnyStudent} który zaczyna z~oceną 3. Pisanie całej klasy od nowa
+zużyłoby i~tak zużyte klawisze Ctrl, C i~V, a~ponadto zaciemniło kod. Zbudujemy wiec nowego Studenta
+bazując na poprzednim, i~zmienimy mu tylko domyślną ocenę.
 
-\lstinputlisting[caption=przyklad 3]{example/3.uml}
+\lstinputlisting[caption=Przykład 3]{example/3.uml}
 
-Tak samo jak tworząc studenta skopiowalismy obiekt reprezentujacy klasę i~dodaliśmy kilka
+Tak samo jak tworząc studenta skopiowaliśmy obiekt reprezentujący klasę i~dodaliśmy kilka
 wartości, tak teraz skopiowaliśmy obiekt \textbf{Student} i~zmieniliśmy jedno z~pól obiektu
 wynikowego.
 
@@ -198,13 +196,13 @@ klucz \textbf{stereotype}, tworzymy raz klasę-prototyp Router (słowo kluczowe 
 ona narysowana na diagramie), a~następnie robimy nowe Routery. W~ten sam sposób możemy utworzyć
 asocjację one\dywiz to\dywiz many:
 
-\lstinputlisting[caption=przyklad 4]{example/4.uml}
+\lstinputlisting[caption=Przykład 4]{example/4.uml}
 
-Jeżeli przyjrzymy się \emph{przykładowi 4} dokładnie, zauważymy że liczebność możemy zmieniać
+Jeżeli dokładnie przyjrzymy się \emph{przykładowi 4}, zauważymy, że liczebność możemy zmieniać
 zarówno za pomocą klucza \textbf{source} jak i~klucza \textbf{source\dywiz count}. To samo dotyczy
 kluczy \textbf{target} i~\textbf{target\dywiz count}. To nie przypadek. \textbf{target}
 i~\textbf{source} to klucze główne, a~\textbf{count}, \textbf{role} i \textbf{object} to ich
-podklucze. Można ustawiać wszystkie podklucze jednocześnie używając klucza głównego, lub dokładnie
+podklucze. Można ustawiać wszystkie podklucze jednocześnie używając klucza głównego lub dokładnie
 specyfikować, które podklucze mają zostać ustawione używając notacji \emph{klucz\dywiz podklucz}.
 
 \subsubsection{Relacja to obiekt pierwszej klasy}
@@ -216,17 +214,16 @@ utworzoną relację jako swoje źródło lub cel. Pozwala to na:
     Wystarczy, że dwie klasy są połączone nieanonimową relacją. Następnie klasę asocjacyjną łączymy
     odpowiednią relacją z~tamtą relacją.
   \item{Ograniczenia} \\
-    Ograniczenie to tylko relacja łącząca dwie asocjacje ze sobą. Relacji takiej możemy ustawić
+    Ograniczenie to tylko relacja łącząca ze sobą dwie asocjacje. Relacji takiej możemy ustawić
     klucz \textbf{label}.
 \end{enumerate}
 
 \subsubsection{Inne planowane obiekty}
-Ponadto planujemy w~późniejszych wersjach parsera dodać obiekty \textbf{n\dywiz ary} (reprezentujący
-romb używany do modelowania n\dywiz arnej asocjacji), \textbf{note} (notatka) i~\textbf{module} lub
-\textbf{package}.
+Ponadto w~późniejszych wersjach parsera planujemy dodać obiekty: \textbf{n\dywiz ary} (reprezentujący
+romb używany do modelowania asocjacji n\dywiz arnej), \textbf{note} (notatka) i~\textbf{package}.
 
 Oczywiście biblioteka standardowa będzie zawierać wiele gotowych relacji, takich jak agregacje,
-kierunkowe asocjacje, kompozycje, relację łączącą notatki i~klasy asocjacyjne z~ich celami itd.
+asocjacje kierunkowe, kompozycje, relację łączącą notatki i~klasy asocjacyjne z~ich celami, itp.
 
 Użyte w~przykładzie klucze nie wyczerpują wszystkich kluczy, które planujemy obsługiwać (takich jak
 np. kierunek etykiety relacji, zwrot samej relacji, treść notatki).
@@ -236,9 +233,9 @@ np. kierunek etykiety relacji, zwrot samej relacji, treść notatki).
 Proponujemy do osiągnięcia celu głównego wykorzystanie technologii języka Python. Za takim
 rozwiązaniem przemawiają następujące argumenty:
 \begin{enumerate}
-  \item{przenośność rozwiązania spowodowana skryptowym charakterem języka}
-  \item{łatwość użytkowania - brak potrzeby instalacji oprogramowania do jego poprawnego działania}
-  \item{aspekt dydaktyczny - chęć zapoznania się z proponowaną technologią}
+  \item{Przenośność rozwiązania spowodowana skryptowym charakterem języka.}
+  \item{Łatwość użytkowania - brak potrzeby instalacji oprogramowania do jego poprawnego działania.}
+  \item{Aspekt dydaktyczny - chęć zapoznania się z proponowaną technologią.}
 \end{enumerate}
 Do realizacji IDE proponujemy użycie biblioteki Qt.
 \end{document}
