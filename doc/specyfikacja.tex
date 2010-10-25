@@ -1,4 +1,4 @@
-\documentclass[a4paper,11pt]{article}
+\documentclass[a4paper,11pt,title]{report}
 \usepackage[top=2cm, bottom=2cm, left=2cm, right=2cm]{geometry}
 
 \usepackage[utf8]{inputenc}
@@ -63,7 +63,6 @@
 \date{\today}
 
 \maketitle %przedefiniować maketitle aby wypisał autorów jeden pod drugim
-%todo przedefiniować maketitle i toc aby były osobne strony
 
 \tableofcontents
 
@@ -71,7 +70,6 @@
 Projekt obejmuje cały proces powstawania oprogramowania umożliwiającego generowanie diagramów UML w
 postaci graficznej na podstawie plików tekstowych o określonej strukturze opartej na konkretnej
 składni.
-%todo opisać tę konkretną składnie gdzieś, miałem wrażenie że o~tym jest ten doc - barnaba
 
 \section{Ograniczenia projektu}
 
@@ -100,14 +98,13 @@ graficznych.
 Język powinien umożliwiać opisanie podstawowych elementów diagramu klas, opisanych w specyfikacji
 notacji UML 2.0:
 \begin{itemize}
-%todo uzupełnijcie jeśli o czymś zapomniałem
 \item{klasa}
 \item{relacja (asocjacja, agregacja, generalizacja) wraz z określeniem liczebności i ról}
 \item{notatka}
 \item{paczka/moduł}
 \end{itemize}
 Dodatkowo zakładamy iż język powinien umożliwiać definiowanie:
-\begin{itemize} %tutaj też proszę o ewentualne uzupełnienie
+\begin{itemize}
 \item{relacji n-arnej}
 \item{klasy asocjacyjnej}
 \item{ograniczenia (constraint)}
@@ -179,7 +176,7 @@ Identyfikator ten posłuży nam do wiązania studenta relacjami z~innymi obiekta
 inne klasy, a~nawet relacje. Przy okazji identyfikator automatycznie staje się nazwą klasy. Można to
 zmienić ustawiając nową nazwę (napis) jako wartość klucza \textbf{name}.
 
-Student jak to student, ma kilka metod publicznych o~określonych argumentach, widocznościach (znaki +,
+Student jak student, ma kilka metod o~określonych argumentach, widocznościach (znaki +,
 \# i~-) oraz zwracanym typie. Ma też kilka pól, które poza typem mogą przyjmować domyślną wartość.
 Znak podkreślenia oznacza, że dane pole lub metoda jest statyczne.
 
@@ -225,13 +222,13 @@ utworzoną relację jako swoje źródło lub cel. Pozwala to na:
 
 \subsubsection{Inne planowane obiekty}
 Ponadto planujemy w~późniejszych wersjach parsera dodać obiekty \textbf{n\dywiz ary} (reprezentujący
-romb używany w~notacji n\dywiz arnej), \textbf{note} (notatka) i~\textbf{module} lub
+romb używany do modelowania n\dywiz arnej asocjacji), \textbf{note} (notatka) i~\textbf{module} lub
 \textbf{package}.
 
 Oczywiście biblioteka standardowa będzie zawierać wiele gotowych relacji, takich jak agregacje,
 kierunkowe asocjacje, kompozycje, relację łączącą notatki i~klasy asocjacyjne z~ich celami itd.
 
-Użyte w~przykładzie klucze nie wyczerpują wszystkich kluczy, które planujemy obsługiwać ( takich jak
+Użyte w~przykładzie klucze nie wyczerpują wszystkich kluczy, które planujemy obsługiwać (takich jak
 np. kierunek etykiety relacji, zwrot samej relacji, treść notatki).
 
 
