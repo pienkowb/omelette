@@ -34,7 +34,7 @@ class UMLObject(object):
 class _Identifier_with_visibility(object):
     
     '''
-    Helper class used in UMLObject. Provides __cmp__ for methods and attributes
+    Helper class used in UMLObject. Provides __cmp__ for methods and attributes.
     '''
     
     visibilities_order = ["+","~","#","-"]
@@ -49,20 +49,21 @@ class _Identifier_with_visibility(object):
     
     def __get_identifier(self):
         return self.str[1:]
+    
+    def __str__(self):
+        return self.str
         
     def __cmp__(self,other):
         order = _Identifier_with_visibility.visibilities_order
-        visibility = order.index(self.__visibility) - \
-        order.index(other.__visibility)
+        visibility =    order.index(self.__visibility) - \
+                        order.index(other.__visibility)
         if visibility:
             return visibility
         else:
-            if self.__identifier > other.__identifier:
+            if   self.__identifier > other.__identifier:
                 return 1
             elif self.__identifier < other.__identifier:
                 return -1
             else:
                 return 0
     
-    def __str__(self):
-        return self.str
