@@ -54,7 +54,6 @@ class _ScopedThing(object):
         
     def __cmp__(self,other):
         v = self.__cmp_by_scope(other)
-        
         return v or cmp(self.identifier, other.identifier)
     
     def __cmp_by_scope(self,other):
