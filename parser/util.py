@@ -2,12 +2,9 @@ class UMLObject(object):
     '''
     Class representing UML diagram object.
     '''
-    
-    visibilities_order = ["+","#","-"]
-    
-
+  
     def __init__(self):
-        self.__methods = []
+        self.__operations = []
         self.__attributes = []
         self.__properties = {}
         
@@ -17,29 +14,55 @@ class UMLObject(object):
     def __getitem__(self, key):
         return self.__properties[key]
 
-    def add_method(self, method):
-        self.__methods.append(method)
+    def add_operation(self, operation):
+        self.__operations.append(_Identifier_with_visibility(operation))
 
-    def add_attribute(self, property):
-        self.__attributes.append(property)
+    def add_attribute(self, attribute):
+        self.__attributes.append(_Identifier_with_visibility(attribute))
         
-    def methods(self):
-        self.__visibility_sort(self.__methods)
-        return self.__methods
+    def operations(self):
+        ops = self.__operations
+        ops.sort()
+        return map(str, ops)
         
     def attributes(self):
-        self.__visibility_sort(self.__attributes)
-        return self.__attributes
+        attrs = self.__attributes
+        attrs.sort()
+        return map(str, attrs)
+                    
+                    
+class _Identifier_with_visibility(object):
     
-    def __visibility_sort(self, list):
+    '''
+    Helper class used in UMLObject. Provides __cmp__ for methods and attributes
+    '''
+    
+    visibilities_order = ["+","~","#","-"]
+    
+    def __init__(self,string):
+        self.str = string
+        self.__visibility = self.__get_visibility()
+        self.__identifier = self.__get_identifier()
         
-        get_name = lambda x: x[1:]
-        get_visibility = lambda x: x[0]
+    def __get_visibility(self):
+        return self.str[0]
+    
+    def __get_identifier(self):
+        return self.str[1:]
         
-        #taking advantage of sort() stability
-        list.sort(key=get_name)
-        list.sort(key=get_visibility, cmp=self.__cmp_visibilities)
-            
-    def __cmp_visibilities(self, x, y):
-        return  UMLObject.visibilities_order.index(x) - \
-                UMLObject.visibilities_order.index(y)
+    def __cmp__(self,other):
+        order = _Identifier_with_visibility.visibilities_order
+        visibility = order.index(self.__visibility) - \
+        order.index(other.__visibility)
+        if visibility:
+            return visibility
+        else:
+            if self.__identifier > other.__identifier:
+                return 1
+            elif self.__identifier < other.__identifier:
+                return -1
+            else:
+                return 0
+    
+    def __str__(self):
+        return self.str
