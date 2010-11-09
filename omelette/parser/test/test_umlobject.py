@@ -36,13 +36,13 @@ class Test(unittest.TestCase):
         self.assertEquals(ops, ["+a()", "+c()", "#c()","#z()","-b()","-z()"])
         
     def test_property(self):
-        attribute   = "stereotype"
+        property   = "stereotype"
         value       = "Interface"
         instance = UMLObject()
         
-        instance[attribute] = value
+        instance[property] = value
         
-        self.assertEquals(instance[attribute], value)
+        self.assertEquals(instance[property], value)
         
 
 

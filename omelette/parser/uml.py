@@ -53,8 +53,8 @@ class _ScopedThing(object):
         return self.str
         
     def __cmp__(self,other):
-        v = self.__cmp_by_scope(other)
-        return v or cmp(self.identifier, other.identifier)
+        result = self.__cmp_by_scope(other)
+        return result or cmp(self.identifier, other.identifier)
     
     def __cmp_by_scope(self,other):
         order = _ScopedThing.scope_order
@@ -66,6 +66,6 @@ class UMLOperation(_ScopedThing):
     pass
 
 class UMLAttribute(_ScopedThing):
-    '''Class representing UML Attributej'''
+    '''Class representing UML Attribute'''
     pass
     
