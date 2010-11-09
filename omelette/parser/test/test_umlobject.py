@@ -1,5 +1,5 @@
 import unittest
-from omelette.parser.uml import *
+from omelette.parser.uml import UMLObject
 
 class Test(unittest.TestCase):
 
