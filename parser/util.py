@@ -15,10 +15,10 @@ class UMLObject(object):
         return self.__properties[key]
 
     def add_operation(self, operation):
-        self.__operations.append(_Identifier_with_visibility(operation))
+        self.__operations.append(UMLOperation(operation))
 
     def add_attribute(self, attribute):
-        self.__attributes.append(_Identifier_with_visibility(attribute))
+        self.__attributes.append(UMLAttribute(attribute))
         
     def operations(self):
         ops = self.__operations
@@ -31,20 +31,19 @@ class UMLObject(object):
         return map(str, attrs)
                     
                     
-class _Identifier_with_visibility(object):
-    
+class _ScopedThing(object):    
     '''
     Helper class used in UMLObject. Provides __cmp__ for methods and attributes.
     '''
     
-    visibilities_order = ["+","~","#","-"]
+    scope_order = ["+","~","#","-"]
     
     def __init__(self,string):
         self.str = string
-        self.__visibility = self.__get_visibility()
-        self.__identifier = self.__get_identifier()
+        self.scope = self.__get_scope()
+        self.identifier = self.__get_identifier()
         
-    def __get_visibility(self):
+    def __get_scope(self):
         return self.str[0]
     
     def __get_identifier(self):
@@ -54,16 +53,28 @@ class _Identifier_with_visibility(object):
         return self.str
         
     def __cmp__(self,other):
-        order = _Identifier_with_visibility.visibilities_order
-        visibility =    order.index(self.__visibility) - \
-                        order.index(other.__visibility)
-        if visibility:
-            return visibility
+        v = self.__cmp_by_scope(other)
+        
+        if v:
+            return v
         else:
-            if   self.__identifier > other.__identifier:
+            if   self.identifier > other.identifier:
                 return 1
-            elif self.__identifier < other.__identifier:
+            elif self.identifier < other.identifier:
                 return -1
             else:
                 return 0
+    
+    def __cmp_by_scope(self,other):
+        order = _ScopedThing.scope_order
+        return  order.index(self.scope) - \
+                order.index(other.scope)
+                
+class UMLOperation(_ScopedThing):
+    '''Class representing UML Operation'''
+    pass
+
+class UMLAttribute(_ScopedThing):
+    '''Class representing UML Attribute'''
+    pass
     
