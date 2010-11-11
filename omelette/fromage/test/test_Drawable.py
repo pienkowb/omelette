@@ -2,9 +2,9 @@ import unittest
 from mock import Mock
 from omelette.fromage.common import Drawable
 from omelette.parser.uml import UMLObject
-from omelette.parser import uml
 
 class UnitTest(unittest.TestCase):
+
 
     def setUp(self):
         self.mock = Mock()    
