@@ -1,4 +1,4 @@
-class _CodeObject:
+class _CodeObject(object):
     def __init__(self, position, header):
         self.position = position
         self.lines = [header]
@@ -9,10 +9,10 @@ class _CodeObject:
 
 
 def _is_header(line):
-    return line.strip() and all([line.find(c) == -1 for c in "~#:-+"])
+    return line.strip() and all([line.find(char) == -1 for char in "~#:-+"])
 
 
-class Code:
+class Code(object):
     def __init__(self):
         self.__objects = []
 
@@ -37,7 +37,12 @@ class Code:
             object.lines.insert(number - object.position, line)
 
     def update_line(self, number, line):
-        pass
+        object = self.__objects_before(number)[-1]
+        object.lines[number - object.position] = line
 
     def remove_line(self, number):
-        pass
+        object = self.__objects_before(number)[-1]
+        del object.lines[number - object.position]
+
+        for object in self.__objects_after(number):
+            object.position -= 1
