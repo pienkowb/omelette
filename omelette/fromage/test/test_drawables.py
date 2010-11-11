@@ -35,12 +35,12 @@ class UnitTest(unittest.TestCase):
     
     def test_has_anchors(self):
         instance = DrawableEdge(None)
-        self.assertTrue(hasattr(instance,"source_anchor"))
-        self.assertTrue(hasattr(instance,"target_anchor"))
+        self.assertTrue(hasattr(instance, "source_anchor"))
+        self.assertTrue(hasattr(instance, "target_anchor"))
         
     def test_has_position(self):
         instance = DrawableNode(None)
-        pos = (3,5)
+        pos = (3, 5)
         instance.set_position(pos)
         
         self.assertEqual(pos, instance.get_position())
@@ -57,7 +57,7 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(val, instance[key])
     
     def test_operations(self):
-        ops = ["+b()","-a()"]
+        ops = ["+b()", "-a()"]
         o = UMLObject()
         [o.add_operation(op) for op in reversed(ops)]
         
@@ -65,7 +65,7 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(ops, instance.operations())
         
     def test_attributes(self):
-        attrs = ["+b","-a"]
+        attrs = ["+b", "-a"]
         o = UMLObject()
         [o.add_attribute(attr) for attr in reversed(attrs)]
         
