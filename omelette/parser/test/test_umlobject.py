@@ -3,7 +3,6 @@ from omelette.parser.uml import UMLObject
 
 class Test(unittest.TestCase):
 
-
     def test_operation(self):
         instance = UMLObject()
         operation = "+operation()"
@@ -37,14 +36,14 @@ class Test(unittest.TestCase):
         
     def test_property(self):
         property   = "stereotype"
-        value       = "Interface"
+        value      = "Interface"
         instance = UMLObject()
         
         instance[property] = value
         
         self.assertEquals(instance[property], value)
-        
 
 
 if __name__ == "__main__":
     unittest.main()
+

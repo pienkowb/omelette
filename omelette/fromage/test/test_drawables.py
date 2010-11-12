@@ -6,7 +6,6 @@ from omelette.parser.uml import UMLObject
 
 class UnitTest(unittest.TestCase):
 
-
     def setUp(self):
         self.mock = Mock()
         self.classes = [Drawable, DrawableNode, DrawableEdge]
@@ -45,8 +44,8 @@ class UnitTest(unittest.TestCase):
         
         self.assertEqual(pos, instance.get_position())
         
+        
 class IntegrationTest(unittest.TestCase):
-    
     
     def test_properties(self):
         (key, val) = ("stereotype", "Interface")
@@ -76,3 +75,4 @@ class IntegrationTest(unittest.TestCase):
 if __name__ == "__main__":
     #import sys;sys.argv = ['', 'Test.testName']
     unittest.main()
+

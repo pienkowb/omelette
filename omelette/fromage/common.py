@@ -20,8 +20,9 @@ class Drawable(object):
     def operations(self):
         return self.__uml_object.operations()
 
+
 class DrawableEdge(Drawable):
-    def __init__(self, umlObject):
+    def __init__(self, uml_object):
         super(DrawableEdge,self).__init__(umlObject)
         self.source_anchor = None
         self.target_anchor = None
@@ -36,3 +37,4 @@ class DrawableNode(Drawable):
         
     def get_position(self):
         return self.__position
+
