@@ -1,7 +1,7 @@
 class UMLObject(object):
-    '''
+    """
     Class representing UML diagram object.
-    '''
+    """
   
     def __init__(self):
         self.__operations = []
@@ -32,9 +32,9 @@ class UMLObject(object):
                     
                     
 class _ScopedThing(object):    
-    '''
+    """
     Helper class used in UMLObject. Provides __cmp__ for methods and attributes.
-    '''
+    """
     
     scope_order = ["+","~","#","-"]
     
@@ -62,10 +62,10 @@ class _ScopedThing(object):
                 order.index(other.scope)
                 
 class UMLOperation(_ScopedThing):
-    '''Class representing UML Operation'''
+    """Class representing UML Operation"""
     pass
 
 class UMLAttribute(_ScopedThing):
-    '''Class representing UML Attribute'''
+    """Class representing UML Attribute"""
     pass
     
