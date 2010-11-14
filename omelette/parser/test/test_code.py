@@ -12,8 +12,8 @@ class CodeTest(unittest.TestCase):
             "    source: Student",
             "    target: University"]
 
-        for number in range(len(self.lines)):
-            self.instance.insert_line(number, self.lines[number])
+        for number, line in enumerate(self.lines):
+            self.instance.insert_line(number, line)
 
     def test_insert_line(self):
         line = "    - id : Integer"
@@ -34,20 +34,20 @@ class CodeTest(unittest.TestCase):
         self.assertEquals(result[1].lines[1], self.lines[2])
         self.assertEquals(result[2].position, 4)
 
-    def test_update_line(self):
-        line = "    target: School"
-
-        self.instance.update_line(5, line)
-        result = self.instance.objects()
-
-        self.assertEquals(result[1].lines[2], line)
-
     def test_remove_line(self):
         self.instance.remove_line(1)
         result = self.instance.objects()
 
         self.assertEquals(result[0].lines[1], self.lines[2])
         self.assertEquals(result[1].position, 2)
+
+    def test_remove_header(self):
+        self.instance.remove_line(3)
+        result = self.instance.objects()
+
+        self.assertEquals(len(result), 1)
+        self.assertEquals(result[0].lines[3], self.lines[4])
+        self.assertEquals(result[0].lines[4], self.lines[5])
 
 
 if __name__ == "__main__":
