@@ -21,23 +21,13 @@ class MainWindow(QMainWindow):
         self.layout = QVBoxLayout(self.widget)
         self.layout.setMargin(2)
 
-        ##Toolbar
-        actions_dict = {'action_new':("document-new", "New"),
-                        'action_open':("document-open", "Open"),
-                        'action_save':("document-save", "Save"),
-                        'action_save_as':("document-save-as", "Save As"),
-                        'action_cut':("edit-cut", "Cut"),
-                        'action_copy':("edit-copy", "Copy"),
-                        'action_paste':("edit-paste", "Paste"),
-                        'action_undo':("edit-undo", "Undo"),
-                        'action_redo':("edit-redo", "Redo"),
-                        'action_execute':("edit-Execute", "Execute")}
-        self.toolbar = ToolBar(self,actions_dict)
-
         ##QScintilla editor
         self.editor = QSci(self)
 
+        ##Toolbar
+        self.toolbar = ToolBar(self, self.editor)
 
+        
         self.layout.addWidget(self.toolbar)
         self.layout.addWidget(self.editor)
 
