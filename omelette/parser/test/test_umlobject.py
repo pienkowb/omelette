@@ -31,8 +31,8 @@ class Test(unittest.TestCase):
         attrs = instance.attributes()
         ops = instance.operations()
         
-        self.assertEquals(attrs, ["+a", "+c", "#c","#z","-b","-z"])
-        self.assertEquals(ops, ["+a()", "+c()", "#c()","#z()","-b()","-z()"])
+        self.assertEquals(["+a", "+c", "#c","#z","-b","-z"], attrs)
+        self.assertEquals(["+a()", "+c()", "#c()","#z()","-b()","-z()"], ops)
         
     def test_property(self):
         property   = "stereotype"
@@ -41,7 +41,7 @@ class Test(unittest.TestCase):
         
         instance[property] = value
         
-        self.assertEquals(instance[property], value)
+        self.assertEquals(value, instance[property])
 
 
 if __name__ == "__main__":

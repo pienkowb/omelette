@@ -1,5 +1,4 @@
 import unittest
-import random
 from mock import Mock
 from omelette.fromage.common import *
 from omelette.parser.uml import UMLObject
@@ -32,10 +31,12 @@ class UnitTest(unittest.TestCase):
             instance = class_(self.mock)
             self.assertEqual(attributes, instance.attributes())
     
-    def test_has_anchors(self):
+    def test_anchors(self):
         instance = DrawableEdge(None)
-        self.assertTrue(hasattr(instance, "source_anchor"))
-        self.assertTrue(hasattr(instance, "target_anchor"))
+        
+        instance.set_target_anchor(42)
+        self.assertEqual(42, instance.get_target_anchor())
+
         
     def test_has_position(self):
         instance = DrawableNode(None)

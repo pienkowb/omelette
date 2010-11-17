@@ -23,17 +23,29 @@ class Drawable(object):
 
 class DrawableEdge(Drawable):
     def __init__(self, uml_object):
-        super(DrawableEdge,self).__init__(uml_object)
-        self.source_anchor = None
-        self.target_anchor = None
+        super(DrawableEdge, self).__init__(uml_object)
+        self.__source_anchor = None
+        self.__target_anchor = None
+        
+    def get_source_anchor(self):
+        return self.__source_anchor
+    
+    def set_source_anchor(self, value):
+        self.__source_anchor = value
+    
+    def get_target_anchor(self):
+        return self.__target_anchor
+    
+    def set_target_anchor(self, value):
+        self.__target_anchor = value
         
         
 class DrawableNode(Drawable):
     def __init__(self, uml_object):
-        super(DrawableNode,self).__init__(uml_object)
+        super(DrawableNode, self).__init__(uml_object)
     
-    def set_position(self,pos):
-        self.__position = pos
+    def set_position(self, position):
+        self.__position = position
         
     def get_position(self):
         return self.__position
