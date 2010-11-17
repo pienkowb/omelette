@@ -47,9 +47,11 @@ class DrawableNode(Drawable):
     def __init__(self, uml_object):
         super(DrawableNode, self).__init__(uml_object)
     
-    def set_position(self, position):
+    def __set_position(self, position):
         self.__position = position
         
-    def get_position(self):
+    def __get_position(self):
         return self.__position
+    
+    position = property(__get_position, __set_position)
 

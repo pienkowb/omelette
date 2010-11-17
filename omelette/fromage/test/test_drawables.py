@@ -39,12 +39,13 @@ class UnitTest(unittest.TestCase):
         self.assertEqual(m, instance.target_anchor)
 
         
-    def test_has_position(self):
+    def test_position(self):
         instance = DrawableNode(None)
         pos = (3, 5)
-        instance.set_position(pos)
         
-        self.assertEqual(pos, instance.get_position())
+        instance.position = pos
+        
+        self.assertEqual(pos, instance.position)
         
         
 class IntegrationTest(unittest.TestCase):
