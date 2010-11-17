@@ -1,6 +1,9 @@
 
-from PyQt4.Qsci import QsciScintilla, QsciLexerPython
-from PyQt4.QtGui import QColor, QFont, QFontMetrics
+from PyQt4.Qsci import QsciLexerPython
+from PyQt4.Qsci import QsciScintilla
+from PyQt4.QtGui import QColor
+from PyQt4.QtGui import QFont
+from PyQt4.QtGui import QFontMetrics
 
 _sample = """
 #Sample Omelette source code with kvp
@@ -37,8 +40,8 @@ class QSci(QsciScintilla):
         self.setMarginsFont(font)
 
         ##line numbers
-        self.setMarginWidth(0,fm.width("00000") + 5)
-        self.setMarginLineNumbers(0,True)
+        self.setMarginWidth(0, fm.width("00000") + 5)
+        self.setMarginLineNumbers(0, True)
 
         ##folding visual
         self.setFolding(QsciScintilla.BoxedTreeFoldStyle)

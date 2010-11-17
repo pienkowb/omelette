@@ -9,7 +9,7 @@ class MainWindow(QMainWindow):
     def __init__(self):
         ##Window
         QMainWindow.__init__(self)
-        self.setWindowTitle('Lexer example for UML syntax')
+        self.setWindowTitle('Example for UML syntax')
         self.setWindowIcon(QIcon.fromTheme('accessories-text-editor'))
         self.resize(600,400)
 
@@ -34,7 +34,7 @@ class MainWindow(QMainWindow):
 
 if __name__ == "__main__":
         app = QApplication(sys.argv)
-        app.connect(app, SIGNAL('lastWindowClosed()'), SLOT('quit()'))
+        app.connect(app, SIGNAL('lastWindowClosed()'), app, SLOT('quit()'))
         win = MainWindow()
         win.show()
 sys.exit(app.exec_())
