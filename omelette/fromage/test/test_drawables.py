@@ -30,6 +30,13 @@ class UnitTest(unittest.TestCase):
             
             instance = class_(self.mock)
             self.assertEqual(attributes, instance.attributes())
+        
+    def test_root_property(self):
+        m = Mock()
+        for class_ in self.classes:
+            instance = class_(m)
+            instance.root = m
+            self.assertEqual(m,instance.root)
     
     def test_anchors(self):
         instance = DrawableEdge(None)

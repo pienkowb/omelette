@@ -8,6 +8,10 @@ class UMLObject(object):
         self.__attributes = []
         self.__properties = {}
         
+        self.root = None
+        self.predecessor = None
+        self.name = None
+        
     def __setitem__(self, key, value):
         self.__properties[key] = value
         

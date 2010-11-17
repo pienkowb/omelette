@@ -1,5 +1,6 @@
 import unittest
 from omelette.parser.uml import UMLObject
+from mock import Mock
 
 class Test(unittest.TestCase):
 
@@ -42,7 +43,14 @@ class Test(unittest.TestCase):
         instance[property] = value
         
         self.assertEquals(value, instance[property])
-
+        
+    def test_root_property(self):
+        instance = UMLObject()
+        m = Mock()
+        
+        instance.root = m
+        self.assertEqual(m, instance.root)
+        
 
 if __name__ == "__main__":
     unittest.main()

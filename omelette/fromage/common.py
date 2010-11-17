@@ -19,7 +19,14 @@ class Drawable(object):
         
     def operations(self):
         return self.__uml_object.operations()
-
+    
+    def __get_root(self):
+        return self.__uml_object.root
+    
+    def __set_root(self, value):
+        self.__uml_object.root = value
+        
+    root = property(__get_root, __set_root)
 
 class DrawableEdge(Drawable):
     def __init__(self, uml_object):
