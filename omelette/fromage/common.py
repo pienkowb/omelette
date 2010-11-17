@@ -27,17 +27,20 @@ class DrawableEdge(Drawable):
         self.__source_anchor = None
         self.__target_anchor = None
         
-    def get_source_anchor(self):
+    def __get_source_anchor(self):
         return self.__source_anchor
     
-    def set_source_anchor(self, value):
+    def __set_source_anchor(self, value):
         self.__source_anchor = value
     
-    def get_target_anchor(self):
+    def __get_target_anchor(self):
         return self.__target_anchor
     
-    def set_target_anchor(self, value):
+    def __set_target_anchor(self, value):
         self.__target_anchor = value
+        
+    source_anchor = property(__get_source_anchor, __set_source_anchor)
+    target_anchor = property(__get_target_anchor, __set_target_anchor)
         
         
 class DrawableNode(Drawable):

@@ -33,9 +33,10 @@ class UnitTest(unittest.TestCase):
     
     def test_anchors(self):
         instance = DrawableEdge(None)
+        m = Mock()
         
-        instance.set_target_anchor(42)
-        self.assertEqual(42, instance.get_target_anchor())
+        instance.target_anchor = m
+        self.assertEqual(m, instance.target_anchor)
 
         
     def test_has_position(self):
