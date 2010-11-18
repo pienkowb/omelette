@@ -2,7 +2,7 @@ class Drawable(object):
     """
     Base for other Drawable objects. It's made with UMLObject, and
     provides interface for accessing its attributes, properties and
-    attributes.
+    operations. Properties are accessible via [] operator.
     """
 
     def __init__(self, uml_object):
