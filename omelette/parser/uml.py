@@ -1,7 +1,5 @@
 class UMLObject(object):
-    """
-    Class representing UML diagram object.
-    """
+    """Class representing UML diagram object."""
   
     def __init__(self):
         self.__operations = []
@@ -67,15 +65,11 @@ class _Field(object):
 
 
 class UMLOperation(_Field):
-    """
-    Class representing UML Operation
-    """
+    """Class representing UML Operation."""
     pass
 
 
 class UMLAttribute(_Field):
-    """
-    Class representing UML Attribute
-    """
+    """Class representing UML Attribute."""
     pass
 
