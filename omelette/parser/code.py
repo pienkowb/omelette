@@ -21,29 +21,28 @@ def _is_header(line):
 
 class Code(object):
     def __init__(self):
-        self.__objects = []
+        self.__objects = [_CodeObject(-1, "")]
 
     def objects(self, condition=None):
-        return filter(condition, sorted(self.__objects))
+        return filter(condition, self.__objects)
 
     def insert_line(self, number, line):
         for object in self.objects(_after(number)):
             object.position += 1
 
+        previous = self.objects(_before(number))[-1]
+        position = number - previous.position
+
         if _is_header(line):
             object = _CodeObject(number, line)
 
-            if self.objects(_before(number)):
-                previous = self.objects(_before(number))[-1]
-                position = number - previous.position
-
-                object.lines.extend(previous.lines[position:])
-                del previous.lines[position:]
+            object.lines.extend(previous.lines[position:])
+            del previous.lines[position:]
 
             self.__objects.append(object)
+            self.__objects.sort()
         else:
-            object = self.objects(_before(number))[-1]
-            object.lines.insert(number - object.position, line)
+            previous.lines.insert(position, line)
 
     def remove_line(self, number):
         object = self.objects(_before(number))[-1]
@@ -57,6 +56,3 @@ class Code(object):
 
         for object in self.objects(_after(number)):
             object.position -= 1
-
-    def __str__(self):
-        return "\n".join(["\n".join(o.lines) for o in self.objects()])
