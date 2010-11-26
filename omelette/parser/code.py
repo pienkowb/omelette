@@ -16,7 +16,7 @@ def _after(position):
 
 
 def _is_header(line):
-    return line.strip() and all([line.find(char) == -1 for char in ":+~#-"])
+    return line.strip() and all([char not in line for char in ":+~#-"])
 
 
 class Code(object):
