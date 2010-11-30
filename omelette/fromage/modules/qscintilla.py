@@ -1,9 +1,7 @@
 
-from PyQt4.Qsci import QsciLexerPython
-from PyQt4.Qsci import QsciScintilla
-from PyQt4.QtGui import QColor
-from PyQt4.QtGui import QFont
-from PyQt4.QtGui import QFontMetrics
+from PyQt4.Qsci import QsciLexerPython, QsciScintilla
+from PyQt4.QtGui import QColor, QFont, QFontMetrics
+from PyQt4.QtCore import QObject, SIGNAL
 
 _sample = """
 #Sample Omelette source code with kvp
@@ -24,6 +22,17 @@ class QSci(QsciScintilla):
     def __init__(self, parent):
         QsciScintilla.__init__(self, parent)
 
+        self.line_nr = 0
+        self.pos = 0
+
+        self.set_up()
+
+        QObject.connect(self, SIGNAL("cursorPositionChanged(int, int)"), self.set_line_nr)
+        QObject.connect(self, SIGNAL("textChanged()"), self.get_updated_line)
+
+
+    def set_up(self):
+        """Widget configuration"""
         self.setUtf8(True)
 
         ##font to use
@@ -80,3 +89,10 @@ class QSci(QsciScintilla):
         lexer.setDefaultFont(font)
         self.setLexer(lexer)
         self.setText(_sample)
+
+    def set_line_nr(self, line_nr, pos):
+        ##Scintilla numerates lines from 0
+        self.line_nr = line_nr + 1
+
+    def get_updated_line(self):
+        return self.line_nr, self.text(self.line_nr-1)
