@@ -4,17 +4,17 @@ class UMLObject(object):
     def __init__(self):
         self.__operations = []
         self.__attributes = []
-        self.__properties = {}
+        self.properties = {}
         
-        self.root = None
-        self.predecessor = None
+        self.type = None
+        self.parent = None
         self.name = None
         
     def __setitem__(self, key, value):
-        self.__properties[key] = value
+        self.properties[key] = value
         
     def __getitem__(self, key):
-        return self.__properties[key]
+        return self.properties[key]
 
     def add_operation(self, operation):
         self.__operations.append(UMLOperation(operation))
