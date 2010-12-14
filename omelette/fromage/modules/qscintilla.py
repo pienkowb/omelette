@@ -2,6 +2,7 @@
 from PyQt4.Qsci import QsciLexerPython, QsciScintilla
 from PyQt4.QtGui import QColor, QFont, QFontMetrics
 from PyQt4.QtCore import QObject, SIGNAL
+from omelette.parser.parser import Parser
 
 _sample = """
 #Sample Omelette source code with kvp
@@ -20,10 +21,11 @@ association BaseAssociation
 
 class QSci(QsciScintilla):
     def __init__(self, parent):
-        QsciScintilla.__init__(self, parent)
+        QsciScintilla.__init__(self,parent)
 
         self.line_nr = 0
         self.pos = 0
+        self.parser = Parser()
 
         self.set_up()
 
@@ -33,6 +35,9 @@ class QSci(QsciScintilla):
 
     def set_up(self):
         """Widget configuration"""
+        self.setToolTip("")
+        self.setWhatsThis("")
+
         self.setUtf8(True)
 
         ##font to use
@@ -88,11 +93,11 @@ class QSci(QsciScintilla):
         lexer = QsciLexerPython(self)
         lexer.setDefaultFont(font)
         self.setLexer(lexer)
-        self.setText(_sample)
+        #self.setText(_sample)
 
     def set_line_nr(self, line_nr, pos):
         ##Scintilla numerates lines from 0
         self.line_nr = line_nr + 1
 
     def get_updated_line(self):
-        return self.line_nr, self.text(self.line_nr-1)
+        self.parser.update(self.line_nr, self.text(self.line_nr-1))
