@@ -1,8 +1,60 @@
 import unittest
 from omelette.parser.uml import UMLObject
-from mock import Mock,MagicMock
+from mock import Mock, MagicMock
 
 class Test(unittest.TestCase):
+
+    def test_constructor(self):
+        o = UMLObject("fasada", "asd", True)
+        self.assertEquals(o.parent, "fasada")
+        self.assertEquals(o.name, "asd")
+        self.assertTrue(o.is_prototype)
+        
+    def test_eq(self):
+        instance = UMLObject("fasada", "asd", True)
+        other = UMLObject("fasada", "asd", True)
+        instance["a"] = 3
+        other["a"] = 3
+        
+        self.assertEquals(instance, other)
+        
+    def test_not_eq_field(self):
+        instance = UMLObject("fasada", "asd", False)
+        other = UMLObject("fasada", "asd", True)
+        
+        self.assertNotEqual(instance, other)
+        
+    def test_not_eq_property(self):
+        instance = UMLObject()
+        other = UMLObject()
+        instance["a"] = 3
+        other["a"] = 4
+        
+        self.assertNotEqual(instance, other)
+        
+    def test_not_eq_operation(self):
+        instance = UMLObject()
+        other = UMLObject()
+        (o1, o2) = (Mock(), Mock())
+        instance.add_operation(o1)
+        instance.add_operation(o2)
+        
+        self.assertNotEqual(instance, other)
+        
+    def test_eq_operation(self):
+        instance = UMLObject()
+        other = UMLObject()
+        o1 = MagicMock()
+        o1.__eq__.return_value = True
+        o2 = MagicMock()
+        o2.__eq__.return_value = True
+        instance.add_operation(o1)
+        other.add_operation(o2)
+        
+        print repr(instance.__dict__)
+        print repr(other.__dict__)
+        self.assertEqual(instance, other)
+        
 
     def test_operation(self):
         instance = UMLObject()
@@ -25,20 +77,13 @@ class Test(unittest.TestCase):
         self.assertEquals(result, "+attribute : int = 3")
         
     def test_property(self):
-        property   = "stereotype"
-        value      = "Interface"
+        property = "stereotype"
+        value = "Interface"
         instance = UMLObject()
         
         instance[property] = value
         
         self.assertEquals(value, instance[property])
-        
-    def test_root_property(self):
-        instance = UMLObject()
-        m = Mock()
-        
-        instance.root = m
-        self.assertEqual(m, instance.root)
         
 
 if __name__ == "__main__":

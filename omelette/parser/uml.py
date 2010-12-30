@@ -1,14 +1,15 @@
 class UMLObject(object):
     """Class representing UML diagram object."""
   
-    def __init__(self):
+    def __init__(self, parent=None, name=None, prototype=False):
         self.__operations = []
         self.__attributes = []
         self.__properties = {}
         
-        self.root = None
-        self.parent = None
-        self.name = None
+        self.type = None
+        self.parent = parent
+        self.name = name
+        self.is_prototype = prototype
         
     def __setitem__(self, key, value):
         self.__properties[key] = value
@@ -29,6 +30,9 @@ class UMLObject(object):
     def attributes(self):
         attributes = self.__attributes
         return map(str, attributes)
+    
+    def __eq__(self, other) : 
+        return self.__dict__ == other.__dict__
           
 def _format_if_not_none(format, value):
     if value is None:
