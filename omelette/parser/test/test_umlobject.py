@@ -58,23 +58,20 @@ class Test(unittest.TestCase):
 
     def test_operation(self):
         instance = UMLObject()
-        operation = MagicMock()
-        operation.__str__.return_value = "+operation(a : int, b : int) : int"
-        
+        operation = Mock()
         instance.add_operation(operation)
         result = instance.operations()[0]
         
-        self.assertEquals(result, "+operation(a : int, b : int) : int")
-        
+        self.assertEquals(result, operation)  
+    
     def test_attribute(self):
         instance = UMLObject()
-        attribute = MagicMock()
-        attribute.__str__.return_value = "+attribute : int = 3"
+        attribute = Mock()
         
         instance.add_attribute(attribute)
         result = instance.attributes()[0]
         
-        self.assertEquals(result, "+attribute : int = 3")
+        self.assertEquals(result, attribute)
         
     def test_property(self):
         property = "stereotype"
@@ -84,6 +81,7 @@ class Test(unittest.TestCase):
         instance[property] = value
         
         self.assertEquals(value, instance[property])
+
         
 
 if __name__ == "__main__":

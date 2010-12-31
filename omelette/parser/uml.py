@@ -24,12 +24,10 @@ class UMLObject(object):
         self.__attributes.append(attribute)
         
     def operations(self):
-        operations = self.__operations
-        return map(str, operations)
+        return self.__operations
         
     def attributes(self):
-        attributes = self.__attributes
-        return map(str, attributes)
+        return self.__attributes
     
     def __eq__(self, other) : 
         return self.__dict__ == other.__dict__
