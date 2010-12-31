@@ -42,7 +42,7 @@ def _format_if_not_none(format, value):
                     
 class _Field(object):    
     """
-    Helper class used in UMLObject. Provides __cmp__ for methods and attributes.
+    Helper class used in UMLObject..
     """
     
     def __eq__(self, other) : 
@@ -77,5 +77,14 @@ class Operation(_Field):
 
 class Attribute(_Field):
     """Class representing UML Attribute."""
-    pass
-
+    def __init__(self, static, scope, name, type, default_value):
+        self.is_static = static
+        self.scope = scope
+        self.name = name
+        self.type = type
+        self.default_value = default_value
+        
+    def __str__(self):
+        return self.scope + self.name + \
+                _format_if_not_none(" : %s", self.type) + \
+                _format_if_not_none(" = %s", self.default_value)

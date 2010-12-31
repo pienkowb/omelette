@@ -31,6 +31,40 @@ class Test(unittest.TestCase):
         o = Operation(0, "+", "asd", [("a", "int"), ("b", None)], None)
         self.assertEquals(str(o), "+asd(a : int, b)")
         
+    def test_operation_eq(self):
+        instance = Operation(0, "+", "asd", [("a", "1"), ("b", "2")], "int")
+        same = Operation(0, "+", "asd", [("a", "1"), ("b", "2")], "int")
+        different = Operation(0, "-", "asd", [("a", "1"), ("b", "2")], "int")
+        
+        self.assertEqual(instance, same)
+        self.assertNotEqual(instance, different)
+        
+    def test_attribute(self):
+        a = Attribute(1, "+", "asd", "int", "42")
+        self.assertEquals(str(a), "+asd : int = 42")
+        self.assertTrue(a.is_static)
+        
+    def test_attribute_minimal(self):
+        a = Attribute(0, "#", "ASD", None, None)
+        self.assertEquals(str(a), "#ASD")
+        self.assertFalse(a.is_static)
+        
+    def test_attribute_no_type(self):
+        a = Attribute(1, "+", "asd", None, "42")
+        self.assertEquals(str(a), "+asd = 42")
+        
+    def test_attribute_no_default(self):
+        a = Attribute(1, "+", "asd", "int", None)
+        self.assertEquals(str(a), "+asd : int")
+        
+    def test_attribute_eq(self):
+        instance = Attribute(1, "+", "asd", "int", "42")
+        same = Attribute(1, "+", "asd", "int", "42")
+        different = Attribute(1, "+", "asd", "float", "42.0")
+        
+        self.assertEqual(instance, same)
+        self.assertNotEqual(instance, different)
+        
 if __name__ == "__main__":
     unittest.main()
 
