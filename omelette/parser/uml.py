@@ -1,7 +1,7 @@
 class UMLObject(object):
     """Class representing UML diagram object."""
   
-    def __init__(self, parent=None, name=None, prototype=False):
+    def __init__(self, parent=None, name=None, is_prototype=False):
         self.__operations = []
         self.__attributes = []
         self.__properties = {}
@@ -9,7 +9,7 @@ class UMLObject(object):
         self.type = None
         self.parent = parent
         self.name = name
-        self.is_prototype = prototype
+        self.is_prototype = is_prototype
         
     def __setitem__(self, key, value):
         self.__properties[key] = value
@@ -33,12 +33,14 @@ class UMLObject(object):
     
     def __eq__(self, other) : 
         return self.__dict__ == other.__dict__
+
           
 def _format_if_not_none(format, value):
     if value is None:
         return ""
     else:
         return format % value          
+
                     
 class _Field(object):    
     """
@@ -49,12 +51,11 @@ class _Field(object):
         return self.__dict__ == other.__dict__
 
 
-
 class Operation(_Field):
     """Class representing UML Operation."""
     
-    def __init__(self, static, scope, name, parameters, type):
-        self.is_static = static
+    def __init__(self, is_static, scope, name, parameters, type):
+        self.is_static = is_static
         self.scope = scope
         self.name = name
         self.parameters = parameters
@@ -77,8 +78,9 @@ class Operation(_Field):
 
 class Attribute(_Field):
     """Class representing UML Attribute."""
-    def __init__(self, static, scope, name, type, default_value):
-        self.is_static = static
+    
+    def __init__(self, is_static, scope, name, type, default_value):
+        self.is_static = is_static
         self.scope = scope
         self.name = name
         self.type = type

@@ -14,6 +14,7 @@ class Test(unittest.TestCase):
         test behavior of parameter formating methods when 
         no parameters are given
         """ 
+        
         o = Operation(1, "+", "asd", [], "int")
         self.assertEqual(str(o), "+asd() : int")
         self.assertEqual(o.is_static, 1)
@@ -23,11 +24,13 @@ class Test(unittest.TestCase):
         test behavior of parameter formating methods when 
         parameter types weren't given
         """
+        
         o = Operation(0, "+", "asd", [("a", "int"), ("b", None)], "int")
         self.assertEquals(str(o), "+asd(a : int, b) : int")
         
     def test_operation_no_return_type(self):
         """test behavior of __str__ when no return type is given"""
+        
         o = Operation(0, "+", "asd", [("a", "int"), ("b", None)], None)
         self.assertEquals(str(o), "+asd(a : int, b)")
         
