@@ -49,6 +49,14 @@ class CodeTest(unittest.TestCase):
         self.assertEquals(result[1].lines[3], self.lines[4])
         self.assertEquals(result[1].lines[4], self.lines[5])
 
+    def test_str(self):
+        code_objects = self.instance.objects()
+        result = str(code_objects[1])
+
+        expected = "\n".join(self.lines[:3])
+
+        self.assertEquals(expected, result)
+
 
 if __name__ == "__main__":
     unittest.main()
