@@ -1,7 +1,7 @@
 import sys
 from PyQt4 import QtGui, QtCore
-from omelette.fromage.modules.qscintilla import QSci
-from omelette.fromage.modules.fromage_ui import Ui_MainWindow
+from omelette.fromage.qscintilla import QSci
+from omelette.fromage.fromage_ui import Ui_MainWindow
 
 class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
