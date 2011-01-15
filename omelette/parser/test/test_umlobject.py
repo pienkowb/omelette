@@ -1,8 +1,8 @@
 import unittest
 from omelette.parser.uml import UMLObject
+from mock import Mock
 
 class Test(unittest.TestCase):
-
 
     def test_operation(self):
         instance = UMLObject()
@@ -32,19 +32,26 @@ class Test(unittest.TestCase):
         attrs = instance.attributes()
         ops = instance.operations()
         
-        self.assertEquals(attrs, ["+a", "+c", "#c","#z","-b","-z"])
-        self.assertEquals(ops, ["+a()", "+c()", "#c()","#z()","-b()","-z()"])
+        self.assertEquals(["+a", "+c", "#c","#z","-b","-z"], attrs)
+        self.assertEquals(["+a()", "+c()", "#c()","#z()","-b()","-z()"], ops)
         
     def test_property(self):
         property   = "stereotype"
-        value       = "Interface"
+        value      = "Interface"
         instance = UMLObject()
         
         instance[property] = value
         
-        self.assertEquals(instance[property], value)
+        self.assertEquals(value, instance[property])
         
-
+    def test_root_property(self):
+        instance = UMLObject()
+        m = Mock()
+        
+        instance.root = m
+        self.assertEqual(m, instance.root)
+        
 
 if __name__ == "__main__":
     unittest.main()
+
