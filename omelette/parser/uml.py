@@ -4,7 +4,7 @@ class UMLObject(object):
     def __init__(self, parent=None, name=None, is_prototype=False):
         self.__operations = []
         self.__attributes = []
-        self.__properties = {}
+        self.properties = {}
         
         self.type = None
         self.parent = parent
@@ -12,11 +12,11 @@ class UMLObject(object):
         self.is_prototype = is_prototype
         
     def __setitem__(self, key, value):
-        self.__properties[key] = value
+        self.properties[key] = value
         
     def __getitem__(self, key):
-        return self.__properties[key]
-      
+        return self.properties[key]
+
     def add_operation(self, operation):
         self.__operations.append(operation)
 
