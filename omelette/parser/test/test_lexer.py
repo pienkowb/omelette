@@ -11,6 +11,7 @@ class Test(unittest.TestCase):
     pr1 : 12
 prototype son grandson
     pr2: "text"
+
     # at2 : type2 = 'text'
     ~ op2(param1, param2)
 prototype grandson

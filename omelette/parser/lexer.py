@@ -96,7 +96,7 @@ class Lexer(object):
             Optional(':'+attribute_type) +  Optional('='+attribute_default) \
             ).setResultsName('attribute')
 
-        element = operation ^ attribute ^ property ^ LineEnd()
+        element = operation ^ attribute ^ property
 
         object_name = name.setResultsName('name')
         parent_name = name.setResultsName('parent')
@@ -105,7 +105,7 @@ class Lexer(object):
             Optional(object_name)).setResultsName('header')
 
         definition = (header + LineEnd() + \
-            ZeroOrMore(element+LineEnd())).setResultsName('definition')
+            ZeroOrMore((element+LineEnd())^LineEnd())).setResultsName('definition')
 
         grammar = ZeroOrMore(definition).setResultsName('code')
 
