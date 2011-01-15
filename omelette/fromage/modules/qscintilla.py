@@ -37,7 +37,8 @@ class QSci(QsciScintilla):
 
     def get_lines(self):
         for idx in range(self.lines()):
-            self.parser.update(idx, self.text(idx-1))
+            #self.parser.update(idx+1, self.text(idx-1))
+            print idx+1, self.text(idx)
 
 #    def set_line_nr(self, line_nr, pos):
 #        ##Scintilla numerates lines from 0

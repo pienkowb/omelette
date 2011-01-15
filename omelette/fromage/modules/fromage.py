@@ -19,7 +19,7 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
         self.horizontal_layout.addWidget(self.splitter)
 
-        QObject.connect(self.actionGenerate, SIGNAL("triggered()"), self.qsci.get_lines())
+        QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.qsci.get_lines)
         
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
