@@ -22,13 +22,13 @@ association BaseAssociation
 class QSci(QsciScintilla):
     def __init__(self, parent):
         QsciScintilla.__init__(self,parent)
-        self.nrOfLines = 0
-        self.line_nr = 0
-        self.pos = 0
+#        self.nrOfLines = 0
+#        self.line_nr = 0
+#        self.pos = 0
         self.parser = Parser()
 
         self.set_up()
-        QObject.connect(self, SIGNAL("triggered()"), self.get_lines)
+        
 #        QObject.connect(self, SIGNAL("cursorPositionChanged(int, int)"), self.set_line_nr)
 #        QObject.connect(self, SIGNAL("linesChanged()"), self.check_lines_count)
 #        QObject.connect(self, SIGNAL("textChanged()"), self.get_updated_line)
