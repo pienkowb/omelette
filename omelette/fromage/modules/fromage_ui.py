@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'fromage.ui'
 #
-# Created: Mon Dec 13 17:27:50 2010
+# Created: Sat Jan 15 18:09:50 2011
 #      by: PyQt4 UI code generator 4.7.2
 #
 # WARNING! All changes made in this file will be lost!
@@ -207,6 +207,11 @@ class Ui_MainWindow(object):
         icon8.addPixmap(QtGui.QPixmap("../../usr/share/icons/Humanity/actions/24/edit-redo.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionRedo.setIcon(icon8)
         self.actionRedo.setObjectName("actionRedo")
+        self.actionGenerate = QtGui.QAction(MainWindow)
+        icon9 = QtGui.QIcon()
+        icon9.addPixmap(QtGui.QPixmap("../../usr/share/icons/Humanity/actions/24/stock_media-play.svg"), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        self.actionGenerate.setIcon(icon9)
+        self.actionGenerate.setObjectName("actionGenerate")
         self.toolBar.addAction(self.actionNew)
         self.toolBar.addAction(self.actionOpen)
         self.toolBar.addSeparator()
@@ -219,6 +224,8 @@ class Ui_MainWindow(object):
         self.toolBar.addSeparator()
         self.toolBar.addAction(self.actionUndo)
         self.toolBar.addAction(self.actionRedo)
+        self.toolBar.addAction(self.actionGenerate)
+        self.toolBar.addSeparator()
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -251,4 +258,6 @@ class Ui_MainWindow(object):
         self.actionUndo.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+Z", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRedo.setText(QtGui.QApplication.translate("MainWindow", "Redo", None, QtGui.QApplication.UnicodeUTF8))
         self.actionRedo.setToolTip(QtGui.QApplication.translate("MainWindow", "Redo action", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionGenerate.setText(QtGui.QApplication.translate("MainWindow", "Generate", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionGenerate.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+R", None, QtGui.QApplication.UnicodeUTF8))
 
