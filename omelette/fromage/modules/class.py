@@ -23,9 +23,9 @@ class DrawableClass(DrawableNode, QGraphicsItem):
     def paint(self, painter, style, widget):
         metrics = QFontMetrics(self.__font)
         painter.setFont(self.__font)
-        painter.setPen(QColor(0,0,0))
+        painter.setPen(QColor(0, 0, 0))
 
-        painter.fillRect(QRectF(self.__boundingRect), QBrush(QColor(255,255,255), Qt.SolidPattern))
+        painter.fillRect(QRectF(self.__boundingRect), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
 
         currentHeight = self.__sectionMargin
         painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(self.__getitem__('name')), metrics.height()), 0, self.__getitem__('name'))
@@ -65,7 +65,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
             drawableWidth = max(drawableWidth, size[0])
             drawableHeight += size[1]
 
-        self.__boundingRect = QRectF(0, 0, 2 * self.__textMargin +  drawableWidth, drawableHeight)
+        self.__boundingRect = QRectF(0, 0, 2 * self.__textMargin + drawableWidth, drawableHeight)
 
 
 class DrawableRelation(DrawableEdge):

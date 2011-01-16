@@ -1,4 +1,5 @@
 import sys
+sys.path.append('../../') 
 from PyQt4 import QtGui, QtCore
 from omelette.parser.parser import Parser
 from omelette.fromage.ui import Ui_MainWindow
@@ -34,13 +35,25 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
         for name, uml_object in uml_objects.items():
             uml_object["name"] = name
+            x = 0
+            y = 0
+            highest_y = 0
 
         for uml_object in uml_objects.values():
             if uml_object.is_prototype: continue
-
+            
             drawable = DrawableFactory.create("class", uml_object)
             drawable.updateSize()
-            
+
+            drawable.moveBy(x, y)
+            x += 20 + drawable.boundingRect().size().width()
+            if drawable.boundingRect().size().height() > highest_y:
+                highest_y = drawable.boundingRect().size().height()
+            if x > 400:
+                x = 0
+                y += highest_y + 20
+                highest_y = 0
+                
             self.scene.addItem(drawable)
 
 
