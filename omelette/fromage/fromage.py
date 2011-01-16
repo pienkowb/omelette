@@ -34,7 +34,8 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         uml_objects = self.parser.parse(code)
 
         for name, uml_object in uml_objects.items():
-            uml_object["name"] = name
+            if "name" not in uml_object.properties:
+                uml_object["name"] = name
 
         for uml_object in uml_objects.values():
             if uml_object.is_prototype: continue
