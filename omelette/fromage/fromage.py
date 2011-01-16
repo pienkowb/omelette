@@ -29,32 +29,30 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
     def generate(self):
         self.scene.clear()
-
+        self.__x = self.__y = self.__highest_y = 0
         code = "prototype base class\n" + self.qsci.text()
         uml_objects = self.parser.parse(code)
 
         for name, uml_object in uml_objects.items():
             uml_object["name"] = name
-            x = 0
-            y = 0
-            highest_y = 0
 
         for uml_object in uml_objects.values():
             if uml_object.is_prototype: continue
-            
+    
             drawable = DrawableFactory.create("class", uml_object)
             drawable.updateSize()
-
-            drawable.moveBy(x, y)
-            x += 20 + drawable.boundingRect().size().width()
-            if drawable.boundingRect().size().height() > highest_y:
-                highest_y = drawable.boundingRect().size().height()
-            if x > 400:
-                x = 0
-                y += highest_y + 20
-                highest_y = 0
-                
+            self.__layout(drawable)
             self.scene.addItem(drawable)
+
+    def __layout(self, drawable):
+        drawable.moveBy(self.__x, self.__y)
+        self.__x += 20 + drawable.boundingRect().size().width()
+        if drawable.boundingRect().size().height() > self.__highest_y:
+                self.__highest_y = drawable.boundingRect().size().height()
+        if self.__x > 400:
+            self.__x = 0
+            self.__y += self.__highest_y + 20
+            self.__highest_y = 0
 
 
 if __name__ == "__main__":
