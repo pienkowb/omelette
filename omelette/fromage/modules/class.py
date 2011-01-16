@@ -1,4 +1,4 @@
-from omelette.fromage.common import DrawableNode
+from omelette.fromage.common import *
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import QRectF
@@ -66,3 +66,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
             drawableHeight += size[1]
 
         self.__boundingRect = QRectF(0, 0, 2 * self.__textMargin +  drawableWidth, drawableHeight)
+
+
+class DrawableRelation(DrawableEdge):
+    pass
