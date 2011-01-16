@@ -36,9 +36,7 @@ class QSci(QsciScintilla):
 #        QObject.connect(self, SIGNAL("selectionChanged()"), None)
 
     def get_lines(self):
-        for idx in range(self.lines()):
-            self.parser.update(idx+1, self.text(idx))
-            #print idx+1, self.text(idx)
+        print self.parser.parse(self.text())
 
 #    def set_line_nr(self, line_nr, pos):
 #        ##Scintilla numerates lines from 0
@@ -65,6 +63,7 @@ class QSci(QsciScintilla):
         self.setWhatsThis("")
 
         self.setUtf8(True)
+        self.setEolMode(self.EolUnix)
 
         ##font to use
         font = QFont()

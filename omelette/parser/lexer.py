@@ -104,7 +104,7 @@ class Lexer(object):
         header = (Optional(prototype) + parent_name + \
             Optional(object_name)).setResultsName('header')
 
-        definition = (header + LineEnd() + \
+        definition = ZeroOrMore(LineEnd()) + (header + LineEnd() + \
             ZeroOrMore((element+LineEnd())^LineEnd())).setResultsName('definition')
 
         grammar = ZeroOrMore(definition).setResultsName('code')

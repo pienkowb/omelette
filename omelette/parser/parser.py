@@ -1,29 +1,14 @@
-from omelette.parser.code import Code
+from omelette.parser.translator import Translator
 from omelette.parser.resolver import DependencyResolver
 
-class Parser:
+class Parser(object):
     def __init__(self):
-        self.__code = Code()
-        self.__uml_objects = {}
-        self.__resolver = DependencyResolver(self.__uml_objects)
+        self.translator = Translator()
 
-    def insert(self, number, line):
-        self.__code.insert_line(number, line)
+    def parse(self, code):
+        uml_objects = self.translator.parse([code])
 
-    def update(self, number, line):
-        self.remove(number)
-        self.insert(number, line)
-
-    def remove(self, number):
-        self.__code.remove_line(number)
-
-    def parse(self):
-        code_objects = self.__code.objects(lambda o: o.modified)
-        uml_objects = {}
-
-        # translation
-
-        self.__uml_objects.update(uml_objects)
-        self.__resolver.resolve()
+        uml_objects = dict([(o.name, o) for o in uml_objects])
+        DependencyResolver(uml_objects).resolve()
 
         return uml_objects
