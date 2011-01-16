@@ -27,17 +27,21 @@ class DrawableClass(DrawableNode, QGraphicsItem):
 
         painter.fillRect(QRectF(self.__boundingRect), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
 
+        # Name of the class        
         currentHeight = self.__sectionMargin
         painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(self.__getitem__('name')), metrics.height()), 0, self.__getitem__('name'))
         currentHeight += self.__sectionMargin + metrics.height()
+        
+        # Attributes section
         painter.drawLine(0, currentHeight, self.__boundingRect.width(), currentHeight)
         currentHeight += self.__sectionMargin
         for attribute in map(str, self.attributes()):
             painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(attribute), metrics.height()), 0, attribute)
             currentHeight += self.__textMargin + metrics.height()
-
-        currentHeight += self.__sectionMargin
+        
+        # Operations section
         painter.drawLine(0, currentHeight, self.__boundingRect.width(), currentHeight)
+        
         currentHeight += self.__sectionMargin
         for operation in map(str, self.operations()):
             painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(operation), metrics.height()), 0, operation)
@@ -56,10 +60,11 @@ class DrawableClass(DrawableNode, QGraphicsItem):
 
     def updateSize(self):
         metrics = QFontMetrics(self.__font)
-        fontHeight = metrics.height()
-        drawableHeight = 2 * self.__sectionMargin + metrics.height()
+        # Start by finding size of class name block
+        drawableHeight = 1 * self.__sectionMargin + metrics.height()
         drawableWidth = 2 * self.__textMargin + metrics.width(self.__getitem__('name'))
 
+        # Find sizes of each section and update width/height
         for section in [map(str, self.operations()), map(str, self.attributes())]:
             size = self.__sizeOfSection(metrics, section)
             drawableWidth = max(drawableWidth, size[0])
