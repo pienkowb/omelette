@@ -98,7 +98,7 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
     def save_file(self):
         if self.filename.isEmpty():
-            self.saveAs_file()
+            self.save_file_as()
             return
         try:
             f = open(str(self.filename), 'w+')
