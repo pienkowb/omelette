@@ -45,8 +45,13 @@ def _is_header(line):
 class Code(object):
     """Class representing the code divided into objects."""
 
-    def __init__(self):
+    def __init__(self, code=""):
         self.__objects = [_CodeObject(-1, "")]
+
+        lines = code.split("\n") if code else []
+
+        for number, line in enumerate(lines):
+            self.insert_line(number, line)
 
     def objects(self, condition=None):
         return filter(condition, self.__objects)
@@ -91,3 +96,9 @@ class Code(object):
             self.__objects.remove(object)
 
         self.__shift(number, -1)
+
+
+class Library(Code):
+    def __init__(self, path):
+        with open(path) as library:
+            Code.__init__(self, library.read())
