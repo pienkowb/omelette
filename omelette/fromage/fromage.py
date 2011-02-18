@@ -6,6 +6,17 @@ from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.qscintilla import QSci
 from omelette.fromage.factory import DrawableFactory
 
+from omelette.fromage.modules.notakeyword import DrawableRelation
+__import__('omelette.fromage.modules.class')
+
+rel = DrawableRelation(None)
+
+class Scene(QtGui.QGraphicsScene):
+    def mousePressEvent(self, event):
+        rel.setLine(QtCore.QLineF(rel.line().p1(), QtCore.QPointF(event.scenePos().x(), event.scenePos().y())))
+        rel.update()
+        
+
 class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
@@ -18,7 +29,8 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
 
         self.qsci = QSci(self.splitter)
-        self.scene = QtGui.QGraphicsScene(self.splitter)
+        #self.scene = QtGui.QGraphicsScene(self.splitter)
+        self.scene = Scene(self.splitter)
         self.view = QtGui.QGraphicsView(self.splitter)
         self.view.setScene(self.scene)
         self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
@@ -36,6 +48,13 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionUndo, QtCore.SIGNAL("triggered()"), self.undo)
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.enable_save)
+        
+        QtCore.QObject.connect(self.view, QtCore.SIGNAL("clicked()"), self.clickOnView)
+    
+        self.scene.addItem(rel)
+
+    def clickOnView(self):
+        print "wow"
 
     def generate(self):
         self.scene.clear()

@@ -73,5 +73,14 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         self.__boundingRect = QRectF(0, 0, 2 * self.__textMargin + drawableWidth, drawableHeight)
 
 
-class DrawableRelation(DrawableEdge):
-    pass
+class DrawableRelation(DrawableEdge, QGraphicsLineItem):
+    def __init__(self, uml_object):
+        super(DrawableRelation, self).__init__(uml_object)
+        QGraphicsLineItem.__init__(self)
+        self.__boundingRect = QRectF(0, 0, 100, 100)
+        self.__font = QFont('Comic Sans MS', 10)
+        
+    def boundingRect(self):
+        return self.__boundingRect
+    
+    
