@@ -48,13 +48,8 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionUndo, QtCore.SIGNAL("triggered()"), self.undo)
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.enable_save)
-        
-        QtCore.QObject.connect(self.view, QtCore.SIGNAL("clicked()"), self.clickOnView)
     
         self.scene.addItem(rel)
-
-    def clickOnView(self):
-        print "wow"
 
     def generate(self):
         self.scene.clear()
