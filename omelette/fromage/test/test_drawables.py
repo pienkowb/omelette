@@ -1,7 +1,7 @@
 import unittest
 from mock import Mock
 from omelette.fromage.common import *
-from omelette.parser.uml import UMLObject
+from omelette.compiler.uml import UMLObject
 
 class UnitTest(unittest.TestCase):
 
