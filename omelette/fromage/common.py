@@ -27,6 +27,9 @@ class Drawable(object):
         self.__uml_object.root = value
         
     root = property(__get_root, __set_root)
+    
+    def addToScene(self, scene):
+        scene.addItem(self)
 
 class DrawableEdge(Drawable):
     def __init__(self, uml_object):
