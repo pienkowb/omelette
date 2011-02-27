@@ -1,5 +1,5 @@
 import unittest
-from omelette.parser.code import Code
+from omelette.compiler.code import Code
 
 class CodeTest(unittest.TestCase):
     def setUp(self):
