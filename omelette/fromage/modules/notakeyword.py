@@ -18,7 +18,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         self.__texts = []
         
-        self.setLine(QLineF(410,10,330,330))
+        self.setLine(QLineF(210,100,330,330))
         self.update()
         
     def boundingRect(self):
@@ -44,14 +44,27 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         del self.__texts[:]
         
         self.__addText(self.__relationName, 0.5, 1)
+        self.__addText(str(self.__angle), 0.5, -1)
         
     def __addText(self, text, pos, orientation):
         xPos = self.__originPos.x() + math.fabs(self.__distanceX) * pos
         yPos = self.__originPos.y() + math.fabs(self.__distanceY) * pos
         
-        xPos += self.__xmarg
-        yPos -= self.__xmarg
-        
+        if(self.__angle >= 0):
+            if(orientation == -1):
+                xPos -= self.__fontMetrics.width(text) + self.__xmarg * 10
+                yPos += self.__ymarg * 10
+            else:
+                xPos += self.__xmarg * 10
+                yPos -= self.__ymarg * 10 + self.__fontMetrics.height()
+        else:
+            if(orientation == -1):
+                xPos += -self.__xmarg * 10
+                yPos += self.__ymarg * 10
+            else:
+                xPos -= self.__fontMetrics.width(text) - self.__xmarg * 10
+                yPos -= self.__ymarg * 10 + self.__fontMetrics.height()
+                
         rect = QRectF(xPos, yPos, self.__fontMetrics.width(text), self.__fontMetrics.height())
         
         self.__texts.append((rect, text))
@@ -68,16 +81,6 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         painter.drawLine(self.line())
         
         painter.setFont(self.__font)
-        
-        """
-        FFR
-        if(angle >= 0):  
-            textx -= xmarg
-            texty -= ymarg
-        else:
-            textx += xmarg - width
-            texty += ymarg
-             """
              
         for text in self.__texts:
             painter.drawText(text[0], 0, text[1])
