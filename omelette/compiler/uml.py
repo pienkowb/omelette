@@ -52,15 +52,15 @@ class _Field(object):
 class Operation(_Field):
     """Class representing UML Operation."""
     
-    def __init__(self, is_static, scope, name, parameters, type):
+    def __init__(self, is_static, visibility, name, parameters, type):
         self.is_static = is_static
-        self.scope = scope
+        self.visibility = visibility
         self.name = name
         self.parameters = parameters
         self.type = type
 
     def __str__(self):
-        return self.scope + self.name + "(" + \
+        return self.visibility + self.name + "(" + \
                 self.__formatted_param_list() + ")" + \
                 _format_if_not_none(" : %s", self.type)   
         
@@ -77,14 +77,14 @@ class Operation(_Field):
 class Attribute(_Field):
     """Class representing UML Attribute."""
     
-    def __init__(self, is_static, scope, name, type, default_value):
+    def __init__(self, is_static, visibility, name, type, default_value):
         self.is_static = is_static
-        self.scope = scope
+        self.visibility = visibility
         self.name = name
         self.type = type
         self.default_value = default_value
         
     def __str__(self):
-        return self.scope + self.name + \
+        return self.visibility + self.name + \
                 _format_if_not_none(" : %s", self.type) + \
                 _format_if_not_none(" = %s", self.default_value)
