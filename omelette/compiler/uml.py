@@ -61,10 +61,10 @@ class Operation(_Field):
 
     def __str__(self):
         return self.visibility + self.name + "(" + \
-                self.__formatted_param_list() + ")" + \
+                self.__formatted_params() + ")" + \
                 _format_if_not_none(" : %s", self.type)   
         
-    def __formatted_param_list(self):
+    def __formatted_params(self):
         format = lambda(n, t) : n + _format_if_not_none(" : %s", t)
         formatted = map(format, self.parameters)
         return ", ".join(formatted)
