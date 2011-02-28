@@ -2,7 +2,7 @@ import unittest
 from omelette.compiler.uml import UMLObject
 from mock import Mock, MagicMock
 
-class TestUMLObject(unittest.TestCase):
+class UMLObjectTest(unittest.TestCase):
 
     def test_constructor(self):
         o = UMLObject("fasada", "asd", True)

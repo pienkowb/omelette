@@ -2,7 +2,7 @@ from mock import Mock
 from omelette.compiler.uml import Operation, Attribute
 import unittest
 
-class TestField(unittest.TestCase):
+class FieldTest(unittest.TestCase):
 
     def test_operation(self):
         o = Operation(0, "+", "asd", [("a", "1"), ("b", "2")], "int")
