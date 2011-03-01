@@ -10,7 +10,7 @@ def _import(name):
     return module
 
 
-class DrawableFactory:
+class DrawableFactory(object):
     @staticmethod
     def create(diagram, uml_object):
         module = _import("omelette.fromage.modules." + diagram)
