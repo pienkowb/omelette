@@ -33,17 +33,12 @@ class UMLObject(object):
         return self.__dict__ == other.__dict__
 
           
-def _format_if_not_none(format, value):
-    if value is None:
-        return ""
-    else:
-        return format % value          
+def _try_to_format(format, value):
+    return format % value if value else ""
 
                     
 class _Field(object):    
-    """
-    Helper class used in UMLObject..
-    """
+    """ Helper class used in UMLObject.  """
     
     def __eq__(self, other) : 
         return self.__dict__ == other.__dict__
@@ -62,16 +57,16 @@ class Operation(_Field):
     def __str__(self):
         return self.visibility + self.name + "(" + \
                 self.__formatted_params() + ")" + \
-                _format_if_not_none(" : %s", self.type)   
+                _try_to_format(" : %s", self.type)   
         
     def __formatted_params(self):
-        format = lambda(n, t) : n + _format_if_not_none(" : %s", t)
+        format = lambda(n, t) : n + _try_to_format(" : %s", t)
         formatted = map(format, self.parameters)
         return ", ".join(formatted)
                 
     def __format_parameter(self, parameter):
         (name, type) = parameter
-        return name + (type and (" : " + type) or "")
+        return name + ((" : " + type) if type else "")
 
 
 class Attribute(_Field):
@@ -86,5 +81,5 @@ class Attribute(_Field):
         
     def __str__(self):
         return self.visibility + self.name + \
-                _format_if_not_none(" : %s", self.type) + \
-                _format_if_not_none(" = %s", self.default_value)
+                _try_to_format(" : %s", self.type) + \
+                _try_to_format(" = %s", self.default_value)
