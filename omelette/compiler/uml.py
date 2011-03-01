@@ -52,7 +52,7 @@ class _Field(object):
 class Operation(_Field):
     """Class representing UML Operation."""
     
-    def __init__(self, visibility, name, is_static=None, parameters=None, type=None):
+    def __init__(self, visibility, name, is_static=False, parameters=[], type=None):
         self.is_static = is_static
         self.visibility = visibility
         self.name = name
@@ -77,7 +77,7 @@ class Operation(_Field):
 class Attribute(_Field):
     """Class representing UML Attribute."""
     
-    def __init__(self, visibility, name, is_static=None, type=None, default_value=None):
+    def __init__(self, visibility, name, is_static=False, type=None, default_value=None):
         self.is_static = is_static
         self.visibility = visibility
         self.name = name
