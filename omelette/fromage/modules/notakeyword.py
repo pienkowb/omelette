@@ -51,8 +51,8 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__addText(str("nex"), 0.9, 1)
         
     def __addText(self, text, pos, orientation):
-        xPos = self.line().p1().x() + self.__xmarg + self.__distanceX * pos
-        yPos = self.line().p1().y() + self.__ymarg + self.__distanceY * pos
+        xPos = self.line().p1().x() + self.__distanceX * pos
+        yPos = self.line().p1().y() + self.__distanceY * pos
         
         if(self.__angle >= 0):
             if(orientation == -1):
