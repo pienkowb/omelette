@@ -3,6 +3,7 @@ from PyQt4 import QtGui, QtCore
 from omelette.fromage.qscintilla import QSci
 from omelette.fromage.fromage_ui import Ui_MainWindow
 
+
 class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
@@ -14,12 +15,14 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
 
         self.qsci = QSci(self.splitter)
-        #TODO change parameter splitter to DiagramScene
         self.graphics_view = QtGui.QGraphicsView(self.splitter)
 
         self.horizontal_layout.addWidget(self.splitter)
 
         self.filename = QtCore.QString()
+
+        self.actionSave.setDisabled(True)
+        self.actionSaveAs.setDisabled(True)
 
         QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.qsci.get_lines)
         QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL("triggered()"), self.new_file)
