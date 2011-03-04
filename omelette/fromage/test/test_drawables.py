@@ -1,7 +1,7 @@
 import unittest
 from mock import Mock
 from omelette.fromage.common import *
-from omelette.compiler.uml import UMLObject
+from omelette.compiler.uml import UMLObject,Attribute,Operation
 
 class UnitTest(unittest.TestCase):
 
@@ -66,17 +66,17 @@ class IntegrationTest(unittest.TestCase):
         self.assertEqual(val, instance[key])
     
     def test_operations(self):
-        ops = ["+b()", "-a()"]
+        ops = [Operation("+","a"), Operation("+","b")]
         o = UMLObject()
-        [o.add_operation(op) for op in reversed(ops)]
+        [o.add_operation(op) for op in ops]
         
         instance = Drawable(o)
         self.assertEqual(ops, instance.operations())
         
     def test_attributes(self):
-        attrs = ["+b", "-a"]
+        attrs = [Attribute("+","a"), Attribute("+","b")]
         o = UMLObject()
-        [o.add_attribute(attr) for attr in reversed(attrs)]
+        [o.add_attribute(attr) for attr in attrs]
         
         instance = Drawable(o)
         self.assertEqual(attrs, instance.attributes())

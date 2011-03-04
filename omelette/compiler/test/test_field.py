@@ -6,7 +6,7 @@ class FieldTest(unittest.TestCase):
 
     def test_operation(self):
         o = Operation("+", "asd", 0, [("a", "1"), ("b", "2")], "int")
-        self.assertEquals(str(o), "+asd(a : 1, b : 2) : int")
+        self.assertEquals(str(o), "+ asd(a : 1, b : 2) : int")
         self.assertEquals(o.is_static, 0)
         
     def test_operation_no_params(self):
@@ -16,7 +16,7 @@ class FieldTest(unittest.TestCase):
         """ 
         
         o = Operation("+", "asd", 1, [], "int")
-        self.assertEqual(str(o), "+asd() : int")
+        self.assertEqual(str(o), "+ asd() : int")
         self.assertEqual(o.is_static, 1)
         
     def test_operation_no_types(self):
@@ -26,13 +26,13 @@ class FieldTest(unittest.TestCase):
         """
         
         o = Operation("+", "asd", 0, [("a", "int"), ("b", None)], "int")
-        self.assertEquals(str(o), "+asd(a : int, b) : int")
+        self.assertEquals(str(o), "+ asd(a : int, b) : int")
         
     def test_operation_no_return_type(self):
         """test behavior of __str__ when no return type is given"""
         
         o = Operation("+", "asd", 0, [("a", "int"), ("b", None)], None)
-        self.assertEquals(str(o), "+asd(a : int, b)")
+        self.assertEquals(str(o), "+ asd(a : int, b)")
         
     def test_operation_eq(self):
         instance = Operation("+", "asd", 0, [("a", "1"), ("b", "2")], "int")
@@ -44,21 +44,21 @@ class FieldTest(unittest.TestCase):
         
     def test_attribute(self):
         a = Attribute("+", "asd", 1, "int", "42")
-        self.assertEquals(str(a), "+asd : int = 42")
+        self.assertEquals(str(a), "+ asd : int = 42")
         self.assertTrue(a.is_static)
         
     def test_attribute_minimal(self):
         a = Attribute("#", "ASD", 0, None, None)
-        self.assertEquals(str(a), "#ASD")
+        self.assertEquals(str(a), "# ASD")
         self.assertFalse(a.is_static)
         
     def test_attribute_no_type(self):
         a = Attribute("+", "asd", 1, None, "42")
-        self.assertEquals(str(a), "+asd = 42")
+        self.assertEquals(str(a), "+ asd = 42")
         
     def test_attribute_no_default(self):
         a = Attribute("+", "asd", 1, "int", None)
-        self.assertEquals(str(a), "+asd : int")
+        self.assertEquals(str(a), "+ asd : int")
         
     def test_attribute_eq(self):
         instance = Attribute("+", "asd", 1, "int", "42")
