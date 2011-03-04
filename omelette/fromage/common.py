@@ -1,12 +1,12 @@
 class Drawable(object):
     """
-    Base for other Drawable objects. It's made with UMLObject, and
-    provides interface for accessing its attributes, properties and
-    operations. Properties are accessible via [] operator.
+    Base for other Drawable objects. 
+    Holds uml_object and list of anchors which are in slot relation with it.
     """
 
     def __init__(self, uml_object):
         self.uml_object = uml_object
+        self.anchors = []
 
 
 class DrawableEdge(Drawable):
