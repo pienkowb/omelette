@@ -32,12 +32,13 @@ class UMLObject(object):
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
+
 def _try_to_format(format, value):
     return format % value if value else ""
 
 
 class _Field(object):
-    """ Helper class used in UMLObject.  """
+    """Helper class used in UMLObject."""
 
     def __eq__(self, other) :
         return self.__dict__ == other.__dict__
