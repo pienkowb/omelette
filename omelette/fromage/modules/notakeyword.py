@@ -10,7 +10,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __init__(self, uml_object):
         super(DrawableRelation, self).__init__(uml_object)
         QGraphicsLineItem.__init__(self)
-        self.__boundingRect = QRectF(0, 0, 100, 100)
+        self.__boundingRect = QRectF(0, 0, 300, 300)
         self.__font = QFont('Comic Sans MS', 10)
         self.__fontMetrics = QFontMetrics(self.__font)
         
@@ -30,8 +30,8 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         return QPointF(x, y)
     
     def update(self):
-        self.__distanceX = self.line().p2().x() - self.line().p1().x()
-        self.__distanceY = self.line().p2().y() - self.line().p1().y()
+        self.__distanceX = self.line().dx()
+        self.__distanceY = self.line().dy()
         self.__originPos = self.__getOrigin()
         
         self.__boundingRect = QRectF(self.__originPos, QSizeF(math.fabs(self.__distanceX), math.fabs(self.__distanceY)))
@@ -45,10 +45,14 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         self.__addText(self.__relationName, 0.5, 1)
         self.__addText(str(self.__angle), 0.5, -1)
+        self.__addText(str(self.__distanceX), 0.1, -1)
+        self.__addText(str(self.__distanceY), 0.1, 1)
+        self.__addText(str("bar"), 0.9, -1)
+        self.__addText(str("nex"), 0.9, 1)
         
     def __addText(self, text, pos, orientation):
-        xPos = self.__originPos.x() + math.fabs(self.__distanceX) * pos
-        yPos = self.__originPos.y() + math.fabs(self.__distanceY) * pos
+        xPos = self.line().p1().x() + self.__xmarg + self.__distanceX * pos
+        yPos = self.line().p1().y() + self.__ymarg + self.__distanceY * pos
         
         if(self.__angle >= 0):
             if(orientation == -1):

@@ -9,12 +9,12 @@ from omelette.fromage.factory import DrawableFactory
 from omelette.fromage.modules.notakeyword import DrawableRelation
 __import__('omelette.fromage.modules.class')
 
-rel = DrawableRelation(None)
+
 
 class Scene(QtGui.QGraphicsScene):
     def mousePressEvent(self, event):
-        rel.setLine(QtCore.QLineF(rel.line().p1(), QtCore.QPointF(event.scenePos().x(), event.scenePos().y())))
-        rel.update()
+        self.rel.setLine(QtCore.QLineF(self.rel.line().p1(), QtCore.QPointF(event.scenePos().x(), event.scenePos().y())))
+        self.rel.update()
         
 
 class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
@@ -49,7 +49,8 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.enable_save)
     
-        rel.addToScene(self.scene)
+        self.scene.rel = DrawableRelation(None)
+        self.scene.rel.addToScene(self.scene)
 
     def generate(self):
         self.scene.clear()
