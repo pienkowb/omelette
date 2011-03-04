@@ -2,12 +2,19 @@ from mock import Mock
 from omelette.compiler.uml import Operation, Attribute
 import unittest
 
-class FieldTest(unittest.TestCase):
+class FieldStrTest(unittest.TestCase):
+    """Tests for __str__ in both operation and attribute classes"""
 
     def test_operation(self):
         o = Operation("+", "asd", 0, [("a", "1"), ("b", "2")], "int")
         self.assertEquals(str(o), "+ asd(a : 1, b : 2) : int")
         self.assertEquals(o.is_static, 0)
+
+    def test_operation_minimal(self):
+        o = Operation("#", "ASD")
+        self.assertEquals(str(o), "# ASD()")
+        self.assertFalse(o.is_static)
+        
         
     def test_operation_no_params(self):
         """
@@ -15,8 +22,7 @@ class FieldTest(unittest.TestCase):
         no parameters are given
         """ 
         
-        o = Operation("+", "asd", 1, [], "int")
-        self.assertEqual(str(o), "+ asd() : int")
+        o = Operation("+", "asd", is_static=1)
         self.assertEqual(o.is_static, 1)
         
     def test_operation_no_types(self):
@@ -33,7 +39,7 @@ class FieldTest(unittest.TestCase):
         
         o = Operation("+", "asd", 0, [("a", "int"), ("b", None)], None)
         self.assertEquals(str(o), "+ asd(a : int, b)")
-        
+
     def test_operation_eq(self):
         instance = Operation("+", "asd", 0, [("a", "1"), ("b", "2")], "int")
         same = Operation("+", "asd", 0, [("a", "1"), ("b", "2")], "int")
@@ -48,7 +54,7 @@ class FieldTest(unittest.TestCase):
         self.assertTrue(a.is_static)
         
     def test_attribute_minimal(self):
-        a = Attribute("#", "ASD", 0, None, None)
+        a = Attribute("#", "ASD")
         self.assertEquals(str(a), "# ASD")
         self.assertFalse(a.is_static)
         
@@ -57,7 +63,7 @@ class FieldTest(unittest.TestCase):
         self.assertEquals(str(a), "+ asd = 42")
         
     def test_attribute_no_default(self):
-        a = Attribute("+", "asd", 1, "int", None)
+        a = Attribute("+", "asd", 1, "int")
         self.assertEquals(str(a), "+ asd : int")
         
     def test_attribute_eq(self):
