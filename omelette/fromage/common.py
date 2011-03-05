@@ -1,6 +1,6 @@
 class Drawable(object):
     """
-    Base for other Drawable objects. 
+    Base for other Drawable objects.
     Holds uml_object and list of anchors which are in slot relation with it.
     """
 
@@ -14,6 +14,7 @@ class DrawableEdge(Drawable):
 
     def __init__(self, uml_object):
         super(DrawableEdge, self).__init__(uml_object)
+
         self.source_anchor = None
         self.target_anchor = None
 
@@ -34,4 +35,3 @@ class Anchor(object):
     def __init__(self):
         self.connector = None
         self.slot = None
-
