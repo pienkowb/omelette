@@ -2,7 +2,6 @@
 from PyQt4.Qsci import QsciLexerPython, QsciScintilla
 from PyQt4.QtGui import QColor, QFont, QFontMetrics
 from PyQt4.QtCore import QObject, SIGNAL
-from omelette.parser.parser import Parser
 
 _sample = """
 #Sample Omelette source code with kvp
@@ -25,8 +24,6 @@ class QSci(QsciScintilla):
 #        self.nrOfLines = 0
 #        self.line_nr = 0
 #        self.pos = 0
-        self.parser = Parser()
-
         self.set_up()
         
 #        QObject.connect(self, SIGNAL("cursorPositionChanged(int, int)"), self.set_line_nr)
@@ -34,11 +31,6 @@ class QSci(QsciScintilla):
 #        QObject.connect(self, SIGNAL("textChanged()"), self.get_updated_line)
 #        QObject.connect(self, SIGNAL("copyAvailable()"), None)
 #        QObject.connect(self, SIGNAL("selectionChanged()"), None)
-
-    def get_lines(self):
-        for idx in range(self.lines()):
-            self.parser.update(idx+1, self.text(idx))
-            #print idx+1, self.text(idx)
 
 #    def set_line_nr(self, line_nr, pos):
 #        ##Scintilla numerates lines from 0
@@ -65,6 +57,7 @@ class QSci(QsciScintilla):
         self.setWhatsThis("")
 
         self.setUtf8(True)
+        self.setEolMode(self.EolUnix)
 
         ##font to use
         font = QFont()

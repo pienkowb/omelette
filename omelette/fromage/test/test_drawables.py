@@ -52,35 +52,7 @@ class UnitTest(unittest.TestCase):
         
         instance.position = pos
         
-        self.assertEqual(pos, instance.position)
-        
-        
-class IntegrationTest(unittest.TestCase):
-    
-    def test_properties(self):
-        (key, val) = ("stereotype", "Interface")
-        o = UMLObject()
-        o[key] = val
-        
-        instance = Drawable(o)
-        self.assertEqual(val, instance[key])
-    
-    def test_operations(self):
-        ops = ["+b()", "-a()"]
-        o = UMLObject()
-        [o.add_operation(op) for op in reversed(ops)]
-        
-        instance = Drawable(o)
-        self.assertEqual(ops, instance.operations())
-        
-    def test_attributes(self):
-        attrs = ["+b", "-a"]
-        o = UMLObject()
-        [o.add_attribute(attr) for attr in reversed(attrs)]
-        
-        instance = Drawable(o)
-        self.assertEqual(attrs, instance.attributes())
-        
+        self.assertEqual(pos, instance.position)       
 
 if __name__ == "__main__":
     unittest.main()

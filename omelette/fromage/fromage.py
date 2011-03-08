@@ -1,43 +1,83 @@
 import sys
+sys.path.append('../../') 
 from PyQt4 import QtGui, QtCore
+from omelette.parser.parser import Parser
+from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.qscintilla import QSci
-from omelette.fromage.fromage_ui import Ui_MainWindow
+from omelette.fromage.factory import DrawableFactory
 
 
 class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
+        self.filename = QtCore.QString()
+        self.parser = Parser()
         self.setupUi(self)
 
-        self.horizontal_layout = QtGui.QHBoxLayout(self.centralwidget)
+        self.layout = QtGui.QHBoxLayout(self.centralwidget)
         self.splitter = QtGui.QSplitter(self.centralwidget)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
 
-
         self.qsci = QSci(self.splitter)
+<<<<<<< HEAD
         self.graphics_view = QtGui.QGraphicsView(self.splitter)
+=======
+        self.scene = QtGui.QGraphicsScene(self.splitter)
+        self.view = QtGui.QGraphicsView(self.splitter)
+        self.view.setScene(self.scene)
+        self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
+>>>>>>> upstream/demo
 
-        self.horizontal_layout.addWidget(self.splitter)
+        self.layout.addWidget(self.splitter)
 
-        self.filename = QtCore.QString()
-
+<<<<<<< HEAD
         self.actionSave.setDisabled(True)
         self.actionSaveAs.setDisabled(True)
 
         QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.qsci.get_lines)
+=======
+        QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.generate)
+>>>>>>> upstream/demo
         QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL("triggered()"), self.new_file)
         QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL("triggered()"), self.open_file)
         QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL("triggered()"), self.save_file)
-        QtCore.QObject.connect(self.actionSaveAs, QtCore.SIGNAL("triggered()"), self.saveAs_file)
+        QtCore.QObject.connect(self.actionSaveAs, QtCore.SIGNAL("triggered()"), self.save_file_as)
         QtCore.QObject.connect(self.actionCut, QtCore.SIGNAL("triggered()"), self.cut)
         QtCore.QObject.connect(self.actionCopy, QtCore.SIGNAL("triggered()"), self.copy)
         QtCore.QObject.connect(self.actionPaste, QtCore.SIGNAL("triggered()"), self.paste)
         QtCore.QObject.connect(self.actionUndo, QtCore.SIGNAL("triggered()"), self.undo)
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.redo)
-        QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.enable_saveBtn)
+        QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.enable_save)
 
+    def generate(self):
+        self.scene.clear()
+        self.__x = self.__y = self.__highest_y = 0
+        code = "prototype base class\n" + self.qsci.text()
+        uml_objects = self.parser.parse(code)
 
-    def enable_saveBtn(self):
+        for name, uml_object in uml_objects.items():
+            if "name" not in uml_object.properties:
+                uml_object["name"] = name
+
+        for uml_object in uml_objects.values():
+            if uml_object.is_prototype: continue
+    
+            drawable = DrawableFactory.create("class", uml_object)
+            drawable.updateSize()
+            self.__layout(drawable)
+            self.scene.addItem(drawable)
+
+    def __layout(self, drawable):
+        drawable.moveBy(self.__x, self.__y)
+        self.__x += 20 + drawable.boundingRect().size().width()
+        if drawable.boundingRect().size().height() > self.__highest_y:
+                self.__highest_y = drawable.boundingRect().size().height()
+        if self.__x > 400:
+            self.__x = 0
+            self.__y += self.__highest_y + 20
+            self.__highest_y = 0
+
+    def enable_save(self):
         self.actionSave.setEnabled(True)
         self.actionSaveAs.setEnabled(True)
 
@@ -70,7 +110,7 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
     def save_file(self):
         if self.filename.isEmpty():
-            self.saveAs_file()
+            self.save_file_as()
             return
         try:
             f = open(str(self.filename), 'w+')
@@ -85,7 +125,7 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         self.setWindowTitle(self.filename)
         self.statusbar.showMessage('Document %s saved' % (self.filename), 2000)
 
-    def saveAs_file(self):
+    def save_file_as(self):
         fn = QtGui.QFileDialog.getSaveFileName(self, QtCore.QString(), QtCore.QString())
         if not fn.isEmpty():
             self.filename = fn
@@ -107,6 +147,7 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
     def redo(self):
         self.qsci.redo()
+
 
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
