@@ -1,6 +1,9 @@
 from pyparsing import *
-from omelette.compiler.lexer import Lexer
-from omelette.compiler.uml import *
+#from omelette.compiler.lexer import Lexer
+#from omelette.compiler.uml import UMLObject
+
+from lexer import Lexer
+from uml import UMLObject
 
 def callback(handler):
     def wrapper(self, s, l, t):
@@ -16,8 +19,7 @@ class Parser(object):
 
         self.__lexer = lexer
 
-        self.__prepare_handlers()
-        self.__lexer.register_handlers(self.__handlers)
+        self.__register_handlers(lexer)
 
     def parse(self, code_objects):
         self.__uml_object = None
@@ -31,17 +33,15 @@ class Parser(object):
 
         return self.__objects
 
-    def __prepare_handlers(self):
-        """Builds a hash mapping handler methods to respective token names."""
-
-        self.__handlers = {}
-
-        self.__handlers["definition"] = self.__handle_definition
-        self.__handlers["header"] = self.__handle_header
-        self.__handlers["attribute"] = self.__handle_attribute
-        self.__handlers["operation"] = self.__handle_operation
-        self.__handlers["property"] = self.__handle_property
-
+    def __register_handlers(self):
+        """Sets parseActions for appropriate tokens in lexer."""
+        
+        self.lexer.definition.setParseAction(self.__handle_definition)
+        self.lexer.header.setParseAction(self.__handle_header)
+        self.lexer.operation.setParseAction(self.__handle_operation)
+        self.lexer.attribute.setParseAction(self.__handle_attribute)
+        self.lexer.property.setParseAction(self.__handle_property)
+        
     @callback
     def __handle_definition(self, token):
         name = self.__uml_object.name
@@ -71,7 +71,7 @@ class Parser(object):
         type = token["attribute"].get("type")
         default = token["attribute"].get("default")
 
-        attribute = Attribute(static, visibility, name, type, default)
+        attribute = Attribute(visibility, name, static,  type, default)
         self.__uml_object.add_attribute(attribute)
 
     @callback
@@ -89,8 +89,8 @@ class Parser(object):
                 parameters.append((name, type))
 
         return_type = token["operation"].get("return_type")
-
-        operation = Operation(static, visibility, name, parameters, return_type)
+    
+        operation = Operation(visibility, name, static, parameters, return_type)
         self.__uml_object.add_operation(operation)
 
     @callback
