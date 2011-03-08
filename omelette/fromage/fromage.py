@@ -19,25 +19,19 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
 
         self.qsci = QSci(self.splitter)
-<<<<<<< HEAD
         self.graphics_view = QtGui.QGraphicsView(self.splitter)
-=======
         self.scene = QtGui.QGraphicsScene(self.splitter)
         self.view = QtGui.QGraphicsView(self.splitter)
         self.view.setScene(self.scene)
         self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
->>>>>>> upstream/demo
 
         self.layout.addWidget(self.splitter)
 
-<<<<<<< HEAD
         self.actionSave.setDisabled(True)
         self.actionSaveAs.setDisabled(True)
 
         QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.qsci.get_lines)
-=======
         QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.generate)
->>>>>>> upstream/demo
         QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL("triggered()"), self.new_file)
         QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL("triggered()"), self.open_file)
         QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL("triggered()"), self.save_file)
