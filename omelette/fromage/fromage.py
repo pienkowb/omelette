@@ -4,18 +4,19 @@ from PyQt4 import QtGui, QtCore
 from omelette.parser.parser import Parser
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.qscintilla import QSci
-from omelette.fromage.factory import DrawableFactory
+from omelette.fromage.factory import _import
+from omelette.parser.uml import UMLObject
 
 from omelette.fromage.modules.notakeyword import DrawableRelation
-__import__('omelette.fromage.modules.class')
 
+__import__("omelette.fromage.modules.class", fromlist=["DrawableClass"])
 
-
+"""
 class Scene(QtGui.QGraphicsScene):
     def mousePressEvent(self, event):
         self.rel.setLine(QtCore.QLineF(self.rel.line().p1(), QtCore.QPointF(event.scenePos().x(), event.scenePos().y())))
         self.rel.update()
-        
+   """     
 
 class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
@@ -29,8 +30,8 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
 
         self.qsci = QSci(self.splitter)
-        #self.scene = QtGui.QGraphicsScene(self.splitter)
-        self.scene = Scene(self.splitter)
+        self.scene = QtGui.QGraphicsScene(self.splitter)
+        #self.scene = Scene(self.splitter)
         self.view = QtGui.QGraphicsView(self.splitter)
         self.view.setScene(self.scene)
         self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
@@ -49,7 +50,39 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.enable_save)
     
-        self.scene.rel = DrawableRelation(None)
+        umlo = UMLObject()
+        umlo['name'] = 'jogi'
+        
+        umlo2 = UMLObject()
+        umlo2['name'] = 'jogi class'
+        umlo2.add_attribute("- nie chce pracowac")
+        umlo2.add_attribute("- focha sie po 2h pracy")
+        umlo2.add_attribute("- wersjonuje na wrzucie")
+        umlo2.add_attribute("+ napisal parser")
+        
+        umlo3 = UMLObject()
+        umlo3['name'] = 'piotr class'
+        umlo3.add_attribute("+ ma brode")
+        umlo3.add_attribute("- nie napisal layoutera")
+        
+        module = _import("omelette.fromage.modules.class")
+
+        name = "DrawableClass"
+        drawable = getattr(module, name, None)
+    
+        dc1 = drawable(umlo2)
+        dc2 = drawable(umlo3)
+        
+        for dc in [dc1, dc2]:
+            dc.updateSize()
+            dc.addToScene(self.scene)
+    
+        self.scene.rel = DrawableRelation(umlo)
+        self.scene.rel.source = dc1
+        self.scene.rel.target = dc2 
+        self.scene.rel.update()
+        
+        
         self.scene.rel.addToScene(self.scene)
 
     def generate(self):

@@ -72,6 +72,8 @@ class DrawableClass(DrawableNode, QGraphicsItem):
 
         self.__boundingRect = QRectF(0, 0, 2 * self.__textMargin + drawableWidth, drawableHeight)
 
+    def przytnij_linie(self, line):
+        return line
 
 class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __init__(self, uml_object):

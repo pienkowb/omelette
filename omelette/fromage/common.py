@@ -6,30 +6,33 @@ class Drawable(object):
     """
 
     def __init__(self, uml_object):
-        self.__uml_object = uml_object
+        self.uml_object = uml_object
     
     def __setitem__(self, key, value):
-        self.__uml_object[key] = value
+        self.uml_object[key] = value
         
     def __getitem__(self, key):
-        return self.__uml_object[key]
+        return self.uml_object[key]
         
     def attributes(self):
-        return self.__uml_object.attributes()
+        return self.uml_object.attributes()
         
     def operations(self):
-        return self.__uml_object.operations()
+        return self.uml_object.operations()
     
     def __get_root(self):
-        return self.__uml_object.root
+        return self.uml_object.root
     
     def __set_root(self, value):
-        self.__uml_object.root = value
+        self.uml_object.root = value
         
     root = property(__get_root, __set_root)
     
     def addToScene(self, scene):
         scene.addItem(self)
+        
+    def przytnij_linie(self, line):
+        return line
 
 class DrawableEdge(Drawable):
     def __init__(self, uml_object):
