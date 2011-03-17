@@ -50,6 +50,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         self.__boundingRect = QRectF(self.__originPos, QSizeF(math.fabs(self.__distanceX), math.fabs(self.__distanceY)))
         
+        #TODO: Fix division by 0
         self.__angle = math.atan(self.__distanceY / self.__distanceX)
         
         self.__xmarg = math.sin(self.__angle)
