@@ -67,8 +67,7 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         
         module = _import("omelette.fromage.modules.class")
 
-        name = "DrawableClass"
-        drawable = getattr(module, name, None)
+        drawable = getattr(module, "DrawableClass", None)
     
         dc1 = drawable(umlo2)
         dc2 = drawable(umlo3)
@@ -79,8 +78,11 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
     
         self.scene.rel = DrawableRelation(umlo)
         self.scene.rel.source = dc1
-        self.scene.rel.target = dc2 
+        self.scene.rel.target = dc2
         self.scene.rel.update()
+        
+        dc1.relation = self.scene.rel
+        dc2.relation = self.scene.rel
         
         
         self.scene.rel.addToScene(self.scene)

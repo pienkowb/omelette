@@ -35,12 +35,13 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __find_real_line(self):
         line = self.line()
                 
-        self.source.przytnij_linie(line)
-        self.target.przytnij_linie(line)
+        line = self.source.przytnij_linie(line, 0)
+        line = self.target.przytnij_linie(line, 1)
         
         return line
     
     def update(self):
+        self.setLine(QLineF(self.source.znajdz_anchor(), self.target.znajdz_anchor()))
         self.__real_line = self.__find_real_line()
         
         self.__distanceX = self.real_line().dx()
@@ -100,3 +101,4 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
              
         for text in self.__texts:
             painter.drawText(text[0], 0, text[1])
+

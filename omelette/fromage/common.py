@@ -1,3 +1,5 @@
+from PyQt4.QtCore import QRectF
+
 class Drawable(object):
     """
     Base for other Drawable objects. It's made with UMLObject, and
@@ -33,6 +35,14 @@ class Drawable(object):
         
     def przytnij_linie(self, line):
         return line
+    
+    #TODO: See if PyQt provides such functionality
+    def globalBoundingRect(self):
+        global_rect = QRectF(self.boundingRect())
+        global_rect.translate(self.pos())
+        
+        return global_rect
+    
 
 class DrawableEdge(Drawable):
     def __init__(self, uml_object):
