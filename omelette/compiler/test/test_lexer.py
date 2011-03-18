@@ -1,6 +1,4 @@
 import unittest
-from mock import Mock
-#from omelette.parser.lexer import Lexer, NonexistentTokenException
 from omelette.compiler.lexer import Lexer, NonexistentTokenException
 
 class Test(unittest.TestCase):
@@ -18,7 +16,7 @@ prototype grandson
     _+ op3(param3:type3)
     pr3 : 13..*
     _- at3 : type4
-	"""
+    """
         self.lexer = Lexer()
 
         self.definition_hits = 0;
@@ -28,11 +26,11 @@ prototype grandson
         self.header_hits = 0;
 
         self.handlers = {}
-        self.handlers['definition'] = self.__hit_definition
-        self.handlers['operation'] = self.__hit_operation
-        self.handlers['attribute'] = self.__hit_attribute
-        self.handlers['property'] = self.__hit_property
-        self.handlers['header'] = self.__hit_header
+        self.handlers["definition"] = self.__hit_definition
+        self.handlers["operation"] = self.__hit_operation
+        self.handlers["attribute"] = self.__hit_attribute
+        self.handlers["property"] = self.__hit_property
+        self.handlers["header"] = self.__hit_header
 
     def __hit_definition(self, s, l, t):
         self.definition_hits = self.definition_hits + 1
@@ -58,7 +56,7 @@ prototype grandson
         """Tests if lexer calls handlers at all"""
 
         self.lexer.register_handlers(self.handlers)
-        self.lexer.parse(self.code)
+        self.lexer["grammar"].parseString(self.code)
 
         self.assertNotEquals(self.definition_hits, 0)
         self.assertNotEquals(self.attribute_hits, 0)
@@ -70,7 +68,7 @@ prototype grandson
         """Tests if lexer calls handlers proper times"""
 
         self.lexer.register_handlers(self.handlers)
-        self.lexer.parse(self.code)
+        self.lexer["grammar"].parseString(self.code)
 
         self.assertEquals(self.definition_hits, 3)
         self.assertEquals(self.attribute_hits, 3)
@@ -81,7 +79,7 @@ prototype grandson
     def test_register_handlers_4(self):
         """Tests if lexer does not accept a handler for non-existent token"""
 
-        self.handlers['the game'] = None
+        self.handlers["the game"] = None
         self.assertRaises(NonexistentTokenException, self.lexer.register_handlers, \
             self.handlers)
 
@@ -90,7 +88,7 @@ prototype grandson
 
         self.lexer.register_handlers(self.handlers)
         self.lexer.unregister_handlers()
-        self.lexer.parse(self.code)
+        self.lexer["grammar"].parseString(self.code)
 
         self.assertEquals(self.definition_hits, 0)
         self.assertEquals(self.attribute_hits, 0)
