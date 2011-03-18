@@ -1,48 +1,22 @@
-import sys
-sys.path.append('../../') 
-from PyQt4 import QtGui, QtCore
 from omelette.parser.parser import Parser
 from omelette.fromage.ui import Ui_MainWindow
-from omelette.fromage.qscintilla import QSci
 from omelette.fromage.factory import DrawableFactory
+from PyQt4 import QtGui, QtCore
 
-
-class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
-    def __init__(self, parent=None):
+class Actions(QtGui.QMainWindow, Ui_MainWindow):
+    def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        self.filename = QtCore.QString()
         self.parser = Parser()
+        self.qsci = qsci
+        self.scene = scene
+        self.filename = QtCore.QString()
         self.setupUi(self)
 
-        self.layout = QtGui.QHBoxLayout(self.centralwidget)
-        self.splitter = QtGui.QSplitter(self.centralwidget)
-        self.splitter.setOrientation(QtCore.Qt.Horizontal)
-
-        self.qsci = QSci(self.splitter)
-        self.graphics_view = QtGui.QGraphicsView(self.splitter)
-        self.scene = QtGui.QGraphicsScene(self.splitter)
-        self.view = QtGui.QGraphicsView(self.splitter)
-        self.view.setScene(self.scene)
-        self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
-
-        self.layout.addWidget(self.splitter)
-
+        self.actionSave = actionSave
+        self.actionSaveAs = actionSaveAs
         self.actionSave.setDisabled(True)
         self.actionSaveAs.setDisabled(True)
-
-        QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.qsci.get_lines)
-        QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.generate)
-        QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL("triggered()"), self.new_file)
-        QtCore.QObject.connect(self.actionOpen, QtCore.SIGNAL("triggered()"), self.open_file)
-        QtCore.QObject.connect(self.actionSave, QtCore.SIGNAL("triggered()"), self.save_file)
-        QtCore.QObject.connect(self.actionSaveAs, QtCore.SIGNAL("triggered()"), self.save_file_as)
-        QtCore.QObject.connect(self.actionCut, QtCore.SIGNAL("triggered()"), self.cut)
-        QtCore.QObject.connect(self.actionCopy, QtCore.SIGNAL("triggered()"), self.copy)
-        QtCore.QObject.connect(self.actionPaste, QtCore.SIGNAL("triggered()"), self.paste)
-        QtCore.QObject.connect(self.actionUndo, QtCore.SIGNAL("triggered()"), self.undo)
-        QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.redo)
-        QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.enable_save)
-
+                        
     def generate(self):
         self.scene.clear()
         self.__x = self.__y = self.__highest_y = 0
@@ -55,7 +29,7 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
         for uml_object in uml_objects.values():
             if uml_object.is_prototype: continue
-    
+
             drawable = DrawableFactory.create("class", uml_object)
             drawable.updateSize()
             self.__layout(drawable)
@@ -141,10 +115,3 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
 
     def redo(self):
         self.qsci.redo()
-
-
-if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    form = FromageForm()
-    form.show()
-    sys.exit(app.exec_())
