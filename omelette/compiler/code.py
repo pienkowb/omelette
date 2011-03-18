@@ -30,6 +30,8 @@ class _CodeObject(object):
     def __cmp__(self, other):
         return cmp(self.position, other.position)
 
+    def __str__(self):
+        return  "\n".join(self.lines)
 
 def _before(position):
     return lambda o: o.position <= position
