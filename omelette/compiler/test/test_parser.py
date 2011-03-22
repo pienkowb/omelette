@@ -3,13 +3,12 @@ from omelette.compiler.parser import Parser
 from omelette.compiler.uml import *
 from omelette.compiler.code import *
 
-class Test(unittest.TestCase):
-
+class ParserTest(unittest.TestCase):
     def setUp(self):
         self.parser = Parser()
 
     def test_attributes(self):
-        """Tests if parser accepts various attributes"""
+        """Tests if parser accepts various attributes."""
 
         code = Code("""class 2a
             + at2a1
@@ -51,9 +50,9 @@ class Test(unittest.TestCase):
 
         result = self.parser.parse(code.objects()[1:])["2a"]
         self.assertEquals(expected, result)
-        
+
     def test_operations(self):
-        """Tests if parser accepts various operations"""
+        """Tests if parser accepts various operations."""
 
         code = Code("""class 2b
             + op2b1()
@@ -63,20 +62,20 @@ class Test(unittest.TestCase):
             _+ op2b5(op2b5p1 : op2b5p1t)
             _- op2b6(op2b6p1 : op2b6p1t, op2b6p2)
             """)
-        
+
         expected = UMLObject("class", "2b", False)
         expected.add_operation(Operation("+", "op2b1"))
         expected.add_operation(Operation("-", "op2b2", False, [], "op2b2t"))
         expected.add_operation(Operation("#", "op2b3", False, [], "op2b3t"))
         expected.add_operation(Operation("~", "op2b4", True, [("op2b4p1", None)]))
         expected.add_operation(Operation("+", "op2b5", True, [("op2b5p1", "op2b5p1t")]))
-        expected.add_operation(Operation("-", "op2b6", True,  [("op2b6p1", "op2b6p1t"), ("op2b6p2", None)]))
+        expected.add_operation(Operation("-", "op2b6", True, [("op2b6p1", "op2b6p1t"), ("op2b6p2", None)]))
 
         result = self.parser.parse(code.objects()[1:])["2b"]
         self.assertEquals(expected, result)
 
     def test_properties(self):
-        """Tests if parser accepts various properties"""
+        """Tests if parser accepts various properties."""
 
         code = Code("""class 2c
             2cp1 : 2cp1v
@@ -100,4 +99,8 @@ class Test(unittest.TestCase):
         expected["2cp8"] = "*..*"
 
         result = self.parser.parse(code.objects()[1:])["2c"]
-        self.assertEquals(expected, result)        
+        self.assertEquals(expected, result)
+
+
+if __name__ == "__main__":
+    unittest.main()

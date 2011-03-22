@@ -30,13 +30,13 @@ class Parser(object):
 
     def __register_handlers(self):
         """Sets parseActions for appropriate tokens in lexer."""
-        
+
         self.__lexer["definition"].setParseAction(self.__handle_definition)
         self.__lexer["header"].setParseAction(self.__handle_header)
         self.__lexer["operation"].setParseAction(self.__handle_operation)
         self.__lexer["attribute"].setParseAction(self.__handle_attribute)
         self.__lexer["property"].setParseAction(self.__handle_property)
-        
+
     @callback
     def __handle_definition(self, token):
         name = self.__uml_object.name
@@ -67,7 +67,7 @@ class Parser(object):
         default = token["attribute"].get("default")
         attribute = Attribute(visibility, name, static,  type, default)
         self.__uml_object.add_attribute(attribute)
-    
+
     @callback
     def __handle_operation(self, token):
         static = "static" in token["operation"]
@@ -91,4 +91,3 @@ class Parser(object):
         name = token["property"]["name"]
         values = "".join(token["property"]["values"])
         self.__uml_object[name] = values
-
