@@ -22,6 +22,8 @@ class Parser(object):
         self.__objects = {}
 
         for code_object in code_objects:
+            if code_object.position < 0: continue
+
             self.__code_object = code_object
             code = "\n".join(code_object.lines)
             self.__lexer["definition"].parseString(code)
