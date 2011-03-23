@@ -4,7 +4,7 @@ from PyQt4 import QtGui, QtCore
 from omelette.parser.parser import Parser
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.qscintilla import QSci
-from omelette.fromage.factory import _import
+from omelette.fromage.factory import DrawableFactory
 from omelette.parser.uml import UMLObject
 
 from omelette.fromage.modules.notakeyword import DrawableRelation
@@ -52,9 +52,11 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
     
         umlo = UMLObject()
         umlo['name'] = 'jogi'
+        umlo["type"] = 'class'
         
         umlo2 = UMLObject()
         umlo2['name'] = 'jogi class'
+        umlo2.type = 'class'
         umlo2.add_attribute("- nie chce pracowac")
         umlo2.add_attribute("- focha sie po 2h pracy")
         umlo2.add_attribute("- wersjonuje na wrzucie")
@@ -62,15 +64,12 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         
         umlo3 = UMLObject()
         umlo3['name'] = 'piotr class'
+        umlo3.type = 'class'
         umlo3.add_attribute("+ ma brode")
         umlo3.add_attribute("- nie napisal layoutera")
-        
-        module = _import("omelette.fromage.modules.class")
-
-        drawable = getattr(module, "DrawableClass", None)
     
-        dc1 = drawable(umlo2)
-        dc2 = drawable(umlo3)
+        dc1 = DrawableFactory.create('class', umlo2)
+        dc2 = DrawableFactory.create('class', umlo3)
         
         for dc in [dc1, dc2]:
             dc.updateSize()
