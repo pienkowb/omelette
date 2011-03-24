@@ -5,7 +5,7 @@ from PyQt4.Qt import *
 class DrawableText(QGraphicsItem):
     def __init__(self, parentItem):
         QGraphicsItem.__init__(self)
-        self.__parentItem = parentItem
+        self.setParentItem(parentItem)
         self.__font = QFont('Comic Sans MS', 10)
         self.__text = ""
         

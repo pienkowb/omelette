@@ -21,7 +21,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__texts = {}
         for tag in ['name']:
             self.__texts[tag] = DrawableText(self)
-            self.__texts[tag].setParentItem(self)
+            self.__texts[tag].setParentItem(self) 
         
         self.setLine(QLineF(210, 100, 330, 330))
         
@@ -84,6 +84,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         #rect = QRectF(xPos, yPos, self.__fontMetrics.width(text), self.__fontMetrics.height())        
         
         self.__texts[tag].setPos(xPos, yPos)
+        self.__texts[tag].text = text
         
         #self.__texts.append((rect, text))
         #self.__boundingRect = self.__boundingRect.united(rect)
@@ -96,9 +97,4 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         painter.setBrush(QColor(0, 0, 255))
         
         painter.drawLine(self.real_line())
-        
-        painter.setFont(self.__font)
-             
-        #for text in self.__texts:
-        #    painter.drawText(text[0], 0, text[1])
 

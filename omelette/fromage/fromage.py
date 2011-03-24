@@ -79,13 +79,8 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         self.scene.rel.update()
         
         dc1.relation = self.scene.rel
-        dc2.relation = self.scene.rel
-        
-        """drawText = DrawableText(self.scene.rel)
-        drawText.text = "text"
-        drawText.setParentItem(self.scene.rel)"""
-        
-        
+        dc2.relation = self.scene.rel        
+                
         self.scene.rel.addToScene(self.scene)
 
     def generate(self):
