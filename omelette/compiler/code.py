@@ -10,6 +10,10 @@ class _CodeObject(object):
         self.lines.insert(number - self.position, line)
         self.modified = True
 
+    def update_line(self, number, line):
+        self.lines[number - self.position] = line
+        self.modified = True
+
     def remove_line(self, number):
         del self.lines[number - self.position]
         self.modified = True
@@ -43,8 +47,13 @@ def _is_header(line):
 class Code(object):
     """Class representing the code divided into objects."""
 
-    def __init__(self):
+    def __init__(self, code=""):
         self.__objects = [_CodeObject(-1, "")]
+
+        lines = code.split("\n") if code else []
+
+        for number, line in enumerate(lines):
+            self.insert_line(number, line)
 
     def objects(self, condition=None):
         return filter(condition, self.__objects)
@@ -68,6 +77,16 @@ class Code(object):
             object = self.objects(_before(number))[-1]
             object.insert_line(number, line)
 
+    def update_line(self, number, line):
+        object = self.objects(_before(number))[-1]
+        position = number - object.position
+
+        if _is_header(line) == _is_header(object.lines[position]):
+            object.update_line(number, line)
+        else:
+            self.remove_line(number)
+            self.insert_line(number, line)
+
     def remove_line(self, number):
         object = self.objects(_before(number))[-1]
         object.remove_line(number)
@@ -79,3 +98,9 @@ class Code(object):
             self.__objects.remove(object)
 
         self.__shift(number, -1)
+
+
+class Library(Code):
+    def __init__(self, path):
+        with open(path) as library:
+            Code.__init__(self, library.read())
