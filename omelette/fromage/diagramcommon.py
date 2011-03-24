@@ -3,6 +3,7 @@ from PyQt4.QtCore import QRectF
 from PyQt4.Qt import *
 
 class DrawableText(QGraphicsItem):
+    
     def __init__(self, parentItem):
         QGraphicsItem.__init__(self)
         self.__parentItem = parentItem
@@ -26,7 +27,7 @@ class DrawableText(QGraphicsItem):
         painter.setFont(self.__font)
         painter.setPen(QColor(0, 0, 0))
         
-        painter.fillRect(self.boundingRect(), QBrush(QColor(255,255,255)))
+        painter.fillRect(self.boundingRect(), QBrush(QColor(255, 255, 255)))
         painter.drawText(self.boundingRect().translated(self.__extraFrame, self.__extraFrame), 0, self.__text)
         
     def itemChange(self, change, value):
@@ -34,7 +35,6 @@ class DrawableText(QGraphicsItem):
             pass
                 
         return QGraphicsItem.itemChange(self, change, value)
-    
     
     def __get_text(self):
         return self.__text

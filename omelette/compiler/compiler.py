@@ -2,6 +2,7 @@ from omelette.compiler.parser import Parser
 from omelette.compiler.resolver import DependencyResolver
 
 class Compiler(object):
+    
     def __init__(self, libraries=[]):
         self.__uml_objects = {}
 

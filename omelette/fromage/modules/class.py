@@ -76,12 +76,12 @@ class DrawableClass(DrawableNode, QGraphicsItem):
     def przytnij_linie(self, line, ktory_bok):
         global_rect = self.globalBoundingRect()
         
-        punkty = [global_rect.topLeft(), global_rect.topRight(), 
+        punkty = [global_rect.topLeft(), global_rect.topRight(),
                   global_rect.bottomRight(), global_rect.bottomLeft()]
         
         intersectionPoint = QPointF()
         
-        for (a, b) in [(0,1), (1,2), (2,3), (3, 0)]:
+        for (a, b) in [(0, 1), (1, 2), (2, 3), (3, 0)]:
             bok = QLineF(punkty[a], punkty[b])
             itype = line.intersect(bok, intersectionPoint)
             if(itype == QLineF.BoundedIntersection):

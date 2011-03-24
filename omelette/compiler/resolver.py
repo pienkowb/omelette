@@ -1,4 +1,5 @@
 class DependencyResolver(object):
+    
     def __init__(self, uml_objects):
         self.__uml_objects = uml_objects
 

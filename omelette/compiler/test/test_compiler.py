@@ -3,6 +3,7 @@ from omelette.compiler.code import Code
 from omelette.compiler.compiler import Compiler
 
 class CompilerTest(unittest.TestCase):
+    
     def test_compile(self):
         instance = Compiler()
         code = Code("""base class

@@ -67,7 +67,7 @@ class Parser(object):
         name = token["attribute"]["name"]
         type = token["attribute"].get("type")
         default = token["attribute"].get("default")
-        attribute = Attribute(visibility, name, static,  type, default)
+        attribute = Attribute(visibility, name, static, type, default)
         self.__uml_object.add_attribute(attribute)
 
     @callback

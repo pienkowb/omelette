@@ -4,6 +4,7 @@ class BaseType:
     NODE = 1
     EDGE = 2
 
+
 class Drawable(object):
     """
     Base for other Drawable objects.

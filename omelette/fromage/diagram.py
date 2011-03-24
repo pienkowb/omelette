@@ -12,13 +12,14 @@ def _import(name):
     return module
 
 class Diagram(QtGui.QGraphicsScene):
+    
     def __init__(self, diagram, parent=None, modules_path="omelette.fromage.modules"):
         super(QtGui.QGraphicsScene, self).__init__(parent)
         self.diagram_path = modules_path + "." + diagram
         self.nodes = {}
         self.edges = {}
 
-    def add(self,uml_object):
+    def add(self, uml_object):
         name = uml_object.name
         o = self.__create(uml_object) 
         if o.base_type == BaseType.NODE:
@@ -29,7 +30,7 @@ class Diagram(QtGui.QGraphicsScene):
             raise AttributeError("Tried to create object from a corrupt module")
         
 
-    def __create(self,uml_object):
+    def __create(self, uml_object):
         module = _import(self.diagram_path)
         name = "Drawable" + uml_object.type
 

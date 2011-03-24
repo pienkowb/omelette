@@ -55,8 +55,8 @@ class Operation(_Field):
         self.type = type
 
     def __str__(self):
-        return (self.visibility + " " + self.name + "(" +
-                self.__formatted_params() + ")" +
+        return (self.visibility + " " + self.name + "(" + 
+                self.__formatted_params() + ")" + 
                 _try_to_format(" : %s", self.type))
 
     def __formatted_params(self):
@@ -80,6 +80,6 @@ class Attribute(_Field):
         self.default_value = default_value
 
     def __str__(self):
-        return (self.visibility + " " + self.name +
-                _try_to_format(" : %s", self.type) +
+        return (self.visibility + " " + self.name + 
+                _try_to_format(" : %s", self.type) + 
                 _try_to_format(" = %s", self.default_value))

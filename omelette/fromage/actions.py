@@ -6,6 +6,7 @@ from omelette.fromage.layouter import Layouter
 from PyQt4 import QtGui, QtCore
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
+    
     def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.compiler = Compiler()
@@ -42,7 +43,6 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         for edge in diagram.edges.values():
             edge.update()
             self.scene.addItem(edge)
-
 
     def enable_save(self):
         self.actionSave.setEnabled(True)

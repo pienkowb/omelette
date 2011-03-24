@@ -2,6 +2,7 @@ import unittest
 from omelette.fromage.common import *
 
 class DrawablesTest(unittest.TestCase):
+    
     def test_anchors(self):
         instance = DrawableEdge(None)
         anchor = Anchor()
