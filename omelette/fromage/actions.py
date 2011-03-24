@@ -1,7 +1,7 @@
 from omelette.compiler.compiler import Compiler
 from omelette.compiler.code import Code
 from omelette.fromage.ui import Ui_MainWindow
-from omelette.fromage.factory import DrawableFactory
+from omelette.fromage.diagram import Diagram
 from PyQt4 import QtGui, QtCore
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
@@ -28,13 +28,21 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
             if "name" not in uml_object.properties:
                 uml_object["name"] = name
 
+        diagram = Diagram("class")
         for uml_object in uml_objects.values():
-            if uml_object.is_prototype: continue
+            if uml_object.is_prototype: 
+                continue
+            else:
+                diagram.add(uml_object)
 
-            drawable = DrawableFactory.create("class", uml_object)
-            drawable.updateSize()
-            self.__layout(drawable)
-            self.scene.addItem(drawable)
+        for node in diagram.nodes.values():
+            node.update()
+            self.__layout(node)
+            self.scene.addItem(node)
+
+        for edge in diagram.edges.values():
+            edge.update()
+            self.scene.addItem(edge)
 
     def __layout(self, drawable):
         drawable.moveBy(self.__x, self.__y)

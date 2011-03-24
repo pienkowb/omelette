@@ -58,7 +58,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
 
         return (maxWidth, 2 * self.__sectionMargin + (count - 1) * self.__textMargin + count * metrics.height())
 
-    def updateSize(self):
+    def update(self):
         metrics = QFontMetrics(self.__font)
         # Start by finding size of class name block
         drawableHeight = 1 * self.__sectionMargin + metrics.height()
