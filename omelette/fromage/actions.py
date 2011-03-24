@@ -2,6 +2,7 @@ from omelette.compiler.compiler import Compiler
 from omelette.compiler.code import Code
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.diagram import Diagram
+from omelette.fromage.layouter import Layouter
 from PyQt4 import QtGui, QtCore
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
@@ -20,7 +21,6 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
                         
     def generate(self):
         self.scene.clear()
-        self.__x = self.__y = self.__highest_y = 0
         code = Code(str(self.qsci.text()))
         uml_objects = self.compiler.compile(code)
 
@@ -35,24 +35,14 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
             else:
                 diagram.add(uml_object)
 
-        for node in diagram.nodes.values():
-            node.update()
-            self.__layout(node)
-            self.scene.addItem(node)
+        map(lambda o: o.update(), diagram.nodes.values())
+        Layouter.layout(diagram)
+        map(lambda o: self.scene.addItem(o), diagram.nodes.values())
 
         for edge in diagram.edges.values():
             edge.update()
             self.scene.addItem(edge)
 
-    def __layout(self, drawable):
-        drawable.moveBy(self.__x, self.__y)
-        self.__x += 20 + drawable.boundingRect().size().width()
-        if drawable.boundingRect().size().height() > self.__highest_y:
-                self.__highest_y = drawable.boundingRect().size().height()
-        if self.__x > 400:
-            self.__x = 0
-            self.__y += self.__highest_y + 20
-            self.__highest_y = 0
 
     def enable_save(self):
         self.actionSave.setEnabled(True)
