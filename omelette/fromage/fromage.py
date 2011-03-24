@@ -57,18 +57,14 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         umlo["type"] = 'class'
         
         umlo2 = UMLObject()
-        umlo2['name'] = 'jogi class'
+        umlo2['name'] = 'jogi'
         umlo2.type = 'class'
-        umlo2.add_attribute("- nie chce pracowac")
-        umlo2.add_attribute("- focha sie po 2h pracy")
-        umlo2.add_attribute("- wersjonuje na wrzucie")
-        umlo2.add_attribute("+ napisal parser")
-        
+        umlo2.add_attribute("- asd")
+
         umlo3 = UMLObject()
-        umlo3['name'] = 'piotr class'
+        umlo3['name'] = 'piotr'
         umlo3.type = 'class'
-        umlo3.add_attribute("+ ma brode")
-        umlo3.add_attribute("- nie napisal layoutera")
+        umlo3.add_attribute("+ asd2")
     
         dc1 = DrawableFactory.create('class', umlo2)
         dc2 = DrawableFactory.create('class', umlo3)
@@ -85,10 +81,9 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         dc1.relation = self.scene.rel
         dc2.relation = self.scene.rel
         
-        drawText = DrawableText(self.scene.rel)
+        """drawText = DrawableText(self.scene.rel)
         drawText.text = "text"
-        
-        self.scene.addItem(drawText)
+        drawText.setParentItem(self.scene.rel)"""
         
         
         self.scene.rel.addToScene(self.scene)

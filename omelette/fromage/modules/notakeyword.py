@@ -1,4 +1,5 @@
 from omelette.fromage.common import *
+from omelette.fromage.diagramcommon import DrawableText
 
 from PyQt4.QtGui import *
 from PyQt4.QtCore import QRectF
@@ -17,7 +18,10 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         self.__relationName = "aasdasd"
         
-        self.__texts = []
+        self.__texts = {}
+        for tag in ['name']:
+            self.__texts[tag] = DrawableText(self)
+            self.__texts[tag].setParentItem(self)
         
         self.setLine(QLineF(210, 100, 330, 330))
         
@@ -56,16 +60,9 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__xmarg = math.sin(self.__angle)
         self.__ymarg = math.cos(self.__angle)
         
-        del self.__texts[:]
+        self.__update_text('name', 'Barnex', 0.5, 1)
         
-        self.__add_text(self['name'], 0.5, 1)
-        self.__add_text(str(self.__angle), 0.5, -1)
-        self.__add_text(str(self.__distanceX), 0.1, -1)
-        self.__add_text(str(self.__distanceY), 0.1, 1)
-        self.__add_text(str("bar"), 0.9, -1)
-        self.__add_text(str("foo"), 0.9, 1)
-        
-    def __add_text(self, text, pos, orientation):
+    def __update_text(self, tag, text, pos, orientation):
         xPos = self.real_line().p1().x() + self.__distanceX * pos
         yPos = self.real_line().p1().y() + self.__distanceY * pos
         
@@ -84,10 +81,12 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
                 xPos -= self.__fontMetrics.width(text) - self.__xmarg * 10
                 yPos -= self.__ymarg * 10 + self.__fontMetrics.height()
                 
-        rect = QRectF(xPos, yPos, self.__fontMetrics.width(text), self.__fontMetrics.height())
+        #rect = QRectF(xPos, yPos, self.__fontMetrics.width(text), self.__fontMetrics.height())        
         
-        self.__texts.append((rect, text))
-        self.__boundingRect = self.__boundingRect.united(rect)
+        self.__texts[tag].setPos(xPos, yPos)
+        
+        #self.__texts.append((rect, text))
+        #self.__boundingRect = self.__boundingRect.united(rect)
     
     def paint(self, painter, style, widget):
         myPen = self.pen()
@@ -100,6 +99,6 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         painter.setFont(self.__font)
              
-        for text in self.__texts:
-            painter.drawText(text[0], 0, text[1])
+        #for text in self.__texts:
+        #    painter.drawText(text[0], 0, text[1])
 
