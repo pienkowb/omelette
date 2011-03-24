@@ -1,3 +1,5 @@
+from PyQt4.QtCore import QRectF
+
 class Drawable(object):
     """
     Base for other Drawable objects.
@@ -7,8 +9,17 @@ class Drawable(object):
     def __init__(self, uml_object):
         self.uml_object = uml_object
         self.anchors = []
-
-
+        
+    def przytnij_linie(self, line):
+        return line
+    
+    #TODO: See if PyQt provides such functionality
+    def globalBoundingRect(self):
+        global_rect = QRectF(self.boundingRect())
+        global_rect.translate(self.pos())
+        
+        return global_rect
+    
 class DrawableEdge(Drawable):
     """Base class for edgy things (e.g. lines, relations)."""
 
