@@ -29,13 +29,13 @@ class DrawableClass(DrawableNode, QGraphicsItem):
 
         # Name of the class        
         currentHeight = self.__sectionMargin
-        painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(self.__getitem__('name')), metrics.height()), 0, self.__getitem__('name'))
+        painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(self.uml_object['name']), metrics.height()), 0, self.uml_object['name'])
         currentHeight += self.__sectionMargin + metrics.height()
         
         # Attributes section
         painter.drawLine(0, currentHeight, self.__boundingRect.width(), currentHeight)
         currentHeight += self.__sectionMargin
-        for attribute in map(str, self.attributes()):
+        for attribute in map(str, self.uml_object.attributes()):
             painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(attribute), metrics.height()), 0, attribute)
             currentHeight += self.__textMargin + metrics.height()
         
@@ -43,7 +43,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         painter.drawLine(0, currentHeight, self.__boundingRect.width(), currentHeight)
         
         currentHeight += self.__sectionMargin
-        for operation in map(str, self.operations()):
+        for operation in map(str, self.uml_object.operations()):
             painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(operation), metrics.height()), 0, operation)
             currentHeight += self.__textMargin + metrics.height()
 
@@ -62,10 +62,11 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         metrics = QFontMetrics(self.__font)
         # Start by finding size of class name block
         drawableHeight = 1 * self.__sectionMargin + metrics.height()
-        drawableWidth = 2 * self.__textMargin + metrics.width(self.__getitem__('name'))
+        drawableWidth = 2 * self.__textMargin + metrics.width(self.uml_object['name'])
 
         # Find sizes of each section and update width/height
-        for section in [map(str, self.operations()), map(str, self.attributes())]:
+        for section in [map(str, self.uml_object.operations()), map(str,
+            self.uml_object.attributes())]:
             size = self.__sizeOfSection(metrics, section)
             drawableWidth = max(drawableWidth, size[0])
             drawableHeight += size[1]
@@ -95,9 +96,13 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         return self.globalBoundingRect().center()
 
     def itemChange(self, change, value):
-        if(change == QGraphicsItem.ItemPositionChange):
-            if(self.relation != None):
-                self.relation.update()
+        #if(change == QGraphicsItem.ItemPositionChange):
+            #if(self.relation != None):
+                #self.relation.update()
+        ## dla kazdego self.anchors ->
+        ##   anchor.connector == nazwa obiektu
+        ##   znajdz obiekt w slowniku
+        ##   update
                 
         return QGraphicsItem.itemChange(self, change, value)
 

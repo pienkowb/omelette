@@ -1,4 +1,5 @@
-from omelette.parser.parser import Parser
+from omelette.compiler.compiler import Compiler
+from omelette.compiler.code import Code
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.factory import DrawableFactory
 from PyQt4 import QtGui, QtCore
@@ -6,7 +7,7 @@ from PyQt4 import QtGui, QtCore
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        self.parser = Parser()
+        self.compiler = Compiler()
         self.qsci = qsci
         self.scene = scene
         self.filename = QtCore.QString()
@@ -20,8 +21,8 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
     def generate(self):
         self.scene.clear()
         self.__x = self.__y = self.__highest_y = 0
-        code = "prototype base class\n" + self.qsci.text()
-        uml_objects = self.parser.parse(code)
+        code = Code(str(self.qsci.text()))
+        uml_objects = self.compiler.compile(code)
 
         for name, uml_object in uml_objects.items():
             if "name" not in uml_object.properties:
