@@ -7,6 +7,8 @@ from omelette.fromage.qscintilla import QSci
 from omelette.fromage.factory import DrawableFactory
 from omelette.parser.uml import UMLObject
 
+from omelette.fromage.diagramcommon import DrawableText
+
 from omelette.fromage.modules.notakeyword import DrawableRelation
 
 __import__("omelette.fromage.modules.class", fromlist=["DrawableClass"])
@@ -82,6 +84,11 @@ class FromageForm(QtGui.QMainWindow, Ui_MainWindow):
         
         dc1.relation = self.scene.rel
         dc2.relation = self.scene.rel
+        
+        drawText = DrawableText(self.scene.rel)
+        drawText.text = "text"
+        
+        self.scene.addItem(drawText)
         
         
         self.scene.rel.addToScene(self.scene)
