@@ -2,14 +2,13 @@ import unittest
 from mock import Mock
 from omelette.fromage.diagram import Diagram
 from PyQt4 import QtGui
+import qapp
 
 class DiagramTest(unittest.TestCase):
 
     def setUp(self):
-        self.app = QtGui.QApplication([])
         self.umlo = Mock()
         self.diag = Diagram(diagram="somediagram", modules_path="omelette.fromage.test.data")
-        # Diagram is subclass of QGraphicsScene
         self.umlo.name = "test"
         
 
@@ -26,9 +25,6 @@ class DiagramTest(unittest.TestCase):
 
         self.assertTrue("test" in self.diag.nodes)
         self.assertFalse("test" in self.diag.edges)
-
-    def tearDown(self):
-        self.app.quit()
 
 if __name__ == "__main__":
     unittest.main()
