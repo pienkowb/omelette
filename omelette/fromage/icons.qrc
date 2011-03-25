@@ -1,0 +1,14 @@
+<RCC>
+  <qresource prefix="/">
+    <file>crystalsvg/22x22/actions/reload3.png</file>
+    <file>crystalsvg/22x22/actions/edit-cut.png</file>
+    <file>crystalsvg/22x22/actions/edit-copy.png</file>
+    <file>crystalsvg/22x22/actions/edit-paste.png</file>
+    <file>crystalsvg/22x22/actions/edit-undo.png</file>
+    <file>crystalsvg/22x22/actions/edit-redo.png</file>
+    <file>crystalsvg/22x22/actions/document-save.png</file>
+    <file>crystalsvg/22x22/actions/document-save-as.png</file>
+    <file>crystalsvg/22x22/actions/document-open.png</file>
+    <file>crystalsvg/22x22/actions/document-new.png</file>
+  </qresource>
+</RCC>
