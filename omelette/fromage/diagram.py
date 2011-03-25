@@ -13,22 +13,36 @@ def _import(name):
 
 class Diagram(QtGui.QGraphicsScene):
     
-    def __init__(self, diagram, parent=None, modules_path="omelette.fromage.modules"):
-        super(QtGui.QGraphicsScene, self).__init__(parent)
-        self.diagram_path = modules_path + "." + diagram
+    def __init__(self, parent=None, modules_path="omelette.fromage.modules"):
+        super(Diagram, self).__init__(parent)
+        self.modules_path = modules_path
         self.nodes = {}
         self.edges = {}
 
-    def add(self, uml_object):
-        name = uml_object.name
+    def set_type(self, diagram_type):
+        self.diagram_path = self.modules_path + "." + diagram_type
+
+    def clear(self):
+        super(Diagram, self).clear()
+        self.nodes.clear()
+        self.edges.clear()
+
+    def add(self, uml_objects):
+        for o in uml_objects.values():
+            self.__add_object(o)
+
+    def __add_object(self, uml_object):
         o = self.__create(uml_object) 
+        self.addItem(o)
+        o.update()
+
+        name = uml_object.name
         if o.base_type == BaseType.NODE:
             self.nodes[name] = o
         elif o.base_type == BaseType.EDGE:
             self.edges[name] = o
         else:
             raise AttributeError("Tried to create object from a corrupt module")
-        
 
     def __create(self, uml_object):
         module = _import(self.diagram_path)

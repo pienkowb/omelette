@@ -8,7 +8,8 @@ class DiagramTest(unittest.TestCase):
 
     def setUp(self):
         self.umlo = Mock()
-        self.diag = Diagram(diagram="somediagram", modules_path="omelette.fromage.test.data")
+        self.diag = Diagram(modules_path="omelette.fromage.test.data")
+        self.diag.set_type("somediagram")
         self.umlo.name = "test"
         
 
@@ -25,6 +26,17 @@ class DiagramTest(unittest.TestCase):
 
         self.assertTrue("test" in self.diag.nodes)
         self.assertFalse("test" in self.diag.edges)
+
+    def test_clear(self):
+        self.umlo.type = "Node"
+        self.diag.add(self.umlo)
+        self.umlo.type = "Edge"
+        self.diag.add(self.umlo)
+
+        self.diag.clear()
+
+        self.assertFalse("test" in self.diag.edges)
+        self.assertFalse("test" in self.diag.nodes)
 
 if __name__ == "__main__":
     unittest.main()

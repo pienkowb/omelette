@@ -7,11 +7,11 @@ from PyQt4 import QtGui, QtCore
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
     
-    def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
+    def __init__(self, qsci, diagram, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.compiler = Compiler()
         self.qsci = qsci
-        self.scene = scene
+        self.diagram = diagram
         self.filename = QtCore.QString()
         self.setupUi(self)
 
@@ -21,28 +21,21 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         self.actionSaveAs.setDisabled(True)
                         
     def generate(self):
-        self.scene.clear()
+        self.diagram.clear()
         code = Code(str(self.qsci.text()))
         uml_objects = self.compiler.compile(code)
+        self.diagram.set_type("class")
 
+# TODO move this to compiler
         for name, uml_object in uml_objects.items():
             if "name" not in uml_object.properties:
                 uml_object["name"] = name
+            if uml_object.is_prototype:
+                del uml_objects[name]
 
-        diagram = Diagram("class")
-        for uml_object in uml_objects.values():
-            if uml_object.is_prototype: 
-                continue
-            else:
-                diagram.add(uml_object)
+        self.diagram.add(uml_objects)
 
-        map(lambda o: o.update(), diagram.nodes.values())
-        Layouter.layout(diagram)
-        map(lambda o: self.scene.addItem(o), diagram.nodes.values())
-
-        for edge in diagram.edges.values():
-            edge.update()
-            self.scene.addItem(edge)
+        Layouter.layout(self.diagram)
 
     def enable_save(self):
         self.actionSave.setEnabled(True)
