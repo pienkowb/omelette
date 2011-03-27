@@ -3,7 +3,7 @@ from omelette.compiler.code import Code
 from omelette.compiler.compiler import Compiler
 
 class CompilerTest(unittest.TestCase):
-    
+
     def test_compile(self):
         instance = Compiler()
         code = Code("""base class
@@ -37,6 +37,16 @@ class CompilerTest(unittest.TestCase):
 
         self.assertTrue("Student" in result)
         self.assertEquals(result["Student"].type, "class")
+
+    def test_compile_prototype(self):
+        instance = Compiler()
+        code = Code("""prototype base class
+            class Student""")
+
+        result = instance.compile(code)
+
+        self.assertEquals(len(result), 1)
+        self.assertEquals(result.keys().pop(), "Student")
 
 
 if __name__ == "__main__":

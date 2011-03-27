@@ -2,7 +2,7 @@ from omelette.compiler.parser import Parser
 from omelette.compiler.resolver import DependencyResolver
 
 class Compiler(object):
-    
+
     def __init__(self, libraries=[]):
         self.__uml_objects = {}
 
@@ -21,5 +21,9 @@ class Compiler(object):
 
         self.__uml_objects.update(uml_objects)
         self.__resolver.resolve()
+
+        for name, uml_object in uml_objects.items():
+            if uml_object.is_prototype:
+                del uml_objects[name]
 
         return uml_objects
