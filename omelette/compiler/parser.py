@@ -25,8 +25,7 @@ class Parser(object):
             if code_object.position < 0: continue
 
             self.__code_object = code_object
-            code = "\n".join(code_object.lines)
-            self.__lexer["definition"].parseString(code)
+            self.__lexer["definition"].parseString(str(code_object))
 
         return self.__objects
 
@@ -68,6 +67,7 @@ class Parser(object):
         type = token["attribute"].get("type")
         default = token["attribute"].get("default")
         attribute = Attribute(visibility, name, static, type, default)
+
         self.__uml_object.add_attribute(attribute)
 
     @callback
@@ -86,10 +86,12 @@ class Parser(object):
 
         return_type = token["operation"].get("return_type")
         operation = Operation(visibility, name, static, parameters, return_type)
+
         self.__uml_object.add_operation(operation)
 
     @callback
     def __handle_property(self, token):
         name = token["property"]["name"]
         values = "".join(token["property"]["values"])
+
         self.__uml_object[name] = values

@@ -4,6 +4,7 @@ from omelette.compiler.uml import *
 from omelette.compiler.code import *
 
 class ParserTest(unittest.TestCase):
+
     def setUp(self):
         self.parser = Parser()
 

@@ -2,6 +2,7 @@ import unittest
 from omelette.compiler.lexer import Lexer, NonexistentTokenException
 
 class LexerTest(unittest.TestCase):
+
     def setUp(self):
         self.code = """father son
             + at1 : type1

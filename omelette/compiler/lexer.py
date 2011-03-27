@@ -75,7 +75,7 @@ class Lexer(object):
         parent_name = self["name"].setResultsName("parent")
         prototype = Literal("prototype").setResultsName("prototype")
 
-        self["header"] = (Optional(prototype) + parent_name + 
+        self["header"] = (Optional(prototype) + parent_name +
             Optional(object_name)).setResultsName("header")
 
     def __build_attribute(self):

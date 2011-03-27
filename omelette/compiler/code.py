@@ -101,6 +101,7 @@ class Code(object):
 
 
 class Library(Code):
+
     def __init__(self, path):
         with open(path) as library:
             Code.__init__(self, library.read())

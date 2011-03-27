@@ -2,7 +2,7 @@ import unittest
 from omelette.compiler.code import Code
 
 class CodeTest(unittest.TestCase):
-    
+
     def setUp(self):
         self.instance = Code()
         self.lines = [

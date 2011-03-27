@@ -3,6 +3,7 @@ from omelette.compiler.resolver import DependencyResolver
 from omelette.compiler.uml import UMLObject
 
 class DependencyResolverTest(unittest.TestCase):
+
     def setUp(self):
         relation = UMLObject()
         relation.name = "relation"
@@ -20,8 +21,8 @@ class DependencyResolverTest(unittest.TestCase):
         one_to_many["target-count"] = "*"
 
         list = [relation, association, one_to_many]
-        self.uml_objects = dict([(object.name, object) for object in list])
-    
+        self.uml_objects = dict((object.name, object) for object in list)
+
     def test_resolve(self):
         DependencyResolver(self.uml_objects).resolve()
 

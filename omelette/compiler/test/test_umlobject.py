@@ -3,6 +3,7 @@ from omelette.compiler.uml import UMLObject
 from mock import Mock, MagicMock
 
 class UMLObjectTest(unittest.TestCase):
+
     def test_constructor(self):
         o = UMLObject("fasada", "asd", True)
         self.assertEquals(o.parent, "fasada")
