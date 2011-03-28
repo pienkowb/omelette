@@ -1,8 +1,7 @@
 import unittest
 from mock import Mock
 from omelette.fromage.diagram import Diagram
-from PyQt4 import QtGui
-import qapp
+import omelette.fromage.test.qapp
 
 class DiagramTest(unittest.TestCase):
 
@@ -11,7 +10,6 @@ class DiagramTest(unittest.TestCase):
         self.diag = Diagram(modules_path="omelette.fromage.test.data")
         self.diag.set_type("somediagram")
         self.umlo.name = "test"
-        
 
     def test_edge(self):
         self.umlo.type = "Edge"
@@ -37,6 +35,7 @@ class DiagramTest(unittest.TestCase):
 
         self.assertFalse("test" in self.diag.edges)
         self.assertFalse("test" in self.diag.nodes)
+
 
 if __name__ == "__main__":
     unittest.main()
