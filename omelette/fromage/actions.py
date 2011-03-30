@@ -24,7 +24,6 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         self.diagram.clear()
         code = Code(str(self.qsci.text()))
         uml_objects = self.compiler.compile(code)
-        self.diagram.set_type("class")
 
         # TODO move this to compiler
         for name, uml_object in uml_objects.items():
