@@ -6,7 +6,7 @@ class DrawableText(QGraphicsItem):
     
     def __init__(self, parentItem):
         QGraphicsItem.__init__(self)
-        self.__parentItem = parentItem
+        self.setParentItem(parentItem)
         self.__font = QFont('Comic Sans MS', 10)
         self.__text = ""
         
@@ -20,15 +20,21 @@ class DrawableText(QGraphicsItem):
 
     def boundingRect(self):
         metrics = QFontMetrics(self.__font)
-        return QRectF(0, 0, metrics.width(self.__text), metrics.height()).adjusted(
-            0, 0, 2 * self.__extraFrame, 2 * self.__extraFrame)
+        return (QRectF(0, 0, metrics.width(self.__text), metrics.height())
+                .adjusted(0, 0, 2 * self.__extraFrame, 2 * self.__extraFrame)
+                .united(QRectF(QPointF(0,0), self.__get_local_origin())))
     
     def paint(self, painter, style, widget):
         painter.setFont(self.__font)
         painter.setPen(QColor(0, 0, 0))
         
-        painter.fillRect(self.boundingRect(), QBrush(QColor(255, 255, 255)))
-        painter.drawText(self.boundingRect().translated(self.__extraFrame, self.__extraFrame), 0, self.__text)
+        metrics = QFontMetrics(self.__font)
+        
+        painter.drawLine(QLineF(QPointF(metrics.width(self.__text) / 2, metrics.height() / 2), QPointF(self.__get_local_origin())))
+        
+        text_rect = QRectF(0, 0, metrics.width(self.__text), metrics.height()).adjusted(0, 0, 2 * self.__extraFrame, 2 * self.__extraFrame)
+        painter.fillRect(text_rect, QBrush(QColor(255,255,255)))
+        painter.drawText(text_rect.translated(self.__extraFrame, self.__extraFrame), 0, self.__text)
         
     def itemChange(self, change, value):
         if(change == QGraphicsItem.ItemPositionChange):
@@ -41,7 +47,18 @@ class DrawableText(QGraphicsItem):
     
     def __set_text(self, value):
         self.__text = value
-        #TODO: Save boundingRect here
+        #TODO: Cache boundingRect here
         
     text = property(__get_text, __set_text)
+
+    def __get_origin(self):
+        return self.__origin_pos
+    
+    def __get_local_origin(self):
+        return self.__origin_pos - self.pos()
+    
+    def __set_origin(self, value):
+        self.__origin_pos = value
+        #TODO: Cache boundingRect here too
         
+    origin_pos = property(__get_origin, __set_origin)
