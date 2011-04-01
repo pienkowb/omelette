@@ -20,6 +20,8 @@ class Layouter(object):
 		else:
 			r = spread * max(maxwidth, maxheight) / math.sin( angle )
 		i = 0 # number of actual drawable
+		# shifting coordinates
+		sx = sy = r + max(maxwidth, maxheight);
 		for node in diagram.nodes.values():
 			# calculating xpos
 			x = sx + r * math.sin(start + angle * i)
