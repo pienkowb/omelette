@@ -86,6 +86,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         #rect = QRectF(xPos, yPos, self.__fontMetrics.width(text), self.__fontMetrics.height())        
         
         self.__texts[tag].setPos(xPos, yPos)
+        self.__texts[tag].origin_pos = QPointF(xPos, yPos)
         self.__texts[tag].text = text
         
         #self.__texts.append((rect, text))
