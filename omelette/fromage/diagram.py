@@ -83,11 +83,13 @@ class Diagram(QtGui.QGraphicsScene):
     def __resolve_refs(self, drawable):
         type = drawable.uml_object.type.lower()
         if(type == 'relation'):
-            drawable.source = self.drawables[drawable.uml_object['source-object']]
-            drawable.source.anchors.append(Anchor(drawable, drawable.source))
+            source_anchor = Anchor(drawable, self.drawables[drawable.uml_object['source-object']])
+            drawable.source_anchor = source_anchor
+            source_anchor.slot.anchors.append(source_anchor)
             
-            drawable.target = self.drawables[drawable.uml_object['target-object']]
-            drawable.target.anchors.append(Anchor(drawable, drawable.target))
+            target_anchor = Anchor(drawable, self.drawables[drawable.uml_object['target-object']])
+            drawable.target_anchor = target_anchor
+            target_anchor.slot.anchors.append(target_anchor)
     
     def __resolve_all_refs(self):
         for obj in self.drawables.itervalues():
