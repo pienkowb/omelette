@@ -2,7 +2,6 @@ from omelette.compiler.compiler import Compiler
 from omelette.compiler.code import Code
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.diagram import Diagram
-from omelette.fromage.layouter import Layouter
 from PyQt4 import QtGui, QtCore
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
@@ -34,8 +33,6 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
                 del uml_objects[name]
 
         self.diagram.add(uml_objects)
-
-        Layouter.layout(self.diagram)
 
     def enable_save(self):
         self.actionSave.setEnabled(True)

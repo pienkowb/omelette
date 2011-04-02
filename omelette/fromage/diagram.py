@@ -2,6 +2,8 @@ import inspect
 from PyQt4 import QtGui
 from common import BaseType, Anchor
 
+from omelette.fromage.layouter import Layouter
+
 def _import(name):
     module = __import__(name)
     components = name.split(".")
@@ -26,6 +28,7 @@ class Diagram(QtGui.QGraphicsScene):
 
     def clear(self):
         super(Diagram, self).clear()
+        self.drawables.clear()
         self.nodes.clear()
         self.edges.clear()
 
@@ -34,7 +37,16 @@ class Diagram(QtGui.QGraphicsScene):
             self.__add_object(o)
             
         self.__resolve_all_refs()
-        self.__update_all()
+        
+        #Updating twice, haha
+        
+        for obj in self.nodes.itervalues():
+            obj.update()
+            
+        Layouter.layout(self)
+        
+        for obj in self.edges.itervalues():
+            obj.update()
 
     def __add_object(self, uml_object):
         o = self.__create(uml_object) 
