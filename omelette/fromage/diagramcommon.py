@@ -26,7 +26,7 @@ class DrawableText(QGraphicsItem):
     
     def paint(self, painter, style, widget):
         painter.setFont(self.__font)
-        painter.setPen(QColor(0, 0, 0))
+        painter.setPen(QPen(QColor(0, 0, 0), 1, Qt.DotLine))
         
         metrics = QFontMetrics(self.__font)
         

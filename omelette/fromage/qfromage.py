@@ -6,6 +6,8 @@ from omelette.fromage.qscintilla import QSci
 from omelette.fromage.actions import Actions
 from omelette.fromage.diagram import Diagram
 
+from PyQt4.Qt import QPointF
+
 class QFromage(QtGui.QMainWindow, Ui_MainWindow):
     
     def __init__(self, parent=None):
@@ -38,8 +40,8 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionUndo, QtCore.SIGNAL("triggered()"), self.actions.undo)
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.actions.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.actions.enable_save)
-
-
+        
+        self.qsci.setText("prototype base class\nprototype base relation\nclass asd\nclass bsd\nrelation csd\nsource-object: asd\ntarget-object: bsd")
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     form = QFromage()

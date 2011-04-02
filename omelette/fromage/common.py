@@ -51,6 +51,6 @@ class Anchor(object):
     (slot).
     """
 
-    def __init__(self):
-        self.connector = None
-        self.slot = None
+    def __init__(self, connector, slot):
+        self.connector = connector
+        self.slot = slot
