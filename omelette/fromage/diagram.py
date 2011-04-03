@@ -21,6 +21,8 @@ class _DrawableFactory(object):
 
         if inspect.isclass(drawable):
             return drawable
+        else: 
+            raise ImportError("Couldn't find expected class " + name )
 
     def __import(self, name):
         module = __import__(name)
@@ -41,7 +43,6 @@ class Diagram(object):
 
     def add(self, uml_object):
         drawable = self.factory.create(uml_object)
-        drawable.update()
 
         if isinstance(drawable, DrawableNode):
             self.nodes[uml_object.name] = drawable

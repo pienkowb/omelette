@@ -32,7 +32,15 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         for drawable in self.diagram.elements():
             self.scene.addItem(drawable)
 
+        # nodes must be updated before layouting
+        for node in self.diagram.nodes.values():
+            node.update()
+
         Layouter.layout(self.diagram)
+
+        # edges must be updated after nodes are updated and layouted
+        for edge in self.diagram.edges.values():
+            edge.update()
 
     def enable_save(self):
         self.actionSave.setEnabled(True)
