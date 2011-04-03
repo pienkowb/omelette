@@ -24,16 +24,14 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         self.diagram.clear()
         code = Code(str(self.qsci.text()))
         uml_objects = self.compiler.compile(code)
-        self.diagram.set_type("class")
 
-# TODO move this to compiler
+        # TODO move this to compiler
         for name, uml_object in uml_objects.items():
             if "name" not in uml_object.properties:
                 uml_object["name"] = name
-            if uml_object.is_prototype:
-                del uml_objects[name]
 
-        self.diagram.add(uml_objects)
+        for uml_object in uml_objects.values():
+            self.diagram.add(uml_object)
 
         Layouter.layout(self.diagram)
 

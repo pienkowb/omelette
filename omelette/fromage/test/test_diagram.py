@@ -1,42 +1,42 @@
 import unittest
 from mock import Mock
 from omelette.fromage.diagram import Diagram
-from PyQt4 import QtGui
-import qapp
+import omelette.fromage.test.qapp
 
 class DiagramTest(unittest.TestCase):
 
     def setUp(self):
-        self.umlo = Mock()
-        self.diag = Diagram(modules_path="omelette.fromage.test.data")
-        self.diag.set_type("somediagram")
-        self.umlo.name = "test"
-        
+        self.diagram = Diagram(modules_path="omelette.fromage.test.data")
 
-    def test_edge(self):
-        self.umlo.type = "Edge"
-        self.diag.add(self.umlo)
-
-        self.assertTrue("test" in self.diag.edges)
-        self.assertFalse("test" in self.diag.nodes)
+        self.uml_object = Mock()
+        self.uml_object.name = "test"
 
     def test_node(self):
-        self.umlo.type = "Node"
-        self.diag.add(self.umlo)
+        self.uml_object.type = "node"
+        self.diagram.add(self.uml_object)
 
-        self.assertTrue("test" in self.diag.nodes)
-        self.assertFalse("test" in self.diag.edges)
+        self.assertTrue("test" in self.diagram.nodes)
+        self.assertFalse("test" in self.diagram.edges)
+
+    def test_edge(self):
+        self.uml_object.type = "edge"
+        self.diagram.add(self.uml_object)
+
+        self.assertTrue("test" in self.diagram.edges)
+        self.assertFalse("test" in self.diagram.nodes)
 
     def test_clear(self):
-        self.umlo.type = "Node"
-        self.diag.add(self.umlo)
-        self.umlo.type = "Edge"
-        self.diag.add(self.umlo)
+        self.uml_object.type = "node"
+        self.diagram.add(self.uml_object)
 
-        self.diag.clear()
+        self.uml_object.type = "edge"
+        self.diagram.add(self.uml_object)
 
-        self.assertFalse("test" in self.diag.edges)
-        self.assertFalse("test" in self.diag.nodes)
+        self.diagram.clear()
+
+        self.assertFalse("test" in self.diagram.edges)
+        self.assertFalse("test" in self.diagram.nodes)
+
 
 if __name__ == "__main__":
     unittest.main()
