@@ -4,7 +4,6 @@ from PyQt4 import QtGui, QtCore
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.qscintilla import QSci
 from omelette.fromage.actions import Actions
-from omelette.fromage.diagram import Diagram
 
 class QFromage(QtGui.QMainWindow, Ui_MainWindow):
     
@@ -18,14 +17,14 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
 
         self.qsci = QSci(self.splitter)
-        self.diagram = Diagram(self.splitter)
+        self.scene = QtGui.QGraphicsScene(self.splitter)
         self.view = QtGui.QGraphicsView(self.splitter)
-        self.view.setScene(self.diagram)
-        self.diagram.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
+        self.view.setScene(self.scene)
+        self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
 
         self.layout.addWidget(self.splitter)
 
-        self.actions = Actions(self.qsci, self.diagram, self.actionSave, self.actionSaveAs)
+        self.actions = Actions(self.qsci, self.scene, self.actionSave, self.actionSaveAs)
 
         QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.actions.generate)
         QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL("triggered()"), self.actions.new_file)

@@ -1,17 +1,17 @@
 from omelette.compiler.compiler import Compiler
 from omelette.compiler.code import Code
 from omelette.fromage.ui import Ui_MainWindow
-from omelette.fromage.diagram import Diagram
 from omelette.fromage.layouter import Layouter
+from omelette.fromage.diagram import Diagram
 from PyQt4 import QtGui, QtCore
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
     
-    def __init__(self, qsci, diagram, actionSave, actionSaveAs, parent=None):
+    def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
         self.compiler = Compiler()
         self.qsci = qsci
-        self.diagram = diagram
+        self.scene = scene
         self.filename = QtCore.QString()
         self.setupUi(self)
 
@@ -21,17 +21,16 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         self.actionSaveAs.setDisabled(True)
                         
     def generate(self):
-        self.diagram.clear()
+        self.scene.clear()
+        self.diagram = Diagram()
         code = Code(str(self.qsci.text()))
         uml_objects = self.compiler.compile(code)
 
-        # TODO move this to compiler
-        for name, uml_object in uml_objects.items():
-            if "name" not in uml_object.properties:
-                uml_object["name"] = name
-
         for uml_object in uml_objects.values():
             self.diagram.add(uml_object)
+
+        for drawable in self.diagram.elements():
+            self.scene.addItem(drawable)
 
         Layouter.layout(self.diagram)
 

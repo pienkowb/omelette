@@ -1,14 +1,6 @@
 import inspect
 from omelette.fromage.common import DrawableNode, DrawableEdge, Anchor
 
-def _import(name):
-    module = __import__(name)
-    components = name.split(".")
-
-    for component in components[1:]:
-        module = getattr(module, component)
-
-    return module
 
 class _DrawableFactory(object):
     def __init__(self, modules_path):
@@ -22,13 +14,23 @@ class _DrawableFactory(object):
         return self.drawables[type_](uml_object)
 
     def __get_drawable(self, type_):
-        module = _import(self.modules_path + "." + type_.lower())
+        module = self.__import(self.modules_path + "." + type_.lower())
         name = "Drawable" + type_
         match = filter(lambda n: n.lower() == name.lower(), dir(module)).pop()
         drawable = getattr(module, match, None)
 
         if inspect.isclass(drawable):
             return drawable
+
+    def __import(self, name):
+        module = __import__(name)
+        components = name.split(".")
+
+        for component in components[1:]:
+            module = getattr(module, component)
+
+        return module
+
 
 class Diagram(object):
 
@@ -48,6 +50,9 @@ class Diagram(object):
         else:
             raise AttributeError("Tried to create an object from a corrupted " +
                 "module")
+
+    def elements(self):
+        return self.nodes.values() + self.edges.values()
 
     def set_anchors(self):
         for edge in self.edges.values():
