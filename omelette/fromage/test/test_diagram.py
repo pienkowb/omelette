@@ -1,7 +1,6 @@
 import unittest
 from mock import Mock
 from omelette.fromage.diagram import Diagram
-import omelette.fromage.test.qapp
 from omelette.fromage.common import DrawableNode, DrawableEdge
 
 class DiagramTest(unittest.TestCase):

@@ -1,5 +1,4 @@
 import inspect
-from PyQt4 import QtGui
 from omelette.fromage.common import DrawableNode, DrawableEdge, Anchor
 
 def _import(name):
@@ -11,32 +10,35 @@ def _import(name):
 
     return module
 
-
-class Diagram(QtGui.QGraphicsScene):
-
-    def __init__(self, parent=None, modules_path="omelette.fromage.modules"):
-        super(Diagram, self).__init__(parent)
-
+class _DrawableFactory(object):
+    def __init__(self, modules_path):
+        self.drawables = {}
         self.modules_path = modules_path
 
-        self.nodes = {}
-        self.edges = {}
+    def create(self, uml_object):
+        type_ = uml_object.type
+        if not type_ in self.drawables:
+            self.drawables[type_] = self.__get_drawable(type_)
+        return self.drawables[type_](uml_object)
 
-    def __create(self, uml_object):
-        module = _import(self.modules_path + "." + uml_object.type.lower())
-
-        name = "Drawable" + uml_object.type
+    def __get_drawable(self, type_):
+        module = _import(self.modules_path + "." + type_.lower())
+        name = "Drawable" + type_
         match = filter(lambda n: n.lower() == name.lower(), dir(module)).pop()
-
         drawable = getattr(module, match, None)
 
         if inspect.isclass(drawable):
-            return drawable(uml_object)
+            return drawable
+
+class Diagram(object):
+
+    def __init__(self, parent=None, modules_path="omelette.fromage.modules"):
+        self.factory = _DrawableFactory(modules_path)
+        self.nodes = {}
+        self.edges = {}
 
     def add(self, uml_object):
-        drawable = self.__create(uml_object)
-
-        self.addItem(drawable)
+        drawable = self.factory.create(uml_object)
         drawable.update()
 
         if isinstance(drawable, DrawableNode):
@@ -81,7 +83,5 @@ class Diagram(QtGui.QGraphicsScene):
             return self.edges[edge.uml_object[key]]
 
     def clear(self):
-        super(Diagram, self).clear()
-
         self.nodes.clear()
         self.edges.clear()
