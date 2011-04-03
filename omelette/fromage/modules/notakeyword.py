@@ -7,6 +7,38 @@ from PyQt4.Qt import *
 
 import math
 
+class ArrowHead(object):
+    def draw(self, painter, point, angle):
+        pass
+
+class ArrowHead1(ArrowHead):
+    def __init__(self):
+        self.angle = math.radians(30)
+        self.length = 30
+    
+    # TODO: Update for arrowhead, keep points and just draw 
+    # them instead of calculating every time
+    def draw(self, painter, point, line):
+        angle = math.asin(line.dx() / line.length())
+        
+        if(line.dy() >= 0):
+            y1 = math.cos(angle - self.angle) * self.length
+            x1 = math.sin(angle - self.angle) * self.length
+            
+            y2 = math.cos(angle + self.angle) * self.length
+            x2 = math.sin(angle + self.angle) * self.length
+        else:
+            y1 = math.cos(math.pi - angle - self.angle) * self.length
+            x1 = math.sin(math.pi - angle - self.angle) * self.length
+            
+            y2 = math.cos(math.pi - angle + self.angle) * self.length
+            x2 = math.sin(math.pi - angle + self.angle) * self.length
+
+        painter.drawLine(QLineF(point, point + QPointF(x1, y1)))
+        painter.drawLine(QLineF(point, point + QPointF(x2, y2)))
+
+
+
 class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __init__(self, uml_object):
         super(DrawableRelation, self).__init__(uml_object)
@@ -21,7 +53,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__texts = {}
         #for tag in ['name', 'name2']:
         #    self.__texts[tag] = DrawableText(self)
-        #   self.__texts[tag].setParentItem(self) 
+        #    self.__texts[tag].setParentItem(self) 
         
         self.setLine(QLineF(210, 100, 330, 330))
         
@@ -52,10 +84,12 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__distanceY = self.real_line().dy()
         self.__originPos = self.__get_origin()
         
-        self.__boundingRect = QRectF(self.__originPos, QSizeF(math.fabs(self.__distanceX), math.fabs(self.__distanceY)))
+        #Adjust for arrowheads, hardcoded values for now 
+        self.__boundingRect = (QRectF(self.__originPos, QSizeF(math.fabs(self.__distanceX), math.fabs(self.__distanceY)))
+                                    .adjusted(-30,-30,30,30))
         
         #TODO: Fix division by 0
-        self.__angle = math.atan(self.__distanceY / self.__distanceX)
+        self.__angle = math.asin(self.__distanceX / self.real_line().length())
         
         self.__xmarg = math.sin(self.__angle)
         self.__ymarg = math.cos(self.__angle)
@@ -101,3 +135,5 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         painter.drawLine(self.real_line())
 
+        head1 = ArrowHead1()
+        head1.draw(painter, self.real_line().p1(), self.real_line())

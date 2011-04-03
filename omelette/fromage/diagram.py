@@ -38,13 +38,13 @@ class Diagram(QtGui.QGraphicsScene):
             
         self.__resolve_all_refs()
         
-        #Updating twice, haha
-        
+        # Update nodes first, because layouter needs to know sizes of objects
         for obj in self.nodes.itervalues():
             obj.update()
             
         Layouter.layout(self)
         
+        # Update edges now, which calculates lines, label positions etc.
         for obj in self.edges.itervalues():
             obj.update()
 
