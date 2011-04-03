@@ -101,13 +101,9 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         return self.globalBoundingRect().center()
 
     def itemChange(self, change, value):
-        #if(change == QGraphicsItem.ItemPositionChange):
-            #if(self.relation != None):
-                #self.relation.update()
-        ## dla kazdego self.anchors ->
-        ##   anchor.connector == nazwa obiektu
-        ##   znajdz obiekt w slowniku
-        ##   update
+        if(change == QGraphicsItem.ItemPositionChange):
+            for anchor in self.anchors:
+                anchor.connector.update()
                 
         return QGraphicsItem.itemChange(self, change, value)
 

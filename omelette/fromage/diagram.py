@@ -1,7 +1,6 @@
 import inspect
 from omelette.fromage.common import DrawableNode, DrawableEdge, Anchor
 
-
 class _DrawableFactory(object):
     def __init__(self, modules_path):
         self.drawables = {}

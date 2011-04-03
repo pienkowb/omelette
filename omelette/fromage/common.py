@@ -1,15 +1,13 @@
 from PyQt4.QtCore import QRectF
 from PyQt4.QtGui import QGraphicsItem
 
-class Drawable(QGraphicsItem):
+class Drawable(object):
     """
     Base for other Drawable objects.
     Holds uml_object and list of anchors which are in slot relation with it.
     """
 
     def __init__(self, uml_object):
-        super(QGraphicsItem, self).__init__()
-
         self.uml_object = uml_object
         self.anchors = []
 

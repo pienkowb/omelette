@@ -92,7 +92,6 @@ class Lexer(object):
         type = self["name"].setResultsName("type")
         parameter = Group(name + Optional(":" + type)) \
             .setResultsName("parameter")
-
         parameters = (delimitedList(parameter)).setResultsName("parameters")
         return_type = self["name"].setResultsName("return_type")
 
@@ -101,8 +100,8 @@ class Lexer(object):
             + Optional(":" + return_type)).setResultsName("operation")
 
     def __build_property(self):
-        multiplicity = ((self["number"] ^ "*") + ".." + (self["number"]
-            ^ "*")).setResultsName("multiplicity")
+        multiplicity = ((self["number"] ^ "*") +Optional( ".." + (self["number"]
+            ^ "*")).setResultsName("multiplicity"))
         name = self["name"].setResultsName("name")
         value = Group(multiplicity ^ self["name"] ^ self["string"]) \
             .setResultsName("value")
