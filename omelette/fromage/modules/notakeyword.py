@@ -196,10 +196,10 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         painter.setRenderHint(QPainter.Antialiasing, True)
         
         myPen = self.pen()
-        myPen.setColor(QColor(255, 0, 0))
+        myPen.setColor(QColor(0, 0, 0))
         
         painter.setPen(myPen)
-        painter.setBrush(QColor(255, 0, 0))
+        painter.setBrush(QColor(0, 0, 0))
         
         painter.drawLine(self.real_line())
 
