@@ -32,6 +32,8 @@ class UMLObject(object):
     def __eq__(self, other):
         return self.__dict__ == other.__dict__
 
+    def __contains__(self, fasada):
+        return fasada in self.properties
 
 def _try_to_format(format, value):
     return format % value if value else ""
