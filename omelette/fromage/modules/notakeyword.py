@@ -144,8 +144,6 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__font = QFont('Comic Sans MS', 10)
         self.__fontMetrics = QFontMetrics(self.__font)
         
-        self.__relationName = "aasdasd"
-        
         self.__texts = {}
         
         self.__create_text('name', 0.5, 1)
@@ -194,7 +192,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         if(self.real_line().length() <= 0):
             # ABANDON SHIP!
             return
-        
+
         self.__distanceX = self.real_line().dx()
         self.__distanceY = self.real_line().dy()
         self.__originPos = self.__get_origin()
