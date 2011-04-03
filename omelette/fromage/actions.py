@@ -36,6 +36,9 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         for node in self.diagram.nodes.values():
             node.update()
 
+        # needed to layout and draw edges
+        self.diagram.set_anchors()
+
         Layouter.layout(self.diagram)
 
         # edges must be updated after nodes are updated and layouted
