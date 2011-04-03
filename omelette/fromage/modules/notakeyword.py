@@ -75,16 +75,19 @@ class ArrowHeadComp(ArrowHead):
             
             y2 = math.cos(angle + self.angle) * self.length
             x2 = math.sin(angle + self.angle) * self.length
+            
+            x3 = x1 + math.sin(angle + self.angle) * self.length
+            y3 = y1 + math.cos(angle + self.angle) * self.length
         else:
             y1 = math.cos(math.pi - angle - self.angle) * self.length
             x1 = math.sin(math.pi - angle - self.angle) * self.length
             
             y2 = math.cos(math.pi - angle + self.angle) * self.length
             x2 = math.sin(math.pi - angle + self.angle) * self.length
+            
+            x3 = x2 - math.sin(math.pi*2 - angle - self.angle) * self.length
+            y3 = y2 - math.cos(math.pi*2 - angle - self.angle) * self.length
 
-        x3 = x2 - math.sin(math.pi*2 - angle - self.angle) * self.length
-        y3 = y2 - math.cos(math.pi*2 - angle - self.angle) * self.length
-        
         polygon = QPolygonF([point, 
                              point + QPointF(x1, y1) * orientation, 
                              point + QPointF(x3, y3) * orientation, 
