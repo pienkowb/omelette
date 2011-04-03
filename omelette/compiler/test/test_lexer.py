@@ -4,18 +4,29 @@ from omelette.compiler.lexer import Lexer, NonexistentTokenException
 class LexerTest(unittest.TestCase):
 
     def setUp(self):
-        self.code = """father son
+        self.code = """
+
+father son
             + at1 : type1
+
             - op1()
             pr1 : 12
+
+
         prototype son grandson
             pr2: "text"
+
+
             # at2 : type2 = 'text'
             ~ op2(param1, param2)
+
         prototype grandson
             _+ op3(param3:type3)
             pr3 : 13..*
             _- at3 : type4
+
+
+
 			pr4: 0
 			pr5: *"""
 
