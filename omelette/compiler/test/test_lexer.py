@@ -15,7 +15,9 @@ class LexerTest(unittest.TestCase):
         prototype grandson
             _+ op3(param3:type3)
             pr3 : 13..*
-            _- at3 : type4"""
+            _- at3 : type4
+			pr4: 0
+			pr5: *"""
 
         self.lexer = Lexer()
 
@@ -73,7 +75,7 @@ class LexerTest(unittest.TestCase):
         self.assertEquals(self.definition_hits, 3)
         self.assertEquals(self.attribute_hits, 3)
         self.assertEquals(self.operation_hits, 3)
-        self.assertEquals(self.property_hits, 3)
+        self.assertEquals(self.property_hits, 5)
         self.assertEquals(self.header_hits, 3)
 
     def test_register_handlers_4(self):
