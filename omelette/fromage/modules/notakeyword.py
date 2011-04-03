@@ -7,10 +7,26 @@ from PyQt4.Qt import *
 
 import math
 
+def str2arrow(name):
+    if name == "association":
+        return ArrowHeadAss();
+    elif name == "composition":
+        return ArrowHeadComp(filled=True)
+    elif name == "aggregation":
+        return ArrowHeadComp(filled=False)
+    elif name == "generalization":
+        return ArrowHeadGen(filled=False)
+    else: 
+        raise AttributeError('Unknow arrowname given! (or we just don\'t support it yet')
+
+# Warning. Copy&Paste methodology was used to write following code
+#TODO: Please consider refactoring and/or moving ArrowHead classes.
+
 class ArrowHead(object):
-    def __init__(self):
+    def __init__(self, filled=False):
         self.angle = math.radians(30)
         self.length = 15
+        self.filled = filled
         
     def draw(self, painter, point, angle):
         pass          
@@ -42,11 +58,7 @@ class ArrowHeadAss(ArrowHead):
         painter.drawLine(QLineF(point, point + QPointF(x1, y1) * orientation))
         painter.drawLine(QLineF(point, point + QPointF(x2, y2) * orientation))
 
-class ArrowHeadComp(ArrowHead):
-    def __init__(self):
-        super(ArrowHeadComp, self).__init__()
-        self.filled = False
-    
+class ArrowHeadComp(ArrowHead):   
     # TODO: Update for arrowhead, keep points and just draw 
     # them instead of calculating every time
     def draw(self, painter, point, line):
@@ -85,11 +97,7 @@ class ArrowHeadComp(ArrowHead):
             
         painter.drawPolygon(polygon)
  
-class ArrowHeadGen(ArrowHead):
-    def __init__(self):
-        super(ArrowHeadGen, self).__init__()
-        self.filled = False
-        
+class ArrowHeadGen(ArrowHead):        
     # TODO: Update for arrowhead, keep points and just draw 
     # them instead of calculating every time
     def draw(self, painter, point, line):
@@ -180,6 +188,10 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.setLine(QLineF(self.source_anchor.slot.znajdz_anchor(), self.target_anchor.slot.znajdz_anchor()))
         self.__real_line = self.__find_real_line()
         
+        if(self.real_line().length() <= 0):
+            # ABANDON SHIP!
+            return
+        
         self.__distanceX = self.real_line().dx()
         self.__distanceY = self.real_line().dy()
         self.__originPos = self.__get_origin()
@@ -197,10 +209,18 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         for (tag, text) in self.__texts.iteritems():
             self.__update_text(tag, text)
             
-        #TODO: TU ZDECYDOWAC JAKA STRZALKA I CZY W OGOLE
-        # source_arrow; target_arrow
-        # umiemy tez source.arrow.filled = True/False
-        
+        # Updating arrows
+        # (Damn, that's ugly.)
+        if('source-arrow' in self.uml_object):
+            self.source_arrow = str2arrow(self.uml_object['source-arrow'])
+        else:
+            self.source_arrow = None
+            
+        if('target-arrow' in self.uml_object):
+            self.target_arrow = str2arrow(self.uml_object['target-arrow'])
+        else:
+            self.target_arrow = None
+            
     def __update_text(self, tag, dtext):
         if tag not in self.uml_object: 
             # just dock the unused DrawableText somewhere
@@ -239,6 +259,9 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         dtext.setVisible(True)
     
     def paint(self, painter, style, widget):
+        if(self.real_line().length() <= 0):
+            return # nothing to draw (not really but we are better this way!)
+        
         painter.setRenderHint(QPainter.Antialiasing, True)
         
         myPen = self.pen()
