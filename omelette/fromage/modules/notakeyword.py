@@ -18,7 +18,7 @@ class ArrowHead1(ArrowHead):
     
     # TODO: Update for arrowhead, keep points and just draw 
     # them instead of calculating every time
-    def draw(self, painter, point, line):
+    def draw(self, painter, point, line, orientation):
         angle = math.asin(line.dx() / line.length())
         
         if(line.dy() >= 0):
@@ -34,8 +34,9 @@ class ArrowHead1(ArrowHead):
             y2 = math.cos(math.pi - angle + self.angle) * self.length
             x2 = math.sin(math.pi - angle + self.angle) * self.length
 
-        painter.drawLine(QLineF(point, point + QPointF(x1, y1)))
-        painter.drawLine(QLineF(point, point + QPointF(x2, y2)))
+        painter.drawLine(QLineF(point, point + QPointF(x1, y1) * orientation))
+        painter.drawLine(QLineF(point, point + QPointF(x2, y2) * orientation))
+        
 
 
 
@@ -136,4 +137,5 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         painter.drawLine(self.real_line())
 
         head1 = ArrowHead1()
-        head1.draw(painter, self.real_line().p1(), self.real_line())
+        head1.draw(painter, self.real_line().p1(), self.real_line(), 1)
+        head1.draw(painter, self.real_line().p2(), self.real_line(), -1)
