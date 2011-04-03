@@ -49,7 +49,7 @@ class Diagram(QtGui.QGraphicsScene):
 
     def set_anchors(self):
         for edge in self.edges.values():
-            source, target = self.__get_nodes(edge)
+            source, target = self.__get_slots(edge)
             source_anchor, target_anchor = self.__create_anchors(edge)
 
             edge.source_anchor = source_anchor
@@ -61,7 +61,7 @@ class Diagram(QtGui.QGraphicsScene):
     def __create_anchors(self, edge):
         target_anchor = Anchor()
         source_anchor = Anchor()
-        source, target = self.__get_nodes(edge)
+        source, target = self.__get_slots(edge)
 
         source_anchor.connector = target_anchor.connector = edge
         source_anchor.slot = source
@@ -69,11 +69,16 @@ class Diagram(QtGui.QGraphicsScene):
 
         return source_anchor, target_anchor
 
-    def __get_nodes(self, edge):
-        source = self.nodes[edge.uml_object['source-object']]
-        target = self.nodes[edge.uml_object['target-object']]
+    def __get_slots(self, edge):
+        source = self.__get_object(edge, "source-object")
+        target = self.__get_object(edge, "target-object")
         return source, target
 
+    def __get_object(self, edge, key):
+        try:
+            return self.nodes[edge.uml_object[key]]
+        except KeyError:
+            return self.edges[edge.uml_object[key]]
 
     def clear(self):
         super(Diagram, self).clear()
