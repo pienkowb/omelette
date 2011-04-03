@@ -13,11 +13,11 @@ class ArrowHead(object):
         self.length = 15
         
     def draw(self, painter, point, angle):
-        pass
+        pass          
 
 class ArrowHeadAss(ArrowHead):
     # TODO: Update for arrowhead, keep points and just draw 
-    # them instead of calculating every time
+    # them instead of calculating every time    
     def draw(self, painter, point, line):
         angle = math.asin(line.dx() / line.length())
         
@@ -43,6 +43,10 @@ class ArrowHeadAss(ArrowHead):
         painter.drawLine(QLineF(point, point + QPointF(x2, y2) * orientation))
 
 class ArrowHeadComp(ArrowHead):
+    def __init__(self):
+        super(ArrowHeadComp, self).__init__()
+        self.filled = False
+    
     # TODO: Update for arrowhead, keep points and just draw 
     # them instead of calculating every time
     def draw(self, painter, point, line):
@@ -74,9 +78,18 @@ class ArrowHeadComp(ArrowHead):
                              point + QPointF(x3, y3) * orientation, 
                              point + QPointF(x2, y2) * orientation])
         
+        if(self.filled):
+            painter.setBrush(QColor(0, 0, 0))
+        else:
+            painter.setBrush(QColor(255, 255, 255))
+            
         painter.drawPolygon(polygon)
  
 class ArrowHeadGen(ArrowHead):
+    def __init__(self):
+        super(ArrowHeadGen, self).__init__()
+        self.filled = False
+        
     # TODO: Update for arrowhead, keep points and just draw 
     # them instead of calculating every time
     def draw(self, painter, point, line):
@@ -104,6 +117,11 @@ class ArrowHeadGen(ArrowHead):
                              point + QPointF(x1, y1) * orientation,  
                              point + QPointF(x2, y2) * orientation])
         
+        if(self.filled):
+            painter.setBrush(QColor(0, 0, 0))
+        else:
+            painter.setBrush(QColor(255, 255, 255))
+            
         painter.drawPolygon(polygon)
 
 class DrawableRelation(DrawableEdge, QGraphicsLineItem):
@@ -118,11 +136,26 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__relationName = "aasdasd"
         
         self.__texts = {}
-        for tag in ['name', 'name2']:
-            self.__texts[tag] = DrawableText(self)
-            self.__texts[tag].setParentItem(self) 
         
-        self.setLine(QLineF(210, 100, 330, 330))
+        self.__create_text('name', 0.5, 1)
+        
+        self.__create_text('source-count', 0.1, 1)
+        self.__create_text('source-role', 0.1, -1)
+        
+        self.__create_text('target-count', 0.9, 1)
+        self.__create_text('target-role', 0.9, -1)
+        
+        self.source_arrow = None
+        self.target_arrow = None
+        
+    def __create_text(self, tag, position, orientation):
+        dtext = DrawableText(self)
+        dtext.setParentItem(self)
+        dtext.text_position = position
+        dtext.text_orientation = orientation
+        
+        self.__texts[tag] = dtext
+         
         
     def boundingRect(self):
         return self.__boundingRect
@@ -151,7 +184,8 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__distanceY = self.real_line().dy()
         self.__originPos = self.__get_origin()
         
-        #Adjust for arrowheads, hardcoded values for now 
+        # Adjust for arrowheads, hardcoded values for now 
+        #TODO: make it not hardcoded? :(
         self.__boundingRect = (QRectF(self.__originPos, QSizeF(math.fabs(self.__distanceX), math.fabs(self.__distanceY)))
                                     .adjusted(-30,-30,30,30))
         
@@ -160,26 +194,38 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__xmarg = math.sin(self.__angle)
         self.__ymarg = math.cos(self.__angle)
         
-        self.__update_text('name', 'Bar', 0.5, 1)
-        self.__update_text('name2', 'nex', 0.1, -1)
+        for (tag, text) in self.__texts.iteritems():
+            self.__update_text(tag, text)
+            
+        #TODO: TU ZDECYDOWAC JAKA STRZALKA I CZY W OGOLE
+        # source_arrow; target_arrow
+        # umiemy tez source.arrow.filled = True/False
         
-    def __update_text(self, tag, text, pos, orientation):
-        dtext = self.__texts[tag]
+    def __update_text(self, tag, dtext):
+        if tag not in self.uml_object: 
+            # just dock the unused DrawableText somewhere
+            dockPoint = QPointF(self.real_line().p1().x(), self.real_line().p1().y())
+            dtext.setPos(dockPoint)
+            dtext.origin_pos = QPointF(dockPoint)
+            dtext.setVisible(False)
+            return
         
-        xPos = self.real_line().p1().x() + self.__distanceX * pos
-        yPos = self.real_line().p1().y() + self.__distanceY * pos
+        text = str(self.uml_object[tag])
+        
+        xPos = self.real_line().p1().x() + self.__distanceX * dtext.text_position
+        yPos = self.real_line().p1().y() + self.__distanceY * dtext.text_position
         
         dtext.origin_pos = QPointF(xPos, yPos)
         
         if(self.__angle >= 0):
-            if(orientation == -1):
+            if(dtext.text_orientation == -1):
                 xPos -= self.__xmarg * 10
                 yPos += self.__ymarg * 10
             else:
                 xPos += self.__xmarg * 10
                 yPos -= self.__ymarg * 10 + self.__fontMetrics.height()
         else:
-            if(orientation == -1):
+            if(dtext.text_orientation == -1):
                 xPos += -self.__xmarg * 10
                 yPos += self.__ymarg * 10
             else:
@@ -187,10 +233,10 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
                 yPos -= self.__ymarg * 10 + self.__fontMetrics.height()
                 
         xPos -= self.__fontMetrics.width(text) / 2        
-        
+                
         dtext.setPos(xPos, yPos)
         dtext.text = text
-        #dtext.setVisible(False)
+        dtext.setVisible(True)
     
     def paint(self, painter, style, widget):
         painter.setRenderHint(QPainter.Antialiasing, True)
@@ -199,13 +245,13 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         myPen.setColor(QColor(0, 0, 0))
         
         painter.setPen(myPen)
-        painter.setBrush(QColor(0, 0, 0))
+        painter.setBrush(QColor(255, 255, 255))
         
         painter.drawLine(self.real_line())
 
-        head1 = ArrowHeadGen()
-        head1.draw(painter, self.real_line().p1(), self.real_line())
-        head2 = ArrowHeadComp()
-        head2.draw(painter, self.real_line().p2(), self.real_line())
+        if self.source_arrow:
+            self.source_arrow.draw(painter, self.real_line().p1(), self.real_line())
+        if self.target_arrow:
+            self.target_arrow.draw(painter, self.real_line().p2(), self.real_line())
         
         painter.setRenderHint(QPainter.Antialiasing, False)
