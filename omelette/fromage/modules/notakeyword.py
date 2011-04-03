@@ -8,14 +8,14 @@ from PyQt4.Qt import *
 import math
 
 class ArrowHead(object):
+    def __init__(self):
+        self.angle = math.radians(30)
+        self.length = 15
+        
     def draw(self, painter, point, angle):
         pass
 
-class ArrowHead1(ArrowHead):
-    def __init__(self):
-        self.angle = math.radians(30)
-        self.length = 30
-    
+class ArrowHeadAss(ArrowHead):
     # TODO: Update for arrowhead, keep points and just draw 
     # them instead of calculating every time
     def draw(self, painter, point, line):
@@ -41,9 +41,70 @@ class ArrowHead1(ArrowHead):
 
         painter.drawLine(QLineF(point, point + QPointF(x1, y1) * orientation))
         painter.drawLine(QLineF(point, point + QPointF(x2, y2) * orientation))
+
+class ArrowHeadComp(ArrowHead):
+    # TODO: Update for arrowhead, keep points and just draw 
+    # them instead of calculating every time
+    def draw(self, painter, point, line):
+        angle = math.asin(line.dx() / line.length())
         
+        if(point == line.p2()):
+            orientation = -1
+        else: # always falling back to "1"
+            orientation = 1
+        
+        if(line.dy() >= 0):
+            y1 = math.cos(angle - self.angle) * self.length
+            x1 = math.sin(angle - self.angle) * self.length
+            
+            y2 = math.cos(angle + self.angle) * self.length
+            x2 = math.sin(angle + self.angle) * self.length
+        else:
+            y1 = math.cos(math.pi - angle - self.angle) * self.length
+            x1 = math.sin(math.pi - angle - self.angle) * self.length
+            
+            y2 = math.cos(math.pi - angle + self.angle) * self.length
+            x2 = math.sin(math.pi - angle + self.angle) * self.length
 
-
+        x3 = x2 - math.sin(math.pi*2 - angle - self.angle) * self.length
+        y3 = y2 - math.cos(math.pi*2 - angle - self.angle) * self.length
+        
+        polygon = QPolygonF([point, 
+                             point + QPointF(x1, y1) * orientation, 
+                             point + QPointF(x3, y3) * orientation, 
+                             point + QPointF(x2, y2) * orientation])
+        
+        painter.drawPolygon(polygon)
+ 
+class ArrowHeadGen(ArrowHead):
+    # TODO: Update for arrowhead, keep points and just draw 
+    # them instead of calculating every time
+    def draw(self, painter, point, line):
+        angle = math.asin(line.dx() / line.length())
+        
+        if(point == line.p2()):
+            orientation = -1
+        else: # always falling back to "1"
+            orientation = 1
+        
+        if(line.dy() >= 0):
+            y1 = math.cos(angle - self.angle) * self.length
+            x1 = math.sin(angle - self.angle) * self.length
+            
+            y2 = math.cos(angle + self.angle) * self.length
+            x2 = math.sin(angle + self.angle) * self.length
+        else:
+            y1 = math.cos(math.pi - angle - self.angle) * self.length
+            x1 = math.sin(math.pi - angle - self.angle) * self.length
+            
+            y2 = math.cos(math.pi - angle + self.angle) * self.length
+            x2 = math.sin(math.pi - angle + self.angle) * self.length
+            
+        polygon = QPolygonF([point, 
+                             point + QPointF(x1, y1) * orientation,  
+                             point + QPointF(x2, y2) * orientation])
+        
+        painter.drawPolygon(polygon)
 
 class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __init__(self, uml_object):
@@ -129,17 +190,22 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         dtext.setPos(xPos, yPos)
         dtext.text = text
-        dtext.setVisible(False)
+        #dtext.setVisible(False)
     
     def paint(self, painter, style, widget):
+        painter.setRenderHint(QPainter.Antialiasing, True)
+        
         myPen = self.pen()
         myPen.setColor(QColor(255, 0, 0))
         
         painter.setPen(myPen)
-        painter.setBrush(QColor(0, 0, 255))
+        painter.setBrush(QColor(255, 0, 0))
         
         painter.drawLine(self.real_line())
 
-        head1 = ArrowHead1()
+        head1 = ArrowHeadGen()
         head1.draw(painter, self.real_line().p1(), self.real_line())
-        head1.draw(painter, self.real_line().p2(), self.real_line())
+        head2 = ArrowHeadComp()
+        head2.draw(painter, self.real_line().p2(), self.real_line())
+        
+        painter.setRenderHint(QPainter.Antialiasing, False)

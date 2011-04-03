@@ -3,7 +3,6 @@ from PyQt4.QtCore import QRectF
 from PyQt4.Qt import *
 
 class DrawableText(QGraphicsItem):
-    
     def __init__(self, parentItem):
         QGraphicsItem.__init__(self)
         self.setParentItem(parentItem)
