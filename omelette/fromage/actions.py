@@ -1,15 +1,16 @@
 from omelette.compiler.compiler import Compiler
-from omelette.compiler.code import Code
+from omelette.compiler.code import Code,Library
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
 from PyQt4 import QtGui, QtCore
+import sys, os
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
     
     def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        self.compiler = Compiler()
+        self.compiler = Compiler([self.__get_lib("basic.uml")])
         self.qsci = qsci
         self.scene = scene
         self.filename = QtCore.QString()
@@ -19,6 +20,12 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         self.actionSaveAs = actionSaveAs
         self.actionSave.setDisabled(True)
         self.actionSaveAs.setDisabled(True)
+
+    def __get_lib(self, libname):
+        cwd = os.path.dirname(os.path.realpath(__file__))
+        lib = os.path.join(cwd, "../compiler/data/", libname)
+
+        return Library(lib)
                         
     def generate(self):
         self.scene.clear()

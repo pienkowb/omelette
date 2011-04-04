@@ -1,0 +1,10 @@
+prototype base class
+prototype base relation
+prototype relation association
+  target-arrow: association
+prototype relation generalization
+  target-arrow: generalization
+prototype relation aggregation
+  target-arrow: aggregation
+prototype relation composition  
+  target-arrow: composition
