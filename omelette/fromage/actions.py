@@ -23,7 +23,8 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
 
     def __get_lib(self, libname):
         cwd = os.path.dirname(os.path.realpath(__file__))
-        lib = os.path.join(cwd, "../compiler/data/", libname)
+        libpath = os.path.normcase("../compiler/data/")
+        lib = os.path.join(cwd, libpath , libname)
 
         return Library(lib)
                         

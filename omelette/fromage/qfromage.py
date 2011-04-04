@@ -40,7 +40,32 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.actions.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.actions.enable_save)
         
-        self.qsci.setText("prototype base class\nprototype base relation\nclass asd\nclass bsd\nrelation csd\nsource-object: asd\ntarget-object: bsd\ntarget-arrow: composition")
+        # for demo
+        self.qsci.setText("""class A
+
+class B
+
+class C
+
+association
+source-object : A
+target-object : B
+
+composition
+source-object : B
+target-object : C
+name: nazwa
+
+aggregation
+source-object : C
+target-object : A
+source-role   : ccc
+target-count  : 19..*
+
+
+
+
+""")
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     form = QFromage()
