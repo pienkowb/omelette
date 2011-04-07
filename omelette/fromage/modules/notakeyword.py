@@ -254,8 +254,11 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
                 yPos -= self.__ymarg * 10 + self.__fontMetrics.height()
                 
         xPos -= self.__fontMetrics.width(text) / 2        
-                
-        dtext.setPos(xPos, yPos)
+        
+        # Reset pos if not visible.
+        if(dtext.isVisible() == False):
+            dtext.setPos(xPos, yPos)
+            
         dtext.text = text
         dtext.setVisible(True)
     

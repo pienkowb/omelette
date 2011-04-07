@@ -13,6 +13,8 @@ class DrawableText(QGraphicsItem):
         
         self.setZValue(1)
         
+        self.__origin_pos = None
+        
         self.setFlag(QGraphicsItem.ItemIsMovable, 1)
         self.setFlag(QGraphicsItem.ItemIsSelectable, 1)
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, 1)
@@ -57,6 +59,12 @@ class DrawableText(QGraphicsItem):
         return self.__origin_pos - self.pos()
     
     def __set_origin(self, value):
+        if(self.__origin_pos != None):
+            pointdiff = value - self.__origin_pos
+            self.moveBy(pointdiff.x(), pointdiff.y())
+        else:
+            self.setPos(value)
+            
         self.__origin_pos = value
         #TODO: Cache boundingRect here too
         

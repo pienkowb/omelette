@@ -1,7 +1,7 @@
 from omelette.fromage.common import *
 
 from PyQt4.QtGui import *
-from PyQt4.QtCore import QRectF
+from PyQt4.QtCore import QRectF, QLineF
 from PyQt4.Qt import *
 
 class DrawableClass(DrawableNode, QGraphicsItem):
