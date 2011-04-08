@@ -1,16 +1,30 @@
+import os.path
+from PyQt4 import QtGui, QtCore
+
+from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
-from omelette.compiler.code import Code,Library
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
-from PyQt4 import QtGui, QtCore
-import sys, os
+
+def _load_libraries():
+    lib_directory = os.path.normcase("../../lib")
+    libraries = []
+
+    for name in os.listdir(lib_directory):
+        path = os.path.join(lib_directory, name)
+
+        if not os.path.isdir(path):
+            libraries.append(Library(path))
+
+    return libraries
+
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
-    
+
     def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        self.compiler = Compiler([self.__get_lib("basic.uml")])
+        self.compiler = Compiler(_load_libraries())
         self.qsci = qsci
         self.scene = scene
         self.filename = QtCore.QString()
@@ -21,13 +35,6 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         self.actionSave.setDisabled(True)
         self.actionSaveAs.setDisabled(True)
 
-    def __get_lib(self, libname):
-        cwd = os.path.dirname(os.path.realpath(__file__))
-        libpath = os.path.normcase("../compiler/data/")
-        lib = os.path.join(cwd, libpath , libname)
-
-        return Library(lib)
-                        
     def generate(self):
         self.scene.clear()
         self.diagram = Diagram()
@@ -36,7 +43,6 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
 
         for uml_object in uml_objects.values():
             self.diagram.add(uml_object)
-
 
         # nodes must be updated before layouting
         for node in self.diagram.nodes.values():

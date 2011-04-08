@@ -1,17 +1,15 @@
 import sys
-sys.path.append('../../') 
+sys.path.append("../../")
 from PyQt4 import QtGui, QtCore
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.qscintilla import QSci
 from omelette.fromage.actions import Actions
 
-from PyQt4.Qt import QPointF
-
 class QFromage(QtGui.QMainWindow, Ui_MainWindow):
-    
+
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        
+
         self.setupUi(self)
 
         self.layout = QtGui.QHBoxLayout(self.centralwidget)
@@ -39,33 +37,8 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionUndo, QtCore.SIGNAL("triggered()"), self.actions.undo)
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.actions.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.actions.enable_save)
-        
-        # for demo
-        self.qsci.setText("""class A
-
-class B
-
-class C
-
-association
-source-object : A
-target-object : B
-
-composition
-source-object : B
-target-object : C
-name: nazwa
-
-aggregation
-source-object : C
-target-object : A
-source-role   : ccc
-target-count  : 19..*
 
 
-
-
-""")
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
     form = QFromage()
