@@ -6,7 +6,7 @@ class LexerTest(unittest.TestCase):
     def setUp(self):
         self.code = """
 
-father son
+        father son
             + at1 : type1
 
             - op1()
@@ -24,11 +24,8 @@ father son
             _+ op3(param3:type3)
             pr3 : 13..*
             _- at3 : type4
-
-
-
-			pr4: 0
-			pr5: *"""
+            pr4: 0
+            pr5: *"""
 
         self.lexer = Lexer()
 
