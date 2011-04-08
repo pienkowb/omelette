@@ -64,11 +64,11 @@ class Lexer(object):
         self["grammar"] = ZeroOrMore(self["definition"]).setResultsName("code")
 
     def __build_definition(self):
-        element = self["operation"] ^ self["attribute"] ^ self["property"] \
-            ^ LineEnd()
+        element = Optional(self["operation"] ^ self["attribute"] ^ self["property"]) \
+            + LineEnd()
 
         self["definition"] = (ZeroOrMore(LineEnd()) + self["header"] + LineEnd()
-            + ZeroOrMore(element + LineEnd())).setResultsName("definition")
+            + ZeroOrMore(element)).setResultsName("definition")
 
     def __build_header(self):
         object_name = self["name"].setResultsName("name")
