@@ -1,3 +1,4 @@
+import os.path
 from pyparsing import StringEnd, ParseException
 from omelette.compiler.lexer import Lexer
 
@@ -115,3 +116,16 @@ class Library(Code):
     def __init__(self, path):
         with open(path) as library:
             Code.__init__(self, library.read())
+
+    @staticmethod
+    def load_libraries():
+        lib_directory = os.path.normcase("../../lib")
+        libraries = []
+
+        for name in os.listdir(lib_directory):
+            path = os.path.join(lib_directory, name)
+
+            if not os.path.isdir(path):
+                libraries.append(Library(path))
+
+        return libraries

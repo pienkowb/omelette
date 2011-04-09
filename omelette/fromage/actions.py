@@ -1,30 +1,15 @@
-import os.path
 from PyQt4 import QtGui, QtCore
-
 from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
 
-def _load_libraries():
-    lib_directory = os.path.normcase("../../lib")
-    libraries = []
-
-    for name in os.listdir(lib_directory):
-        path = os.path.join(lib_directory, name)
-
-        if not os.path.isdir(path):
-            libraries.append(Library(path))
-
-    return libraries
-
-
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
 
     def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        self.compiler = Compiler(_load_libraries())
+        self.compiler = Compiler(Library.load_libraries())
         self.qsci = qsci
         self.scene = scene
         self.filename = QtCore.QString()
