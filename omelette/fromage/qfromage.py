@@ -1,17 +1,18 @@
 import sys
-sys.path.append('../../') 
+sys.path.append('../../')
 from PyQt4 import QtGui, QtCore
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.qscintilla import QSci
 from omelette.fromage.actions import Actions
+from omelette.fromage.scalable_view import ScalableView
 
 from PyQt4.Qt import QPointF
 
 class QFromage(QtGui.QMainWindow, Ui_MainWindow):
-    
+
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        
+
         self.setupUi(self)
 
         self.layout = QtGui.QHBoxLayout(self.centralwidget)
@@ -20,9 +21,11 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
 
         self.qsci = QSci(self.splitter)
         self.scene = QtGui.QGraphicsScene(self.splitter)
-        self.view = QtGui.QGraphicsView(self.splitter)
-        self.view.setScene(self.scene)
+        #self.scalable_view = QtGui.QGraphicsView(self.splitter)
+        self.scalable_view = ScalableView(self.splitter)
+        self.scalable_view.setScene(self.scene)
         self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
+        self.splitter.setSizes([1,1])
 
         self.layout.addWidget(self.splitter)
 
@@ -39,10 +42,13 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionUndo, QtCore.SIGNAL("triggered()"), self.actions.undo)
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.actions.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.actions.enable_save)
-        
+
         self.qsci.setText("prototype base class\nprototype base relation\nclass asd\nclass bsd\nrelation csd\nsource-object: asd\ntarget-object: bsd\ntarget-arrow: composition")
+
+
 if __name__ == "__main__":
     app = QtGui.QApplication(sys.argv)
+
     form = QFromage()
     form.show()
     sys.exit(app.exec_())
