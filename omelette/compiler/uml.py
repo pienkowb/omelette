@@ -6,6 +6,10 @@ class UMLObject(object):
         self.__attributes = []
         self.properties = {}
 
+        self.required = {}
+        self.allowed = {}
+        self.denied = []
+
         self.type = None
         self.parent = parent
         self.name = name
