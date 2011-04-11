@@ -1,3 +1,5 @@
+from omelette.compiler import logger
+
 class DependencyResolver(object):
 
     def __init__(self, uml_objects):
@@ -8,16 +10,20 @@ class DependencyResolver(object):
             self.__resolve_object(uml_object)
 
     def __resolve_object(self, uml_object):
-        if uml_object.type != None: return
+        try: 
+            if uml_object.type != None: return
 
-        if uml_object.parent == None:
-            uml_object.type = uml_object.name
-        else:
-            parent = self.__uml_objects[uml_object.parent]
-            self.__resolve_object(parent)
+            if uml_object.parent == None:
+                uml_object.type = uml_object.name
+            else:
+                parent = self.__uml_objects[uml_object.parent]
+                self.__resolve_object(parent)
 
-            uml_object.type = parent.type
+                uml_object.type = parent.type
 
-            properties = parent.properties.copy()
-            properties.update(uml_object.properties)
-            uml_object.properties = properties
+                properties = parent.properties.copy()
+                properties.update(uml_object.properties)
+                uml_object.properties = properties
+        except(RuntimeError):
+            logger.instance.log_error(-1, "cyclical refference")
+
