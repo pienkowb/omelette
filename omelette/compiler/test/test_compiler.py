@@ -61,5 +61,13 @@ class CompilerIntegrationTest(unittest.TestCase):
         self.assertTrue(logger.instance.has_errors, 
         "logger should contain errors")
 
+    def test_sophisticated_circular(self):
+        code = Code("""a b
+        b c
+        c a""")
+        self.instance.compile(code)
+        self.assertTrue(logger.instance.has_errors, 
+        "logger should contain errors")
+
 if __name__ == "__main__":
     unittest.main()
