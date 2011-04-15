@@ -24,7 +24,7 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
 
         self.layout.addWidget(self.splitter)
 
-        self.actions = Actions(self.qsci, self.scene, self.actionSave, self.actionSaveAs)
+        self.actions = Actions(self)
 
         QtCore.QObject.connect(self.actionGenerate, QtCore.SIGNAL("triggered()"), self.actions.generate)
         QtCore.QObject.connect(self.actionNew, QtCore.SIGNAL("triggered()"), self.actions.new_file)
