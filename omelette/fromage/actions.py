@@ -5,7 +5,7 @@ from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
 
-class Actions():
+class Actions(object):
 
     def __init__(self, window, parent=None):
         self.compiler = Compiler(Library.load_libraries())
@@ -53,7 +53,7 @@ class Actions():
         self.window.statusbar.showMessage('Created empty document', 2000)
 
     def open_file(self):
-        fn = QtGui.QFileDialog.getOpenFileName(self, QtCore.QString(), QtCore.QString())
+        fn = QtGui.QFileDialog.getOpenFileName(None , QtCore.QString(), QtCore.QString())
         if fn.isEmpty():
             self.window.statusbar.showMessage('Loading aborted', 2000)
             return
