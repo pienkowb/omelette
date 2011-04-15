@@ -1,15 +1,15 @@
+from PyQt4 import QtGui, QtCore
+from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
-from omelette.compiler.code import Code
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
-from PyQt4 import QtGui, QtCore
 
 class Actions(QtGui.QMainWindow, Ui_MainWindow):
-    
+
     def __init__(self, qsci, scene, actionSave, actionSaveAs, parent=None):
         QtGui.QWidget.__init__(self, parent)
-        self.compiler = Compiler()
+        self.compiler = Compiler(Library.load_libraries())
         self.qsci = qsci
         self.scene = scene
         self.filename = QtCore.QString()
@@ -19,7 +19,7 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
         self.actionSaveAs = actionSaveAs
         self.actionSave.setDisabled(True)
         self.actionSaveAs.setDisabled(True)
-                        
+
     def generate(self):
         self.scene.clear()
         self.diagram = Diagram()
@@ -28,7 +28,6 @@ class Actions(QtGui.QMainWindow, Ui_MainWindow):
 
         for uml_object in uml_objects.values():
             self.diagram.add(uml_object)
-
 
         # nodes must be updated before layouting
         for node in self.diagram.nodes.values():
