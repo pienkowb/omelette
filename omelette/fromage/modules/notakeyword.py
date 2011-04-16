@@ -160,6 +160,9 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __create_text(self, tag, position, orientation):
         dtext = DrawableText(self)
         dtext.setParentItem(self)
+        dtext.origin_pos = QPointF(QPointF(0,0))
+        dtext.setPos(QPointF(0,0))
+        dtext.setVisible(False)
         dtext.text_position = position
         dtext.text_orientation = orientation
         
@@ -226,8 +229,8 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         if tag not in self.uml_object: 
             # just dock the unused DrawableText somewhere
             dockPoint = QPointF(self.real_line().p1().x(), self.real_line().p1().y())
-            dtext.setPos(dockPoint)
             dtext.origin_pos = QPointF(dockPoint)
+            dtext.setPos(dockPoint)
             dtext.setVisible(False)
             return
         
