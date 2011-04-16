@@ -41,13 +41,18 @@ class ParserTest(unittest.TestCase):
         expected.add_attribute(Attribute("~", "at2a8", True))
 
         expected.add_attribute(Attribute("+", "at2a9", False, "at2a9t"))
-        expected.add_attribute(Attribute("-", "at2a10", False, "at2a10t", "1234"))
-        expected.add_attribute(Attribute("#", "at2a11", False, "at2a11t", "\"at2a11\""))
-        expected.add_attribute(Attribute("~", "at2a12", False, "at2a12t", "\'at2a12\'"))
+        expected.add_attribute(Attribute("-", "at2a10", False, "at2a10t",
+            "1234"))
+        expected.add_attribute(Attribute("#", "at2a11", False, "at2a11t",
+            "\"at2a11\""))
+        expected.add_attribute(Attribute("~", "at2a12", False, "at2a12t",
+            "\'at2a12\'"))
 
         expected.add_attribute(Attribute("+", "at2a13", True, None, "54321"))
-        expected.add_attribute(Attribute("-", "at2a14", True, None, "\"at2a14\""))
-        expected.add_attribute(Attribute("#", "at2a15", True, None, "\'at2a15\'"))
+        expected.add_attribute(Attribute("-", "at2a14", True, None,
+            "\"at2a14\""))
+        expected.add_attribute(Attribute("#", "at2a15", True, None,
+            "\'at2a15\'"))
 
         result = self.parser.parse(code.objects()[1:])["2a"]
         self.assertEquals(expected, result)
@@ -68,9 +73,12 @@ class ParserTest(unittest.TestCase):
         expected.add_operation(Operation("+", "op2b1"))
         expected.add_operation(Operation("-", "op2b2", False, [], "op2b2t"))
         expected.add_operation(Operation("#", "op2b3", False, [], "op2b3t"))
-        expected.add_operation(Operation("~", "op2b4", True, [("op2b4p1", None)]))
-        expected.add_operation(Operation("+", "op2b5", True, [("op2b5p1", "op2b5p1t")]))
-        expected.add_operation(Operation("-", "op2b6", True, [("op2b6p1", "op2b6p1t"), ("op2b6p2", None)]))
+        expected.add_operation(Operation("~", "op2b4", True, [("op2b4p1",
+            None)]))
+        expected.add_operation(Operation("+", "op2b5", True, [("op2b5p1",
+            "op2b5p1t")]))
+        expected.add_operation(Operation("-", "op2b6", True, [("op2b6p1",
+            "op2b6p1t"), ("op2b6p2", None)]))
 
         result = self.parser.parse(code.objects()[1:])["2b"]
         self.assertEquals(expected, result)

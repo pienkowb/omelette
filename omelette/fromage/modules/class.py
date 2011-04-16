@@ -62,6 +62,11 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         metrics = QFontMetrics(self.__font)
         # Start by finding size of class name block
         drawableHeight = 1 * self.__sectionMargin + metrics.height()
+
+        # TODO: This doesn't belong here. Or does it?
+        if "name" not in self.uml_object.properties:
+            self.uml_object["name"] = self.uml_object.name
+
         drawableWidth = 2 * self.__textMargin + metrics.width(self.uml_object['name'])
 
         # Find sizes of each section and update width/height

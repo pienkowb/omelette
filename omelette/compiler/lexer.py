@@ -45,14 +45,10 @@ class Lexer(object):
             self[token_name].setParseAction()
 
     def __build_grammar(self):
-        name_charset = alphanums + "-_"
-        visibility_charset = "+-#~"
-
         self["number"] = Word(nums) # TODO: a proper number representation
-        self["name"] = Word(name_charset)
+        self["name"] = Word(alphanums, alphanums + "-_")
         self["string"] = quotedString
-        self["visibility"] = Word(visibility_charset, exact=1) \
-            .setResultsName("visibility")
+        self["visibility"] = Word("+-#~", exact=1).setResultsName("visibility")
         self["static"] = Literal("_").setResultsName("static")
 
         self.__build_header()
@@ -64,11 +60,11 @@ class Lexer(object):
         self["grammar"] = ZeroOrMore(self["definition"]).setResultsName("code")
 
     def __build_definition(self):
-        element = self["operation"] ^ self["attribute"] ^ self["property"] \
-            ^ LineEnd()
+        element = Optional(self["operation"] ^ self["attribute"] ^
+            self["property"]) + LineEnd()
 
-        self["definition"] = (ZeroOrMore(LineEnd()) + self["header"] + LineEnd()
-            + ZeroOrMore(element + LineEnd())).setResultsName("definition")
+        self["definition"] = (ZeroOrMore(LineEnd()) + self["header"] +
+            LineEnd() + ZeroOrMore(element)).setResultsName("definition")
 
     def __build_header(self):
         object_name = self["name"].setResultsName("name")
@@ -83,28 +79,28 @@ class Lexer(object):
         name = self["name"].setResultsName("name")
         default = (self["number"] ^ self["string"]).setResultsName("default")
 
-        self["attribute"] = (Optional(self["static"]) + self["visibility"]
-            + name + Optional(":" + type) + Optional("=" + default)) \
-            .setResultsName("attribute")
+        self["attribute"] = ((Optional(self["static"]) + self["visibility"] +
+            name + Optional(":" + type) + Optional("=" + default))
+            .setResultsName("attribute"))
 
     def __build_operation(self):
         name = self["name"].setResultsName("name")
         type = self["name"].setResultsName("type")
-        parameter = Group(name + Optional(":" + type)) \
-            .setResultsName("parameter")
+        parameter = (Group(name + Optional(":" + type))
+            .setResultsName("parameter"))
         parameters = (delimitedList(parameter)).setResultsName("parameters")
         return_type = self["name"].setResultsName("return_type")
 
-        self["operation"] = (Optional(self["static"]) + self["visibility"]
-            + name + "(" + Optional(parameters) + ")"
-            + Optional(":" + return_type)).setResultsName("operation")
+        self["operation"] = (Optional(self["static"]) + self["visibility"] +
+            name + "(" + Optional(parameters) + ")" +
+            Optional(":" + return_type)).setResultsName("operation")
 
     def __build_property(self):
-        multiplicity = ((self["number"] ^ "*") +Optional( ".." + (self["number"]
-            ^ "*")).setResultsName("multiplicity"))
+        multiplicity = ((self["number"] ^ "*") + Optional( ".." +
+            (self["number"] ^ "*")).setResultsName("multiplicity"))
         name = self["name"].setResultsName("name")
-        value = Group(multiplicity ^ self["name"] ^ self["string"]) \
-            .setResultsName("value")
+        value = (Group(multiplicity ^ self["name"] ^ self["string"])
+            .setResultsName("value"))
         values = value.setResultsName("values")
 
         self["property"] = (name + ":" + values).setResultsName("property")

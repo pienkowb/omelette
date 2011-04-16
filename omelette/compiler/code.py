@@ -1,3 +1,7 @@
+import os.path
+from pyparsing import StringEnd, ParseException
+from omelette.compiler.lexer import Lexer
+
 class _CodeObject(object):
     """Class containing the code of a single object."""
 
@@ -33,6 +37,7 @@ class _CodeObject(object):
     def __str__(self):
         return  "\n".join(self.lines)
 
+
 def _before(position):
     return lambda o: o.position <= position
 
@@ -40,15 +45,12 @@ def _after(position):
     return lambda o: o.position >= position
 
 
-def _is_header(line):
-    return line.strip() and all([char not in line for char in ":+~#-"])
-
-
 class Code(object):
     """Class representing the code divided into objects."""
 
     def __init__(self, code=""):
         self.__objects = [_CodeObject(-1, "")]
+        self.__lexer = Lexer()
 
         lines = code.split("\n") if code else []
 
@@ -58,6 +60,14 @@ class Code(object):
     def objects(self, condition=None):
         return filter(condition, self.__objects)
 
+    def __is_header(self, line):
+        try:
+            header = self.__lexer["header"] + StringEnd()
+            header.parseString(line)
+            return True
+        except ParseException:
+            return False
+
     def __shift(self, position, offset):
         for object in self.objects(_after(position)):
             object.position += offset
@@ -65,7 +75,7 @@ class Code(object):
     def insert_line(self, number, line):
         self.__shift(number, 1)
 
-        if _is_header(line):
+        if self.__is_header(line):
             object = _CodeObject(number, line)
 
             previous = self.objects(_before(number))[-1]
@@ -79,9 +89,9 @@ class Code(object):
 
     def update_line(self, number, line):
         object = self.objects(_before(number))[-1]
-        position = number - object.position
+        updated_line = object.lines[number - object.position]
 
-        if _is_header(line) == _is_header(object.lines[position]):
+        if self.__is_header(line) == self.__is_header(updated_line):
             object.update_line(number, line)
         else:
             self.remove_line(number)
@@ -101,7 +111,21 @@ class Code(object):
 
 
 class Library(Code):
+    """Class reading the code from the specified file."""
 
     def __init__(self, path):
         with open(path) as library:
             Code.__init__(self, library.read())
+
+    @staticmethod
+    def load_libraries():
+        lib_directory = os.path.normcase("../../lib")
+        libraries = []
+
+        for name in os.listdir(lib_directory):
+            path = os.path.join(lib_directory, name)
+
+            if not os.path.isdir(path):
+                libraries.append(Library(path))
+
+        return libraries

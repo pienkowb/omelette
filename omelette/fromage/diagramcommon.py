@@ -1,5 +1,5 @@
 from PyQt4.QtGui import *
-from PyQt4.QtCore import QRectF
+from PyQt4.QtCore import QRectF, QPointF
 from PyQt4.Qt import *
 
 class DrawableText(QGraphicsItem):
@@ -8,6 +8,7 @@ class DrawableText(QGraphicsItem):
         self.setParentItem(parentItem)
         self.__font = QFont('Comic Sans MS', 10)
         self.__text = ""
+        self.origin_pos = QPointF(0,0)
         
         self.__extraFrame = 1
         
