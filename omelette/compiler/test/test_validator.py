@@ -5,11 +5,8 @@ from omelette.compiler.validator import Validator
 class ValidatorTest(unittest.TestCase):
 
     def setUp(self):
-        self.instance = Validator()
         self.uml_object = UMLObject()
-
         self.uml_object.required = {"source-object": "OBJECT"}
-
         self.uml_object.allowed = {
             "arrow": "STRING",
             "direction": ["none", "source", "target", "both"],
@@ -24,21 +21,21 @@ class ValidatorTest(unittest.TestCase):
             "source-role": ("learns", "STRING"),
             "source-count": ("1", "MULTIPLICITY")}
 
-        self.assertTrue(self.instance.validate(self.uml_object))
+        self.assertTrue(Validator(self.uml_object).validate())
 
     def test_validate_not_allowed(self):
         self.uml_object.properties = {
             "stereotype": ("not_allowed", "STRING"),
             "source-object": ("Student", "OBJECT")}
 
-        self.assertFalse(self.instance.validate(self.uml_object))
+        self.assertFalse(Validator(self.uml_object).validate())
 
     def test_validate_no_required(self):
         self.uml_object.properties = {
             "arrow": ("association", "STRING"),
             "direction": ("none", "CONSTANT")}
 
-        self.assertFalse(self.instance.validate(self.uml_object))
+        self.assertFalse(Validator(self.uml_object).validate())
 
 
 if __name__ == "__main__":
