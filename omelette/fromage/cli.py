@@ -33,7 +33,7 @@ def main(argv):
     diagram.render(painter)
     painter.end()
     ret = img.save("/dev/null")
-    print("Save returned %d" % ret)
+    print("Save returned " + str(ret))
 
     return 0
 
