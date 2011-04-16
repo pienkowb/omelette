@@ -1,6 +1,7 @@
 <RCC>
   <qresource prefix="/">
     <file>reload3.png</file>
+    <file>export.png</file>
     <file>edit-cut.png</file>
     <file>edit-copy.png</file>
     <file>edit-paste.png</file>
