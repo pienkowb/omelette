@@ -28,40 +28,14 @@ class ArrowHead(object):
         self.length = 15
         self.filled = filled
         
-    def draw(self, painter, point, angle):
-        pass          
-
-class ArrowHeadAss(ArrowHead):
-    # TODO: Update for arrowhead, keep points and just draw 
-    # them instead of calculating every time    
     def draw(self, painter, point, line):
-        angle = math.asin(line.dx() / line.length())
-        
-        if(point == line.p2()):
-            orientation = -1
-        else: # always falling back to "1"
-            orientation = 1
-        
-        if(line.dy() >= 0):
-            y1 = math.cos(angle - self.angle) * self.length
-            x1 = math.sin(angle - self.angle) * self.length
-            
-            y2 = math.cos(angle + self.angle) * self.length
-            x2 = math.sin(angle + self.angle) * self.length
-        else:
-            y1 = math.cos(math.pi - angle - self.angle) * self.length
-            x1 = math.sin(math.pi - angle - self.angle) * self.length
-            
-            y2 = math.cos(math.pi - angle + self.angle) * self.length
-            x2 = math.sin(math.pi - angle + self.angle) * self.length
+        pass
 
-        painter.drawLine(QLineF(point, point + QPointF(x1, y1) * orientation))
-        painter.drawLine(QLineF(point, point + QPointF(x2, y2) * orientation))
-
-class ArrowHeadComp(ArrowHead):   
-    # TODO: Update for arrowhead, keep points and just draw 
-    # them instead of calculating every time
+class ArrowHeadStandard(ArrowHead):
     def draw(self, painter, point, line):
+        # Does not actually draw anything, just finds points
+        # TODO: Move finding points to another method, "update" ?
+        
         angle = math.asin(line.dx() / line.length())
         
         if(point == line.p2()):
@@ -87,53 +61,38 @@ class ArrowHeadComp(ArrowHead):
             
             x3 = x2 - math.sin(math.pi*2 - angle - self.angle) * self.length
             y3 = y2 - math.cos(math.pi*2 - angle - self.angle) * self.length
-
-        polygon = QPolygonF([point, 
-                             point + QPointF(x1, y1) * orientation, 
-                             point + QPointF(x3, y3) * orientation, 
-                             point + QPointF(x2, y2) * orientation])
+            
+        self.pointA = point + QPointF(x1, y1) * orientation
+        self.pointB = point + QPointF(x2, y2) * orientation
+        self.pointC = point + QPointF(x3, y3) * orientation  
         
+        # Prepare the painter, too
         if(self.filled):
             painter.setBrush(QColor(0, 0, 0))
         else:
             painter.setBrush(QColor(255, 255, 255))
-            
+
+class ArrowHeadAss(ArrowHeadStandard):
+    def draw(self, painter, point, line):
+        super(ArrowHeadAss, self).draw(painter, point, line)
+
+        painter.drawLine(QLineF(point, self.pointA))
+        painter.drawLine(QLineF(point, self.pointB))
+
+class ArrowHeadComp(ArrowHeadStandard):   
+    def draw(self, painter, point, line):
+        super(ArrowHeadComp, self).draw(painter, point, line)
+        
+        polygon = QPolygonF([point, self.pointA, self.pointC, self.pointB])
         painter.drawPolygon(polygon)
  
-class ArrowHeadGen(ArrowHead):        
-    # TODO: Update for arrowhead, keep points and just draw 
-    # them instead of calculating every time
+class ArrowHeadGen(ArrowHeadStandard):        
     def draw(self, painter, point, line):
-        angle = math.asin(line.dx() / line.length())
+        super(ArrowHeadGen, self).draw(painter, point, line)
         
-        if(point == line.p2()):
-            orientation = -1
-        else: # always falling back to "1"
-            orientation = 1
-        
-        if(line.dy() >= 0):
-            y1 = math.cos(angle - self.angle) * self.length
-            x1 = math.sin(angle - self.angle) * self.length
-            
-            y2 = math.cos(angle + self.angle) * self.length
-            x2 = math.sin(angle + self.angle) * self.length
-        else:
-            y1 = math.cos(math.pi - angle - self.angle) * self.length
-            x1 = math.sin(math.pi - angle - self.angle) * self.length
-            
-            y2 = math.cos(math.pi - angle + self.angle) * self.length
-            x2 = math.sin(math.pi - angle + self.angle) * self.length
-            
-        polygon = QPolygonF([point, 
-                             point + QPointF(x1, y1) * orientation,  
-                             point + QPointF(x2, y2) * orientation])
-        
-        if(self.filled):
-            painter.setBrush(QColor(0, 0, 0))
-        else:
-            painter.setBrush(QColor(255, 255, 255))
-            
+        polygon = QPolygonF([point, self.pointA, self.pointB])
         painter.drawPolygon(polygon)
+
 
 class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __init__(self, uml_object):
@@ -160,6 +119,9 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __create_text(self, tag, position, orientation):
         dtext = DrawableText(self)
         dtext.setParentItem(self)
+        dtext.setPos(QPointF(0,0))
+        dtext.origin_pos = QPointF(QPointF(0,0))
+        dtext.setVisible(False)
         dtext.text_position = position
         dtext.text_orientation = orientation
         

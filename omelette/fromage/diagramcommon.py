@@ -8,13 +8,11 @@ class DrawableText(QGraphicsItem):
         self.setParentItem(parentItem)
         self.__font = QFont('Comic Sans MS', 10)
         self.__text = ""
-        self.origin_pos = QPointF(0,0)
+        self.__origin_pos = None
         
         self.__extraFrame = 1
         
         self.setZValue(1)
-        
-        self.__origin_pos = None
         
         self.setFlag(QGraphicsItem.ItemIsMovable, 1)
         self.setFlag(QGraphicsItem.ItemIsSelectable, 1)
