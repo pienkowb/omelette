@@ -42,6 +42,7 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionUndo, QtCore.SIGNAL("triggered()"), self.actions.undo)
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.actions.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.actions.enable_save)
+        QtCore.QObject.connect(self.actionExport, QtCore.SIGNAL("triggered()"), self.actions.export)
 
 
 if __name__ == "__main__":
