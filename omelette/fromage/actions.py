@@ -16,6 +16,7 @@ class Actions(object):
         self.window.actionSaveAs.setDisabled(True)
 
     def generate(self):
+        self.compiler.clear()
         self.window.scene.clear()
         self.diagram = Diagram()
         code = Code(str(self.window.qsci.text()))
