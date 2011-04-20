@@ -78,26 +78,27 @@ class DrawableClass(DrawableNode, QGraphicsItem):
 
         self.__boundingRect = QRectF(0, 0, 2 * self.__textMargin + drawableWidth, drawableHeight)
 
-    def przytnij_linie(self, line, ktory_bok):
+    def crop_line(self, line, line_point):
         global_rect = self.globalBoundingRect()
         
-        punkty = [global_rect.topLeft(), global_rect.topRight(),
+        vertexes = [global_rect.topLeft(), global_rect.topRight(),
                   global_rect.bottomRight(), global_rect.bottomLeft()]
         
         intersectionPoint = QPointF()
         
+        # Iterate over pairs of vertexes that make rectangle edges
         for (a, b) in [(0, 1), (1, 2), (2, 3), (3, 0)]:
-            bok = QLineF(punkty[a], punkty[b])
+            bok = QLineF(vertexes[a], vertexes[b])
             itype = line.intersect(bok, intersectionPoint)
             if(itype == QLineF.BoundedIntersection):
-                if(ktory_bok == 0):
+                if(line_point == 0):
                     return QLineF(intersectionPoint, line.p2())
                 else:
                     return QLineF(line.p1(), intersectionPoint)
         
         return line
         
-    def znajdz_anchor(self):
+    def find_anchor(self):
         return self.globalBoundingRect().center()
 
     def itemChange(self, change, value):

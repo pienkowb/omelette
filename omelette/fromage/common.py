@@ -11,9 +11,20 @@ class Drawable(object):
         self.uml_object = uml_object
         self.anchors = []
 
-    def przytnij_linie(self, line):
+    """
+    Crops QLineF, used mainly in relation to properly draw line 
+    from one object to another. line_point is 0 when line.p1() is inside
+    of the drawable, everything else when line.p2() inside. 
+    
+    This method shall be overloaded in specific drawables.  
+    """
+    def crop_line(self, line, line_point):
         return line
 
+    """
+    Returns boundingRect in relation to the diagram. Doesn't work if
+    Drawable doesn't derive from QGraphicsItem (no boundingRect()).
+    """
     #TODO: See if PyQt provides such functionality
     def globalBoundingRect(self):
         global_rect = QRectF(self.boundingRect())

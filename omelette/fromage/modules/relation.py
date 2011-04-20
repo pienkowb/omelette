@@ -142,13 +142,13 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __find_real_line(self):
         line = self.line()
                 
-        line = self.source_anchor.slot.przytnij_linie(line, 0)
-        line = self.target_anchor.slot.przytnij_linie(line, 1)
+        line = self.source_anchor.slot.crop_line(line, 0)
+        line = self.target_anchor.slot.crop_line(line, 1)
         
         return line
     
     def update(self):
-        self.setLine(QLineF(self.source_anchor.slot.znajdz_anchor(), self.target_anchor.slot.znajdz_anchor()))
+        self.setLine(QLineF(self.source_anchor.slot.find_anchor(), self.target_anchor.slot.find_anchor()))
         self.__real_line = self.__find_real_line()
         
         if(self.real_line().length() <= 0):
