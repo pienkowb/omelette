@@ -21,7 +21,6 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
 
         self.qsci = QSci(self.splitter)
         self.scene = QtGui.QGraphicsScene(self.splitter)
-        #self.scalable_view = QtGui.QGraphicsView(self.splitter)
         self.scalable_view = ScalableView(self.splitter)
         self.scalable_view.setScene(self.scene)
         self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))

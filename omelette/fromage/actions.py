@@ -1,14 +1,15 @@
 from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
-#from omelette.compiler.compiler import Compiler
+from omelette.compiler.compiler import Compiler
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
+from PyQt4.QtGui import QImage, QPainter
 
 class Actions(object):
 
     def __init__(self, window, parent=None):
- #       self.compiler = Compiler(Library.load_libraries())
+        self.compiler = Compiler(Library.load_libraries())
         self.window = window
 
         self.filename = QtCore.QString()
@@ -116,18 +117,18 @@ class Actions(object):
 
     def export(self):
         fn = QtGui.QFileDialog.getSaveFileName(self.window, "Save Image", QtCore.QString(), "Image Files (*.png)");
-        if not fn.isEmpty():
-            self.filename = fn
-            try:
-                f = open(str(self.filename), 'w+')
-            except:
-                self.window.statusbar.showMessage('Cannot write to %s' % (self.filename), 2000)
-                return
-        else:
+        if fn.isEmpty():
             self.window.statusbar.showMessage('Saving aborted', 2000)
+            return
 
-        #TODO image saving goes here
+        img = QImage(self.window.scene.sceneRect().size().toSize(), QImage.Format_ARGB32)
+        painter = QPainter(img)
+        painter.resetMatrix()
+        self.window.scene.render(painter)
+        painter.end()
+        
+        if(img.save(fn) == False):
+            self.window.statusbar.showMessage('Saving failed', 2000)
+            return
 
-
-        f.close()
         self.window.statusbar.showMessage('Image %s saved' % (self.filename), 2000)
