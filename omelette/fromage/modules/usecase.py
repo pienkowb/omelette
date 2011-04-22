@@ -47,8 +47,6 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
         drawableHeight = textHeight * 2
         drawableWidth = ratio * drawableHeight
         
-        print "%f" % ratio
-        
         if(ratio > 3.5):
             drawableHeight = drawableWidth / max(3.5, ratio/3)
 
@@ -61,20 +59,72 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
     def crop_line(self, line, line_point):
         global_rect = self.globalBoundingRect()
         
-        vertexes = [global_rect.topLeft(), global_rect.topRight(),
-                  global_rect.bottomRight(), global_rect.bottomLeft()]
+        # Go to local coordinate system - ellipse equations assume ellipse is centered on (0,0)        
+        local_trans = global_rect.center()
+        local_line = QLineF(line.p1() - local_trans, line.p2() - local_trans)
         
-        intersectionPoint = QPointF()
+        # Solve line equation        
+        e_a = ((local_line.p2().y() - local_line.p1().y()) / 
+                  (local_line.p2().x() - local_line.p1().x()))
         
-        # Iterate over pairs of vertexes that make rectangle edges
-        for (a, b) in [(0, 1), (1, 2), (2, 3), (3, 0)]:
-            bok = QLineF(vertexes[a], vertexes[b])
-            itype = line.intersect(bok, intersectionPoint)
-            if(itype == QLineF.BoundedIntersection):
-                if(line_point == 0):
-                    return QLineF(intersectionPoint, line.p2())
-                else:
-                    return QLineF(line.p1(), intersectionPoint)
+        e_b = local_line.p1().y() - e_a * local_line.p1().x()
+        
+        # ellipse params 
+        e_c = global_rect.width()/2
+        e_d = global_rect.height()/2
+        
+        # check condition
+        if(e_c * e_d == 0):
+            return line
+        
+        # precalculate things that are used more than once
+        # a^2, b^2 ...
+        ak = math.pow(e_a, 2)
+        bk = math.pow(e_b, 2)
+        ck = math.pow(e_c, 2)
+        dk = math.pow(e_d, 2)
+        
+        # check another condition
+        if((ak * ck + dk) == 0):
+            return line
+        
+        # a^2*c^2, c^2*d^2
+        akck = ak * ck
+        ckdk = ck * dk
+        
+        # a*b*c^2
+        abck = e_a*e_b*ck
+        
+        # parts of denomiator and numerator of x
+        denom = (akck + dk)
+        numer =  math.sqrt(ck*dk*(akck-bk+dk))
+        
+        x1 = (-numer - abck) / denom
+        y1 = (e_b*dk - e_a*math.sqrt(-ckdk*(-akck+bk-dk))) / denom
+        
+        x2 = (numer - abck) / denom         
+        y2 = -y1  
+        
+        # Decide which points to take
+        xrel = (line.p1().x() > line.p2().x())
+        yrel = (line.p1().y() > line.p2().y())
+        
+        if(line_point != 0):
+            xrel = not xrel
+            yrel = not yrel
+        
+        if((xrel and yrel) or (xrel and not yrel)):
+            intersectionPoint = QPointF(x1, y1)
+        elif((not xrel and yrel) or (not xrel and not yrel)):
+            intersectionPoint = QPointF(x2, y2)
+    
+        # Go back to global coordinate system
+        intersectionPoint = intersectionPoint + local_trans
+    
+        if(line_point == 0):
+            return QLineF(intersectionPoint, line.p2())
+        else:
+            return QLineF(line.p1(), intersectionPoint)  
         
         return line
         
