@@ -24,7 +24,6 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         metrics = QFontMetrics(self.__font)
         painter.setFont(self.__font)
         painter.setPen(QColor(0, 0, 0))
-
         painter.fillRect(QRectF(self.__boundingRect), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
 
         # Name of the class        

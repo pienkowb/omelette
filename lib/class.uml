@@ -13,3 +13,6 @@ prototype relation aggregation
 
 prototype relation composition
     target-arrow: composition
+
+    
+prototype base usecase
