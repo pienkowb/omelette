@@ -106,15 +106,3 @@ class DrawableClass(DrawableNode, QGraphicsItem):
                 anchor.connector.update()
                 
         return QGraphicsItem.itemChange(self, change, value)
-
-class DrawableRelation(DrawableEdge, QGraphicsLineItem):
-    def __init__(self, uml_object):
-        super(DrawableRelation, self).__init__(uml_object)
-        QGraphicsLineItem.__init__(self)
-        self.__boundingRect = QRectF(0, 0, 100, 100)
-        self.__font = QFont('Comic Sans MS', 10)
-        
-    def boundingRect(self):
-        return self.__boundingRect
-    
-    
