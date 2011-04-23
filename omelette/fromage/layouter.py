@@ -39,17 +39,16 @@ class Layouter(object):
                     except ValueError:
                         sortednodes.append(node)
                         d += 1
-            
-                for node in sortednodes:
-                    i = 0
-                    for neigh in node.neighbours:
-                        if(i<2):
-                            try:
-                                sortednodes.index(neigh)
-                            except ValueError:
-                                sortednodes.insert(sortednodes.index(node) + pow(-1,i), neigh)
-                                d += 1
-                                i += 1
+                        for node in sortednodes:
+                            i = 0
+                            for neigh in node.neighbours:
+                                if(i<2):
+                                    try:
+                                        sortednodes.index(neigh)
+                                    except ValueError:
+                                        sortednodes.insert(sortednodes.index(node) + pow(-1,i), neigh)
+                                        d += 1
+                                        i += 1
             i = 0
             for node in sortednodes:
                 # calculating xpos
