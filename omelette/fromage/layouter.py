@@ -1,14 +1,19 @@
 import math
 
 class Layouter(object):
+    
+    """
+    Basic layout function placing all nodes on circle, adjusting
+    circle range to size of nodes.
+    """
 
     @staticmethod
-    def circular_layout(diagram):
-        sx = sy = 200 # Defining center of circle
+    def circular_layout(diagram, sx=200, sy=200, start=math.pi/2, spread=2):
+#        sx = sy = 200 # Defining center of circle
         r = 0
         maxwidth = maxheight = 0
-        start = math.pi / 2 # Starting angle
-        spread = 2 # Diagram nodes spread factor
+#        start = math.pi / 2 # Starting angle
+#        spread = 2 # Diagram nodes spread factor
         for node in diagram.nodes.values(): # Finding max size of drawable
             if maxwidth < node.boundingRect().size().width():
                 maxwidth = node.boundingRect().size().width()
