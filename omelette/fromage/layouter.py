@@ -6,7 +6,6 @@ class Layouter(object):
     Basic layout function placing all nodes on circle, adjusting
     circle range to size of nodes.
     """
-
     @staticmethod
     def circular_layout(diagram, sx=200, sy=200, start=math.pi/2, spread=2):
 #        sx = sy = 200 # Defining center of circle
@@ -39,7 +38,7 @@ class Layouter(object):
                 node.moveBy(x, y)
         else:
             node.moveBy(sx, sy)
-            
+    
     @staticmethod
     def nodes_hash(diagram):
         hash = []
@@ -47,6 +46,9 @@ class Layouter(object):
             hash.append(node)
         return hash
     
+    """
+    Function generating incidence matrix from given diagram.
+    """
     @staticmethod
     def incidence_matrix(diagram):
         #initializing incidence array
@@ -59,8 +61,11 @@ class Layouter(object):
             for neigh in node.neighbours:
                 incidence[hash.index(node)][hash.index(neigh)] = 1
         return incidence
-
+    
+    """
+    General function calling different layout functions.
+    """
     @staticmethod
-    def layout(diagram):
-        print Layouter.incidence_matrix(diagram)
-        Layouter.circular_layout(diagram)
+    def layout(diagram, mode=0):
+        if(mode == 0):
+            Layouter.circular_layout(diagram)
