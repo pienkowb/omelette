@@ -1,10 +1,11 @@
 import math
 
-from omelette.fromage.common import *
-
 from PyQt4.QtGui import *
 from PyQt4.QtCore import QRectF, QLineF
 from PyQt4.Qt import *
+
+from omelette.fromage.common import *
+from omelette.fromage.diagramcommon import DrawableText
 
 class DrawableActor(DrawableNode, QGraphicsItem):
     def __init__(self, uml_object):
@@ -20,6 +21,16 @@ class DrawableActor(DrawableNode, QGraphicsItem):
         self.setFlag(QGraphicsItem.ItemSendsGeometryChanges, 1)
         
         self.__actor_rectangle = QRectF(0, 0, 50, 100)
+        
+        dtext = DrawableText(self)
+        dtext.setParentItem(self)
+        dtext.setPos(QPointF(0,0))
+        dtext.origin_pos = QPointF(QPointF(0,0))
+        dtext.setVisible(False)
+        dtext.text_position = QPointF(QPointF(0,0))
+        dtext.text_orientation = 0
+        
+        self.__actor_name_text = dtext
 
     def boundingRect(self):
         return self.__boundingRect
@@ -32,7 +43,7 @@ class DrawableActor(DrawableNode, QGraphicsItem):
 
         # painter.drawRect(self.__actor_rectangle)
 
-        # TODO: Make lines dependant on __actor_rectangle
+        # TODO: Make lines dependent on __actor_rectangle
         painter.setRenderHint(QPainter.Antialiasing, True)
         
         painter.drawEllipse(10,0,30,30)
@@ -44,6 +55,7 @@ class DrawableActor(DrawableNode, QGraphicsItem):
         painter.drawLine(25, 70, 50, 100)
         
         painter.setRenderHint(QPainter.Antialiasing, False)
+        
 
     def __sizeOfSection(self, metrics, list):
         count = 0
@@ -57,7 +69,23 @@ class DrawableActor(DrawableNode, QGraphicsItem):
     def update(self):
         metrics = QFontMetrics(self.__font)
         
-        self.__boundingRect = self.__actor_rectangle
+        self.__boundingRect = QRectF(self.__actor_rectangle)
+        globalRect = self.globalBoundingRect()
+        
+        # TODO: This again
+        if "name" not in self.uml_object.properties:
+            self.uml_object["name"] = self.uml_object.name
+            
+            
+        self.__actor_name_text.text = self.uml_object["name"]
+        self.__actor_name_text.origin_pos = QPointF(globalRect.x() + globalRect.width() / 2, globalRect.y() + globalRect.height())
+        if(not self.__actor_name_text.isVisible()):
+            textpos = QPointF(self.__actor_name_text.origin_pos)
+            textpos.setX(textpos.x() - metrics.width(self.uml_object["name"]) / 2) # Making text centered
+            self.__actor_name_text.setPos(textpos)
+            self.__actor_name_text.setVisible(True)
+            
+            
 
     def crop_line(self, line, line_point):
         global_rect = self.globalBoundingRect()
