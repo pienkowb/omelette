@@ -1,7 +1,9 @@
 import math
+
 class Layouter(object):
+
     @staticmethod
-    def layout(diagram):
+    def circular_layout(diagram):
         sx = sy = 200 # Defining center of circle
         r = 0
         maxwidth = maxheight = 0
@@ -32,3 +34,28 @@ class Layouter(object):
                 node.moveBy(x, y)
         else:
             node.moveBy(sx, sy)
+            
+    @staticmethod
+    def nodes_hash(diagram):
+        hash = []
+        for node in diagram.nodes.values():
+            hash.append(node)
+        return hash
+    
+    @staticmethod
+    def incidence_matrix(diagram):
+        #initializing incidence array
+        incidence = [[ 0 for row in range(len(diagram.nodes))]
+                    for col in range(len(diagram.nodes)) ]
+        #enumerating nodes
+        hash = Layouter.nodes_hash(diagram)
+        #filling incidence array
+        for node in diagram.nodes.values():
+            for neigh in node.neighbours:
+                incidence[hash.index(node)][hash.index(neigh)] = 1
+        return incidence
+
+    @staticmethod
+    def layout(diagram):
+        print Layouter.incidence_matrix(diagram)
+        Layouter.circular_layout(diagram)

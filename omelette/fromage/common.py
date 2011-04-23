@@ -7,6 +7,7 @@ class Drawable(object):
     Holds uml_object and list of anchors which are in slot relation with it.
     """
 
+
     def __init__(self, uml_object):
         self.uml_object = uml_object
         self.anchors = []
@@ -14,12 +15,24 @@ class Drawable(object):
     def przytnij_linie(self, line):
         return line
 
+    def get_neighbours(self):
+        return map(self.__get_other, self.anchors)
+    
+    def __get_other(self, anchor):
+        link = anchor.connector
+        if link.source_anchor.slot == self:
+            return link.target_anchor.slot
+        else:
+            return link.source_anchor.slot
+
     #TODO: See if PyQt provides such functionality
     def globalBoundingRect(self):
         global_rect = QRectF(self.boundingRect())
         global_rect.translate(self.pos())
 
         return global_rect
+
+    neighbours = property(get_neighbours)
 
 class DrawableEdge(Drawable):
     """Base class for edgy things (e.g. lines, relations)."""
