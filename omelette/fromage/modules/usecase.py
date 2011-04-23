@@ -33,7 +33,6 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
     
     def update(self):
         metrics = QFontMetrics(self.__font)
-        # Start by finding size of class name block
         textHeight = metrics.height()
 
         # TODO: This doesn't belong here. Or does it?
@@ -49,6 +48,8 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
         
         if(ratio > 3.5):
             drawableHeight = drawableWidth / max(3.5, ratio/3)
+        elif(ratio < 1):
+            drawableWidth = drawableHeight * 1.2
 
         self.__text_rect = QRectF((drawableWidth - textWidth) / 2,
                                   (drawableHeight - textHeight) / 2,
@@ -62,6 +63,9 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
         # Go to local coordinate system - ellipse equations assume ellipse is centered on (0,0)        
         local_trans = global_rect.center()
         local_line = QLineF(line.p1() - local_trans, line.p2() - local_trans)
+        
+        if(local_line.dx() == 0):
+            return line
         
         # Solve line equation        
         e_a = ((local_line.p2().y() - local_line.p1().y()) / 
@@ -99,12 +103,6 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
         denom = (akck + dk)
         numer =  math.sqrt(ck*dk*(akck-bk+dk))
         
-        x1 = (-numer - abck) / denom
-        y1 = (e_b*dk - e_a*math.sqrt(-ckdk*(-akck+bk-dk))) / denom
-        
-        x2 = (numer - abck) / denom         
-        y2 = -y1  
-        
         # Decide which points to take
         xrel = (line.p1().x() > line.p2().x())
         yrel = (line.p1().y() > line.p2().y())
@@ -114,8 +112,14 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
             yrel = not yrel
         
         if((xrel and yrel) or (xrel and not yrel)):
+            x1 = (-numer - abck) / denom
+            y1 = (e_b*dk - e_a*math.sqrt(-ckdk*(-akck+bk-dk))) / denom
+            
             intersectionPoint = QPointF(x1, y1)
         elif((not xrel and yrel) or (not xrel and not yrel)):
+            x2 = (numer - abck) / denom         
+            y2 = -(e_b*dk - e_a*math.sqrt(-ckdk*(-akck+bk-dk))) / denom  
+        
             intersectionPoint = QPointF(x2, y2)
     
         # Go back to global coordinate system
