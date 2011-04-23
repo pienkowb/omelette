@@ -7,7 +7,7 @@ class Layouter(object):
     circle range to size of nodes.
     """
     @staticmethod
-    def circular_layout(diagram, sx=200, sy=200, start=math.pi/2, spread=2):
+    def circular_layout(diagram, sx=0, sy=0, start=math.pi/2, spread=2):
 #        sx = sy = 200 # Defining center of circle
         r = 0
         maxwidth = maxheight = 0
@@ -26,10 +26,32 @@ class Layouter(object):
             else:
                 r = (spread * max(maxwidth, maxheight)
                     / math.sin( angle ))
-            i = 0 # number of actual drawable
             # shifting coordinates to be positive
-            sx = sy = r + max(maxwidth, maxheight)
-            for node in diagram.nodes.values():
+            sx = r + max(maxwidth, maxheight) - sx
+            sy = r + max(maxwidth, maxheight) - sy
+            sortednodes = []
+            
+            d = 0
+            while(d < len(diagram.nodes)):
+                for node in diagram.nodes.values():
+                    try:
+                        sortednodes.index(node)
+                    except ValueError:
+                        sortednodes.append(node)
+                        d += 1
+            
+                for node in sortednodes:
+                    i = 0
+                    for neigh in node.neighbours:
+                        if(i<2):
+                            try:
+                                sortednodes.index(neigh)
+                            except ValueError:
+                                sortednodes.insert(sortednodes.index(node) + pow(-1,i), neigh)
+                                d += 1
+                                i += 1
+            i = 0
+            for node in sortednodes:
                 # calculating xpos
                 x = sx + r * math.sin(start + angle * i)
                 # calculating ypos
@@ -38,14 +60,7 @@ class Layouter(object):
                 node.moveBy(x, y)
         else:
             node.moveBy(sx, sy)
-    
-    @staticmethod
-    def nodes_hash(diagram):
-        hash = []
-        for node in diagram.nodes.values():
-            hash.append(node)
-        return hash
-    
+
     """
     Function generating incidence matrix from given diagram.
     """
@@ -59,7 +74,7 @@ class Layouter(object):
         #filling incidence array
         for node in diagram.nodes.values():
             for neigh in node.neighbours:
-                incidence[hash.index(node)][hash.index(neigh)] = 1
+                incidence[diagram.nodes.values().index(node)][diagram.node.values().index(neigh)] = 1
         return incidence
     
     """
