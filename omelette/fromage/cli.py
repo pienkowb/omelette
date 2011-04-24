@@ -1,15 +1,17 @@
 import sys
 sys.path.append('../../') 
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtGui import QImage, QPainter
+from PyQt4.QtGui import QImage, QPainter, QGraphicsScene
 from omelette.fromage.diagram import Diagram
 from omelette.compiler.compiler import Compiler
 from omelette.compiler.code import Code
+from omelette.fromage.layouter import Layouter
 
 QT_APP = QtGui.QApplication([])
 
 def main(argv):
-    diagram = Diagram(None)
+    diagram = Diagram()
+    scene = QGraphicsScene(None)
 
     loltext = "prototype base class\nprototype base relation\nclass asd\nclass bsd\nrelation csd\nsource-object: asd\ntarget-object: bsd\ntarget-arrow: composition"
     
@@ -17,22 +19,35 @@ def main(argv):
     
     code = Code(loltext)
     uml_objects = compiler.compile(code)
-    diagram.set_type("class")
+    
+    for uml_object in uml_objects.values():
+        diagram.add(uml_object)
 
-    for name, uml_object in uml_objects.items():
-        if "name" not in uml_object.properties:
-            uml_object["name"] = name
-        if uml_object.is_prototype:
-            del uml_objects[name]
+    # nodes must be updated before layouting
+    for node in diagram.nodes.values():
+        node.update()
+
+    # needed to layout and draw edges
+    diagram.set_anchors()
+
+    Layouter.layout(diagram)
+
+    # edges must be updated after nodes are updated and layouted
+    for edge in diagram.edges.values():
+        edge.update()
+
+    # this actually paints things, so must be invoked when everything is
+    # ready
+    for drawable in diagram.elements():
+        scene.addItem(drawable)
+        drawable.resize_scene_rect()
     
-    diagram.add(uml_objects)
-    
-    img = QImage(1024, 768, QImage.Format_ARGB32)
+    img = QImage(scene.sceneRect().toRect().size(), QImage.Format_ARGB32)
     painter = QPainter(img)
     painter.resetMatrix()
-    diagram.render(painter)
+    scene.render(painter)
     painter.end()
-    ret = img.save("/dev/null")
+    ret = img.save("C:/home/zapu/omlet_test.png")
     print("Save returned " + str(ret))
 
     return 0
