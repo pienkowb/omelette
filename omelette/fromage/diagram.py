@@ -1,103 +1,91 @@
 import inspect
-from PyQt4 import QtGui
-from common import BaseType, Anchor
+from omelette.fromage.common import DrawableNode, DrawableEdge, Anchor
 
-from omelette.fromage.layouter import Layouter
-
-def _import(name):
-    module = __import__(name)
-    components = name.split(".")
-
-    for component in components[1:]:
-        module = getattr(module, component)
-
-    return module
-
-class Diagram(QtGui.QGraphicsScene):
-    
-    def __init__(self, parent=None, modules_path="omelette.fromage.modules"):
-        super(Diagram, self).__init__(parent)
-        self.modules_path = modules_path
+class _DrawableFactory(object):
+    def __init__(self, modules_path):
         self.drawables = {}
+        self.modules_path = modules_path
+
+    def create(self, uml_object):
+        type_ = uml_object.type
+        if not type_ in self.drawables:
+            self.drawables[type_] = self.__get_drawable(type_)
+        return self.drawables[type_](uml_object)
+
+    def __get_drawable(self, type_):
+        module = self.__import(self.modules_path + "." + type_.lower())
+        name = "Drawable" + type_
+        match = filter(lambda n: n.lower() == name.lower(), dir(module)).pop()
+        drawable = getattr(module, match, None)
+
+        if inspect.isclass(drawable):
+            return drawable
+        else: 
+            raise ImportError("Couldn't find expected class " + name )
+
+    def __import(self, name):
+        module = __import__(name)
+        components = name.split(".")
+
+        for component in components[1:]:
+            module = getattr(module, component)
+
+        return module
+
+
+class Diagram(object):
+    def __init__(self, parent=None, modules_path="omelette.fromage.modules"):
+        self.factory = _DrawableFactory(modules_path)
         self.nodes = {}
         self.edges = {}
 
-    def set_type(self, diagram_type):
-        self.common_path = self.modules_path + ".notakeyword"
-        self.diagram_path = self.modules_path + "." + diagram_type
+    def add(self, uml_object):
+        drawable = self.factory.create(uml_object)
+
+        if isinstance(drawable, DrawableNode):
+            self.nodes[uml_object.name] = drawable
+        elif isinstance(drawable, DrawableEdge):
+            self.edges[uml_object.name] = drawable
+        else:
+            raise AttributeError("Tried to create an object from a corrupted " +
+                "module")
+
+    def elements(self):
+        return self.nodes.values() + self.edges.values()
+
+    def set_anchors(self):
+        for edge in self.edges.values():
+            source, target = self.__get_slots(edge)
+            source_anchor, target_anchor = self.__create_anchors(edge)
+
+            edge.source_anchor = source_anchor
+            edge.target_anchor = target_anchor
+
+            source.anchors.append(source_anchor)
+            target.anchors.append(target_anchor)
+
+    def __create_anchors(self, edge):
+        target_anchor = Anchor()
+        source_anchor = Anchor()
+        source, target = self.__get_slots(edge)
+
+        source_anchor.connector = target_anchor.connector = edge
+        source_anchor.slot = source
+        target_anchor.slot = target
+
+        return source_anchor, target_anchor
+
+    def __get_slots(self, edge):
+        source = self.__get_object(edge, "source-object")
+        target = self.__get_object(edge, "target-object")
+        return source, target
+
+    def __get_object(self, edge, key):
+        try:
+            return self.nodes[edge.uml_object[key]]
+        except KeyError:
+            return self.edges[edge.uml_object[key]]
 
     def clear(self):
-        super(Diagram, self).clear()
-        self.drawables.clear()
         self.nodes.clear()
         self.edges.clear()
-
-    def add(self, uml_objects):
-        for o in uml_objects.values():
-            self.__add_object(o)
-            
-        self.__resolve_all_refs()
-        
-        # Update nodes first, because layouter needs to know sizes of objects
-        for obj in self.nodes.itervalues():
-            obj.update()
-            
-        Layouter.layout(self)
-        
-        # Update edges now, which calculates lines, label positions etc.
-        for obj in self.edges.itervalues():
-            obj.update()
-
-    def __add_object(self, uml_object):
-        o = self.__create(uml_object) 
-        self.addItem(o)
-
-        name = uml_object.name
-        self.drawables[name] = o
-        if o.base_type == BaseType.NODE:
-            self.nodes[name] = o
-        elif o.base_type == BaseType.EDGE:
-            self.edges[name] = o
-        else:
-            raise AttributeError("Tried to create object from a corrupt module")
-
-    def __create(self, uml_object):
-        modules = [_import(self.common_path), _import(self.diagram_path)]
-        
-        for module in modules:
-            name = "Drawable" + uml_object.type
-    
-            # capitalize prohibited creating modules with uppercase letters in name
-            # example: with 'DrawableExampleA' changed to 'DrawableExamplea' and
-            # won't match
-    
-            matching = filter(lambda a: a.lower() == name.lower(), dir(module))
-            if(len(matching) == 0):
-                continue
-            name = matching.pop()
-            drawable = getattr(module, name, None)
-    
-            if inspect.isclass(drawable):
-                return drawable(uml_object)
-                
-    def __resolve_refs(self, drawable):
-        type = drawable.uml_object.type.lower()
-        if(type == 'relation'):
-            source_anchor = Anchor(drawable, self.drawables[drawable.uml_object['source-object']])
-            drawable.source_anchor = source_anchor
-            source_anchor.slot.anchors.append(source_anchor)
-            
-            target_anchor = Anchor(drawable, self.drawables[drawable.uml_object['target-object']])
-            drawable.target_anchor = target_anchor
-            target_anchor.slot.anchors.append(target_anchor)
-    
-    def __resolve_all_refs(self):
-        for obj in self.drawables.itervalues():
-            self.__resolve_refs(obj)
-    
-    def __update_all(self):
-        for obj in self.drawables.itervalues():
-            obj.update()
-            
-            
-            

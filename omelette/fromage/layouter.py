@@ -30,5 +30,3 @@ class Layouter(object):
                 y = sy + r * math.cos(start + angle * i)
                 i += 1
                 node.moveBy(x, y)
-        else:
-            node.moveBy(sx, sy)

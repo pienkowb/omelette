@@ -1,5 +1,5 @@
 from PyQt4.QtGui import *
-from PyQt4.QtCore import QRectF
+from PyQt4.QtCore import QRectF, QPointF
 from PyQt4.Qt import *
 
 class DrawableText(QGraphicsItem):
@@ -8,12 +8,12 @@ class DrawableText(QGraphicsItem):
         self.setParentItem(parentItem)
         self.__font = QFont('Comic Sans MS', 10)
         self.__text = ""
+        self.__origin_pos = None
+        self.reset_vector = QPointF(0,0)
         
         self.__extraFrame = 1
         
         self.setZValue(1)
-        
-        self.__origin_pos = None
         
         self.setFlag(QGraphicsItem.ItemIsMovable, 1)
         self.setFlag(QGraphicsItem.ItemIsSelectable, 1)
@@ -69,3 +69,21 @@ class DrawableText(QGraphicsItem):
         #TODO: Cache boundingRect here too
         
     origin_pos = property(__get_origin, __set_origin)
+
+    def reset_pos(self):
+        self.setPos(self.origin_pos + self.reset_vector)
+
+    def mouseDoubleClickEvent(self, event):
+        self.reset_pos()
+
+    @staticmethod
+    def create_drawable_text(parent):
+        dtext = DrawableText(parent)
+        dtext.setParentItem(parent)
+        dtext.setPos(QPointF(0,0))
+        dtext.origin_pos = QPointF(QPointF(0,0))
+        dtext.setVisible(False)
+        dtext.text_position = QPointF(QPointF(0,0))
+        dtext.text_orientation = 0
+        
+        return dtext
