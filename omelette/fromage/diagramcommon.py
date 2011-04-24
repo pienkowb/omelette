@@ -68,3 +68,16 @@ class DrawableText(QGraphicsItem):
         #TODO: Cache boundingRect here too
         
     origin_pos = property(__get_origin, __set_origin)
+    
+    
+    @staticmethod
+    def create_drawable_text(parent):
+        dtext = DrawableText(parent)
+        dtext.setParentItem(parent)
+        dtext.setPos(QPointF(0,0))
+        dtext.origin_pos = QPointF(QPointF(0,0))
+        dtext.setVisible(False)
+        dtext.text_position = QPointF(QPointF(0,0))
+        dtext.text_orientation = 0
+        
+        return dtext

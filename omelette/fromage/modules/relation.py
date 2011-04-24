@@ -117,11 +117,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.target_arrow = None
         
     def __create_text(self, tag, position, orientation):
-        dtext = DrawableText(self)
-        dtext.setParentItem(self)
-        dtext.setPos(QPointF(0,0))
-        dtext.origin_pos = QPointF(QPointF(0,0))
-        dtext.setVisible(False)
+        dtext = DrawableText.create_drawable_text(self)
         dtext.text_position = position
         dtext.text_orientation = orientation
         

@@ -22,15 +22,7 @@ class DrawableActor(DrawableNode, QGraphicsItem):
         
         self.__actor_rectangle = QRectF(0, 0, 50, 100)
         
-        dtext = DrawableText(self)
-        dtext.setParentItem(self)
-        dtext.setPos(QPointF(0,0))
-        dtext.origin_pos = QPointF(QPointF(0,0))
-        dtext.setVisible(False)
-        dtext.text_position = QPointF(QPointF(0,0))
-        dtext.text_orientation = 0
-        
-        self.__actor_name_text = dtext
+        self.__actor_name_text = DrawableText.create_drawable_text(self)
 
     def boundingRect(self):
         return self.__boundingRect
