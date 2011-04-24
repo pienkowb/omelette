@@ -31,24 +31,20 @@ class Layouter(object):
             sy = r + max(maxwidth, maxheight) - sy
             sortednodes = []
             
+            #TODO dopisac sortowanie po stopniu wierzcholka
             d = 0
-            while(d < len(diagram.nodes)):
+            while d < len(diagram.nodes):
                 for node in diagram.nodes.values():
-                    try:
-                        sortednodes.index(node)
-                    except ValueError:
+                    if not node in sortednodes:
                         sortednodes.append(node)
                         d += 1
                         for node in sortednodes:
                             i = 0
                             for neigh in node.neighbours:
-                                if(i<2):
-                                    try:
-                                        sortednodes.index(neigh)
-                                    except ValueError:
-                                        sortednodes.insert(sortednodes.index(node) + pow(-1,i), neigh)
-                                        d += 1
-                                        i += 1
+                                if not neigh in sortednodes:
+                                    sortednodes.insert(sortednodes.index(node) + pow(-1,i), neigh)
+                                    d += 1
+                                    i += 1
             i = 0
             for node in sortednodes:
                 # calculating xpos
