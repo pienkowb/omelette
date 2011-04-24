@@ -143,7 +143,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         return line
     
-    def update(self):
+    def update(self):        
         self.setLine(QLineF(self.source_anchor.slot.find_anchor(), self.target_anchor.slot.find_anchor()))
         self.__real_line = self.__find_real_line()
         

@@ -31,6 +31,15 @@ class Drawable(object):
         global_rect.translate(self.pos())
 
         return global_rect
+    
+    def resize_scene_rect(self):
+        # Check if we are QGraphicsItem and if we are on scene
+        if(not callable(self.scene) or self.scene() == None): 
+            return
+        
+        # TODO: A place for optimization?
+        rect = QRectF(self.scene().sceneRect())
+        self.scene().setSceneRect(rect.united(self.globalBoundingRect()))
 
 class DrawableEdge(Drawable):
     """Base class for edgy things (e.g. lines, relations)."""

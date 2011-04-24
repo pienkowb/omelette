@@ -140,4 +140,6 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
             for anchor in self.anchors:
                 anchor.connector.update()
                 
+                self.resize_scene_rect()
+                
         return QGraphicsItem.itemChange(self, change, value)

@@ -100,9 +100,11 @@ class DrawableClass(DrawableNode, QGraphicsItem):
     def find_anchor(self):
         return self.globalBoundingRect().center()
 
-    def itemChange(self, change, value):
+    def itemChange(self, change, value):        
         if(change == QGraphicsItem.ItemPositionChange):
             for anchor in self.anchors:
                 anchor.connector.update()
+                
+            self.resize_scene_rect()
                 
         return QGraphicsItem.itemChange(self, change, value)

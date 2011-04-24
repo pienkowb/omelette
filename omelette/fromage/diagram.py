@@ -34,7 +34,6 @@ class _DrawableFactory(object):
 
 
 class Diagram(object):
-
     def __init__(self, parent=None, modules_path="omelette.fromage.modules"):
         self.factory = _DrawableFactory(modules_path)
         self.nodes = {}
