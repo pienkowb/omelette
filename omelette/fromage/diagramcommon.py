@@ -9,6 +9,7 @@ class DrawableText(QGraphicsItem):
         self.__font = QFont('Comic Sans MS', 10)
         self.__text = ""
         self.__origin_pos = None
+        self.reset_vector = QPointF(0,0)
         
         self.__extraFrame = 1
         
@@ -68,8 +69,13 @@ class DrawableText(QGraphicsItem):
         #TODO: Cache boundingRect here too
         
     origin_pos = property(__get_origin, __set_origin)
-    
-    
+
+    def reset_pos(self):
+        self.setPos(self.origin_pos + self.reset_vector)
+
+    def mouseDoubleClickEvent(self, event):
+        self.reset_pos()
+
     @staticmethod
     def create_drawable_text(parent):
         dtext = DrawableText(parent)

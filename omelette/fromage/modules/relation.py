@@ -17,7 +17,7 @@ def str2arrow(name):
     elif name == "generalization":
         return ArrowHeadGen(filled=False)
     else: 
-        raise AttributeError('Unknow arrowname given! (or we just don\'t support it yet')
+        raise AttributeError('Unknow arrowname given!!')
 
 # Warning. Copy&Paste methodology was used to write following code
 #TODO: Please consider refactoring and/or moving ArrowHead classes.
@@ -123,7 +123,6 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         self.__texts[tag] = dtext
          
-        
     def boundingRect(self):
         return self.__boundingRect
     
@@ -215,7 +214,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         # Reset pos if not visible.
         if(dtext.isVisible() == False):
-            dtext.setPos(xPos, yPos)
+            dtext.reset_pos()
             
         dtext.text = text
         dtext.setVisible(True)

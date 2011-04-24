@@ -68,16 +68,12 @@ class DrawableActor(DrawableNode, QGraphicsItem):
         if "name" not in self.uml_object.properties:
             self.uml_object["name"] = self.uml_object.name
             
-            
         self.__actor_name_text.text = self.uml_object["name"]
         self.__actor_name_text.origin_pos = QPointF(globalRect.x() + globalRect.width() / 2, globalRect.y() + globalRect.height())
+        self.__actor_name_text.reset_vector = QPointF(- metrics.width(self.uml_object["name"]) / 2, 0)
         if(not self.__actor_name_text.isVisible()):
-            textpos = QPointF(self.__actor_name_text.origin_pos)
-            textpos.setX(textpos.x() - metrics.width(self.uml_object["name"]) / 2) # Making text centered
-            self.__actor_name_text.setPos(textpos)
-            self.__actor_name_text.setVisible(True)
-            
-            
+            self.__actor_name_text.reset_pos()
+            self.__actor_name_text.setVisible(True)            
 
     def crop_line(self, line, line_point):
         global_rect = self.globalBoundingRect()
