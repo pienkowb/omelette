@@ -7,6 +7,7 @@ class Drawable(object):
     Holds uml_object and list of anchors which are in slot relation with it.
     """
 
+
     def __init__(self, uml_object):
         self.uml_object = uml_object
         self.anchors = []
@@ -20,12 +21,23 @@ class Drawable(object):
     """
     def crop_line(self, line, line_point):
         return line
+    
+    def get_neighbours(self):
+        return map(self.__get_other, self.anchors)
+    
+    def __get_other(self, anchor):
+        link = anchor.connector
+        if link.source_anchor.slot == self:
+            return link.target_anchor.slot
+        else:
+            return link.source_anchor.slot
 
     """
     Returns boundingRect in relation to the diagram. Doesn't work if
     Drawable doesn't derive from QGraphicsItem (no boundingRect()).
     """
     #TODO: See if PyQt provides such functionality
+    #TODO: Seems like QRectF QGraphicsItem.sceneBoundingRect (self) does that
     def globalBoundingRect(self):
         global_rect = QRectF(self.boundingRect())
         global_rect.translate(self.pos())
@@ -40,6 +52,8 @@ class Drawable(object):
         # TODO: A place for optimization?
         rect = QRectF(self.scene().sceneRect())
         self.scene().setSceneRect(rect.united(self.globalBoundingRect()))
+
+    neighbours = property(get_neighbours)
 
 class DrawableEdge(Drawable):
     """Base class for edgy things (e.g. lines, relations)."""
