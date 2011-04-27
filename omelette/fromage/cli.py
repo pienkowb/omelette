@@ -2,6 +2,7 @@ import sys
 import getopt
 
 sys.path.append('../../')
+sys.path.append('.')
  
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QImage, QPainter, QGraphicsScene
@@ -51,7 +52,7 @@ def main(argv):
     
     diagram = Diagram()
     scene = QGraphicsScene(None)
-    compiler = Compiler()
+    compiler = Compiler(Library.load_libraries())
 
     uml_objects = compiler.compile(code)
     
