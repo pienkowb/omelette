@@ -1,7 +1,11 @@
 import sys
-sys.path.append('../../') 
+import getopt
+
+sys.path.append('../../')
+ 
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QImage, QPainter, QGraphicsScene
+
 from omelette.fromage.diagram import Diagram
 from omelette.compiler.compiler import Compiler
 from omelette.compiler.code import Code
@@ -9,15 +13,46 @@ from omelette.fromage.layouter import Layouter
 
 QT_APP = QtGui.QApplication([])
 
+def usage():
+    print "Usage: cli.py -h --help -i --input -o -output"
+
 def main(argv):
+    try:
+        opts, args = getopt.getopt(sys.argv[1:], 
+                                   "hi:o:", ["help", "input=", "output="])
+    except getopt.GetoptError, err:
+        print str(err)
+        usage()
+        return 1
+    
+    input = ""
+    output = ""
+    for o, a in opts:
+        print o + " " + a
+        if o in ("-h", "--help"):
+            return 0
+        elif o in ("-i", "--input"):
+            input = a
+        elif o in ("-o", "--output"):
+            output = a
+        else:
+            assert False, "unhandled opt"
+    
+    if(input == "" or output == ""):
+        usage()
+        return 1
+    
+    try:
+        input_file = open(input, 'r')
+        code = Code(input_file.read())
+    except IOError, err:
+        print "IOError: " + str(err)
+        return 2
+    
     diagram = Diagram()
     scene = QGraphicsScene(None)
-
-    loltext = "prototype base class\nprototype base relation\nclass asd\nclass bsd\nrelation csd\nsource-object: asd\ntarget-object: bsd\ntarget-arrow: composition"
-    
     compiler = Compiler()
-    
-    code = Code(loltext)
+
     uml_objects = compiler.compile(code)
     
     for uml_object in uml_objects.values():
@@ -47,11 +82,10 @@ def main(argv):
     painter.resetMatrix()
     scene.render(painter)
     painter.end()
-    ret = img.save("C:/home/zapu/omlet_test.png")
+    ret = img.save(output)
     print("Save returned " + str(ret))
 
     return 0
-
 
 if __name__ == "__main__":
     exit(main(sys.argv))
