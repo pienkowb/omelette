@@ -43,6 +43,7 @@ class Actions(object):
         # ready
         for drawable in self.diagram.elements():
             self.window.scene.addItem(drawable)
+            drawable.resize_scene_rect()
 
     def enable_save(self):
         self.window.actionSave.setEnabled(True)
