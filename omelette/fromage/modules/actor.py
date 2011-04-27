@@ -33,8 +33,6 @@ class DrawableActor(DrawableNode, QGraphicsItem):
         painter.setPen(QColor(0, 0, 0))
         painter.fillRect(QRectF(self.__boundingRect), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
 
-        # painter.drawRect(self.__actor_rectangle)
-
         # TODO: Make lines dependent on __actor_rectangle
         painter.setRenderHint(QPainter.Antialiasing, True)
         
@@ -102,7 +100,6 @@ class DrawableActor(DrawableNode, QGraphicsItem):
         if(change == QGraphicsItem.ItemPositionChange):
             for anchor in self.anchors:
                 anchor.connector.update()
-                
                 self.resize_scene_rect()
                 
         return QGraphicsItem.itemChange(self, change, value)

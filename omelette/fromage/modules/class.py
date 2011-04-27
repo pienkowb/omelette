@@ -20,6 +20,27 @@ class DrawableClass(DrawableNode, QGraphicsItem):
     def boundingRect(self):
         return self.__boundingRect
 
+    def __draw_oa(self, painter, current_height, list):
+        metrics = QFontMetrics(self.__font)
+        for obj in list:       
+            print str(obj) + " " + str(obj.is_static)    
+            if(obj.is_static):
+                font = painter.getFont()
+                font.setUnderline(True)
+                painter.setFont(font)                
+            
+            painter.drawText(QRect(self.__textMargin, current_height, metrics.width(str(obj)), metrics.height()), 0, str(obj))
+            
+            # Set font back to non-underlined
+            if(obj.is_static):
+                font = painter.getFont()
+                font.setUnderline(False)
+                painter.setFont(font)
+                
+            current_height += self.__textMargin + metrics.height() 
+            
+        return current_height
+
     def paint(self, painter, style, widget):
         metrics = QFontMetrics(self.__font)
         painter.setFont(self.__font)
@@ -29,22 +50,28 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         # Name of the class        
         currentHeight = self.__sectionMargin
         painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(self.uml_object['name']), metrics.height()), 0, self.uml_object['name'])
-        currentHeight += self.__sectionMargin + metrics.height()
+        currentHeight += metrics.height()
+        
+        # Stereotype
+        if("stereotype" in self.uml_object.properties):
+            currentHeight += self.__textMargin
+            stereotype = "<< " + self.uml_object["stereotype"] + " >>"
+            painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(stereotype), metrics.height()), 0, stereotype)
+            currentHeight += metrics.height()
+            
+        currentHeight += self.__sectionMargin
         
         # Attributes section
         painter.drawLine(0, currentHeight, self.__boundingRect.width(), currentHeight)
         currentHeight += self.__sectionMargin
-        for attribute in map(str, self.uml_object.attributes()):
-            painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(attribute), metrics.height()), 0, attribute)
-            currentHeight += self.__textMargin + metrics.height()
+        
+        currentHeight = self.__draw_oa(painter, currentHeight, self.uml_object.attributes()) 
         
         # Operations section
         painter.drawLine(0, currentHeight, self.__boundingRect.width(), currentHeight)
         
         currentHeight += self.__sectionMargin
-        for operation in map(str, self.uml_object.operations()):
-            painter.drawText(QRect(self.__textMargin, currentHeight, metrics.width(operation), metrics.height()), 0, operation)
-            currentHeight += self.__textMargin + metrics.height()
+        currentHeight = self.__draw_oa(painter, currentHeight, self.uml_object.operations())
 
         painter.drawRect(self.__boundingRect)
 
@@ -67,10 +94,17 @@ class DrawableClass(DrawableNode, QGraphicsItem):
             self.uml_object["name"] = self.uml_object.name
 
         drawableWidth = 2 * self.__textMargin + metrics.width(self.uml_object['name'])
+        
+        # Add stereotype height
+        if("stereotype" in self.uml_object.properties):
+            drawableHeight += self.__textMargin + metrics.height()
+            
+            stereotypeWidth = 2 * self.__textMargin + metrics.width("<< " + self.uml_object['stereotype'] + " >>")
+            drawableWidth = max(drawableWidth, stereotypeWidth)
 
         # Find sizes of each section and update width/height
         for section in [map(str, self.uml_object.operations()), map(str,
-            self.uml_object.attributes())]:
+                                                                    self.uml_object.attributes())]:
             size = self.__sizeOfSection(metrics, section)
             drawableWidth = max(drawableWidth, size[0])
             drawableHeight += size[1]
