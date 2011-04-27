@@ -48,7 +48,6 @@ class DrawableActor(DrawableNode, QGraphicsItem):
         painter.drawLine(center, head_rad * 2, self.__actor_rectangle.width(), self.__actor_rectangle.height())
         
         painter.setRenderHint(QPainter.Antialiasing, False)
-        
 
     def update(self):
         metrics = QFontMetrics(self.__font)
