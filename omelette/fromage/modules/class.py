@@ -23,8 +23,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
     def __draw_oa(self, painter, current_height, list):
         """ Used to draw operation or attribute list """
         metrics = QFontMetrics(self.__font)
-        for obj in list:       
-            print str(obj) + " " + str(obj.is_static)    
+        for obj in list:    
             if(obj.is_static):
                 font = painter.getFont()
                 font.setUnderline(True)
