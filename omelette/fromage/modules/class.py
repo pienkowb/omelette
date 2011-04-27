@@ -23,17 +23,18 @@ class DrawableClass(DrawableNode, QGraphicsItem):
     def __draw_oa(self, painter, current_height, list):
         """ Used to draw operation or attribute list """
         metrics = QFontMetrics(self.__font)
-        for obj in list:    
+        for obj in list:
+            # TODO: Make font changing less ugly
             if(obj.is_static):
-                font = painter.getFont()
+                font = painter.font()
                 font.setUnderline(True)
-                painter.setFont(font)                
+                painter.setFont(font)
             
             painter.drawText(QRect(self.__text_margin, current_height, metrics.width(str(obj)), metrics.height()), 0, str(obj))
             
             # Set font back to non-underlined
             if(obj.is_static):
-                font = painter.getFont()
+                font = painter.font()
                 font.setUnderline(False)
                 painter.setFont(font)
                 
