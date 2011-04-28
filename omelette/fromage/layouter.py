@@ -2,12 +2,12 @@ import math
 
 class Layouter(object):
     
-    """
-    Basic layout function placing all nodes on circle, adjusting
-    circle range to size of nodes.
-    """
     @staticmethod
     def __circular_layout(diagram, sx=0, sy=0, start=math.pi/2, spread=2):
+        """
+        Basic layout function placing all nodes on circle, adjusting
+        circle range to size of nodes.
+        """
         r = 0
         # Finding max size of drawable
         maxsize = Layouter.__max_size_of_drawable_node(diagram.nodes.values())
@@ -34,18 +34,18 @@ class Layouter(object):
         else:
             node.moveBy(sx, sy)
         
-    """
-    Function sorting nodes in order of vertex grade
-    """
     @staticmethod
     def __sort_nodes_by_degree(nodes, rev=True):
+        """
+        Function sorting nodes in order of vertex grade
+        """
         return sorted(nodes, key=Layouter.__node_degree, reverse=rev)
     
-    """
-    Function sorting nodes to have their neighbours on their both sides
-    """
     @staticmethod
     def __sort_nodes_by_neighbourhood(nodes):
+        """
+        Function sorting nodes to have their neighbours on their both sides
+        """
         sortednodes = []
         d = 0 # number of sorted nodes
         while d < len(nodes):
@@ -63,18 +63,18 @@ class Layouter(object):
                                 i += 1
         return sortednodes
             
-    """
-    Function calculating node's degree
-    """
     @staticmethod
     def __node_degree(node):
+        """
+        Function calculating node's degree
+        """
         return len(node.neighbours)
     
-    """
-    Function generating incidence matrix from given diagram
-    """
     @staticmethod
     def __incidence_matrix(diagram):
+        """
+        Function generating incidence matrix from given diagram
+        """
         #initializing incidence array
         incidence = [[ 0 for row in range(len(diagram.nodes))]
                     for col in range(len(diagram.nodes)) ]
@@ -84,11 +84,11 @@ class Layouter(object):
                 incidence[diagram.nodes.values().index(node)][diagram.nodes.values().index(neigh)] = 1
         return incidence
     
-    """
-    Function calculating maximal size of nodes in given list of nodes
-    """
     @staticmethod
     def __max_size_of_drawable_node(nodes):
+        """
+        Function calculating maximal size of nodes in given list of nodes
+        """
         maxwidth = maxheight = 0
         for node in nodes:
             if maxwidth < node.boundingRect().size().width():
@@ -97,10 +97,10 @@ class Layouter(object):
                 maxheight = node.boundingRect().size().height()
         return max(maxwidth, maxheight)
     
-    """
-    General function calling different layout functions
-    """
     @staticmethod
     def layout(diagram, mode=0):
+        """
+        General function calling different layout functions
+        """
         if(mode == 0):
             Layouter.__circular_layout(diagram)
