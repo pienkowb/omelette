@@ -17,7 +17,7 @@ def str2arrow(name):
     elif name == "generalization":
         return ArrowHeadGen(filled=False)
     else: 
-        raise AttributeError('Unknow arrowname given! (or we just don\'t support it yet')
+        raise AttributeError('Unknow arrowname given!!')
 
 # Warning. Copy&Paste methodology was used to write following code
 #TODO: Please consider refactoring and/or moving ArrowHead classes.
@@ -28,40 +28,14 @@ class ArrowHead(object):
         self.length = 15
         self.filled = filled
         
-    def draw(self, painter, point, angle):
-        pass          
-
-class ArrowHeadAss(ArrowHead):
-    # TODO: Update for arrowhead, keep points and just draw 
-    # them instead of calculating every time    
     def draw(self, painter, point, line):
-        angle = math.asin(line.dx() / line.length())
-        
-        if(point == line.p2()):
-            orientation = -1
-        else: # always falling back to "1"
-            orientation = 1
-        
-        if(line.dy() >= 0):
-            y1 = math.cos(angle - self.angle) * self.length
-            x1 = math.sin(angle - self.angle) * self.length
-            
-            y2 = math.cos(angle + self.angle) * self.length
-            x2 = math.sin(angle + self.angle) * self.length
-        else:
-            y1 = math.cos(math.pi - angle - self.angle) * self.length
-            x1 = math.sin(math.pi - angle - self.angle) * self.length
-            
-            y2 = math.cos(math.pi - angle + self.angle) * self.length
-            x2 = math.sin(math.pi - angle + self.angle) * self.length
+        pass
 
-        painter.drawLine(QLineF(point, point + QPointF(x1, y1) * orientation))
-        painter.drawLine(QLineF(point, point + QPointF(x2, y2) * orientation))
-
-class ArrowHeadComp(ArrowHead):   
-    # TODO: Update for arrowhead, keep points and just draw 
-    # them instead of calculating every time
+class ArrowHeadStandard(ArrowHead):
     def draw(self, painter, point, line):
+        # Does not actually draw anything, just finds points
+        # TODO: Move finding points to another method, "update" ?
+        
         angle = math.asin(line.dx() / line.length())
         
         if(point == line.p2()):
@@ -87,53 +61,38 @@ class ArrowHeadComp(ArrowHead):
             
             x3 = x2 - math.sin(math.pi*2 - angle - self.angle) * self.length
             y3 = y2 - math.cos(math.pi*2 - angle - self.angle) * self.length
-
-        polygon = QPolygonF([point, 
-                             point + QPointF(x1, y1) * orientation, 
-                             point + QPointF(x3, y3) * orientation, 
-                             point + QPointF(x2, y2) * orientation])
+            
+        self.pointA = point + QPointF(x1, y1) * orientation
+        self.pointB = point + QPointF(x2, y2) * orientation
+        self.pointC = point + QPointF(x3, y3) * orientation  
         
+        # Prepare the painter, too
         if(self.filled):
             painter.setBrush(QColor(0, 0, 0))
         else:
             painter.setBrush(QColor(255, 255, 255))
-            
+
+class ArrowHeadAss(ArrowHeadStandard):
+    def draw(self, painter, point, line):
+        super(ArrowHeadAss, self).draw(painter, point, line)
+
+        painter.drawLine(QLineF(point, self.pointA))
+        painter.drawLine(QLineF(point, self.pointB))
+
+class ArrowHeadComp(ArrowHeadStandard):   
+    def draw(self, painter, point, line):
+        super(ArrowHeadComp, self).draw(painter, point, line)
+        
+        polygon = QPolygonF([point, self.pointA, self.pointC, self.pointB])
         painter.drawPolygon(polygon)
  
-class ArrowHeadGen(ArrowHead):        
-    # TODO: Update for arrowhead, keep points and just draw 
-    # them instead of calculating every time
+class ArrowHeadGen(ArrowHeadStandard):        
     def draw(self, painter, point, line):
-        angle = math.asin(line.dx() / line.length())
+        super(ArrowHeadGen, self).draw(painter, point, line)
         
-        if(point == line.p2()):
-            orientation = -1
-        else: # always falling back to "1"
-            orientation = 1
-        
-        if(line.dy() >= 0):
-            y1 = math.cos(angle - self.angle) * self.length
-            x1 = math.sin(angle - self.angle) * self.length
-            
-            y2 = math.cos(angle + self.angle) * self.length
-            x2 = math.sin(angle + self.angle) * self.length
-        else:
-            y1 = math.cos(math.pi - angle - self.angle) * self.length
-            x1 = math.sin(math.pi - angle - self.angle) * self.length
-            
-            y2 = math.cos(math.pi - angle + self.angle) * self.length
-            x2 = math.sin(math.pi - angle + self.angle) * self.length
-            
-        polygon = QPolygonF([point, 
-                             point + QPointF(x1, y1) * orientation,  
-                             point + QPointF(x2, y2) * orientation])
-        
-        if(self.filled):
-            painter.setBrush(QColor(0, 0, 0))
-        else:
-            painter.setBrush(QColor(255, 255, 255))
-            
+        polygon = QPolygonF([point, self.pointA, self.pointB])
         painter.drawPolygon(polygon)
+
 
 class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __init__(self, uml_object):
@@ -158,14 +117,12 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.target_arrow = None
         
     def __create_text(self, tag, position, orientation):
-        dtext = DrawableText(self)
-        dtext.setParentItem(self)
+        dtext = DrawableText.create_drawable_text(self)
         dtext.text_position = position
         dtext.text_orientation = orientation
         
         self.__texts[tag] = dtext
          
-        
     def boundingRect(self):
         return self.__boundingRect
     
@@ -180,13 +137,13 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
     def __find_real_line(self):
         line = self.line()
                 
-        line = self.source_anchor.slot.przytnij_linie(line, 0)
-        line = self.target_anchor.slot.przytnij_linie(line, 1)
+        line = self.source_anchor.slot.crop_line(line, 0)
+        line = self.target_anchor.slot.crop_line(line, 1)
         
         return line
     
-    def update(self):
-        self.setLine(QLineF(self.source_anchor.slot.znajdz_anchor(), self.target_anchor.slot.znajdz_anchor()))
+    def update(self):        
+        self.setLine(QLineF(self.source_anchor.slot.find_anchor(), self.target_anchor.slot.find_anchor()))
         self.__real_line = self.__find_real_line()
         
         if(self.real_line().length() <= 0):
@@ -254,8 +211,11 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
                 yPos -= self.__ymarg * 10 + self.__fontMetrics.height()
                 
         xPos -= self.__fontMetrics.width(text) / 2        
-                
-        dtext.setPos(xPos, yPos)
+        
+        # Reset pos if not visible.
+        if(dtext.isVisible() == False):
+            dtext.reset_pos()
+            
         dtext.text = text
         dtext.setVisible(True)
     
