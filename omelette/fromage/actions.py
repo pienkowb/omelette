@@ -1,6 +1,6 @@
 from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
-#from omelette.compiler.compiler import Compiler
+from omelette.compiler.compiler import Compiler
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
@@ -8,7 +8,7 @@ from omelette.fromage.diagram import Diagram
 class Actions(object):
 
     def __init__(self, window, parent=None):
- #       self.compiler = Compiler(Library.load_libraries())
+        self.compiler = Compiler(Library.load_libraries())
         self.window = window
 
         self.filename = QtCore.QString()
@@ -53,7 +53,7 @@ class Actions(object):
         self.window.statusbar.showMessage('Created empty document', 2000)
 
     def open_file(self):
-        fn = QtGui.QFileDialog.getOpenFileName(self.window , QtCore.QString(), QtCore.QString())
+        fn = QtGui.QFileDialog.getOpenFileName(self.window, "Load file", QtCore.QString(), "UML Files (*.uml)")
         if fn.isEmpty():
             self.window.statusbar.showMessage('Loading aborted', 2000)
             return
