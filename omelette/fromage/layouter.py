@@ -1,4 +1,5 @@
 import math
+import random
 
 class Layouter(object):
     
@@ -34,6 +35,24 @@ class Layouter(object):
         else:
             node.moveBy(sx, sy)
         
+    @staticmethod
+    def __spring_layout(diagram, c1=2, c2=1, c3=1, c4=0.1, m=100):
+        """
+        Layout function using mechanical model of spring embedder.
+        """
+        maxrand = 300
+        infinity = 200
+        # Incidence matrix
+        incidence = Layouter.__incidence_matrix(diagram)
+        embedder = Layouter.__init_spring_embedder(incidence, infinity)
+
+        # Moving all nodes in random positions
+        for node in diagram.nodes.values():
+            node.moveBy(random.randint(0, maxrand))
+
+        # Calculating force for each node
+        # Moving node
+
     @staticmethod
     def __sort_nodes_by_degree(nodes, rev=True):
         """
@@ -82,6 +101,14 @@ class Layouter(object):
         for node in diagram.nodes.values():
             for neigh in node.neighbours:
                 incidence[diagram.nodes.values().index(node)][diagram.nodes.values().index(neigh)] = 1
+        return incidence
+
+    @staticmethod
+    def __init_spring_embedder(incidence,inf):
+        for i in range(len(incidence)):
+            for j in range(len(incidence)):
+                if incidence[i][j] == 0:
+                    incidence[i][j] == inf
         return incidence
     
     @staticmethod
