@@ -42,13 +42,15 @@ class Layouter(object):
         """
         maxrand = 300
         infinity = 200
+#TODO set infinity as scene size
         # Incidence matrix
         incidence = Layouter.__incidence_matrix(diagram)
         embedder = Layouter.__init_spring_embedder(incidence, infinity)
 
         # Moving all nodes in random positions
         for node in diagram.nodes.values():
-            node.moveBy(random.randint(0, maxrand))
+            node.moveBy(random.randint(0, maxrand),
+                        random.randint(0,maxrand))
 
         # Calculating force for each node
         # Moving node
@@ -104,7 +106,7 @@ class Layouter(object):
         return incidence
 
     @staticmethod
-    def __init_spring_embedder(incidence,inf):
+    def __init_spring_embedder(incidence,inf=200):
         for i in range(len(incidence)):
             for j in range(len(incidence)):
                 if incidence[i][j] == 0:
@@ -125,9 +127,11 @@ class Layouter(object):
         return max(maxwidth, maxheight)
     
     @staticmethod
-    def layout(diagram, mode=0):
+    def layout(diagram, mode=1):
         """
         General function calling different layout functions
         """
-        if(mode == 0):
+        if mode == 0:
             Layouter.__circular_layout(diagram)
+        elif mode == 1:
+            Layouter.__spring_layout(diagram)
