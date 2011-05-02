@@ -45,14 +45,16 @@ class Layouter(object):
 #TODO set infinity as scene size
         # Incidence matrix
         incidence = Layouter.__incidence_matrix(diagram)
-        embedder = Layouter.__init_spring_embedder(incidence, infinity)
 
         # Moving all nodes in random positions
         for node in diagram.nodes.values():
-            node.moveBy(random.randint(0, maxrand),
-                        random.randint(0,maxrand))
+            node.setPos(random.randint(0, maxrand),
+                        random.randint(0, maxrand))
+            node.update()
+        print Layouter.__dist(diagram.nodes.values()[0], diagram.nodes.values()[1])
 
         # Calculating force for each node
+
         # Moving node
 
     @staticmethod
@@ -106,13 +108,12 @@ class Layouter(object):
         return incidence
 
     @staticmethod
-    def __init_spring_embedder(incidence,inf=200):
-        for i in range(len(incidence)):
-            for j in range(len(incidence)):
-                if incidence[i][j] == 0:
-                    incidence[i][j] == inf
-        return incidence
-    
+    def __dist(node1, node2):
+        """
+        Function calculating euclidean distance between two given nodes
+        """
+        return math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2))
+
     @staticmethod
     def __max_size_of_drawable_node(nodes):
         """
