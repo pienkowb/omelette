@@ -51,7 +51,7 @@ class Layouter(object):
             node.setPos(random.randint(0, maxrand),
                         random.randint(0, maxrand))
             node.update()
-        print Layouter.__dist(diagram.nodes.values()[0], diagram.nodes.values()[1])
+        print Layouter.__versor(diagram.nodes.values()[0], diagram.nodes.values()[1])
 
         # Calculating force for each node
 
@@ -113,6 +113,15 @@ class Layouter(object):
         Function calculating euclidean distance between two given nodes
         """
         return math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2))
+
+    @staticmethod
+    def __versor(node1, node2):
+        """
+        Function calculating versor shift beetween two given nodes
+        from node1 to node2
+        """
+        d = Layouter.__dist(node1, node2)
+        return ((node2.pos().x() - node1.pos().x())/d, (node2.pos().y() - node1.pos().y())/d)
 
     @staticmethod
     def __max_size_of_drawable_node(nodes):
