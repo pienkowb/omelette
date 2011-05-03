@@ -55,21 +55,15 @@ class Layouter(object):
         for i in range(m):
             todo_nodes = diagram.nodes.values()
             for node in todo_nodes:
-                for neigh in node.neighbours:
-                    force = c1 * math.log10(
-                        Layouter.__dist(node, neigh) / c2)
-                    shift = Layouter.__shift(node, neigh, force)
+                for other in todo_nodes:
+                    force = 0
+                    if other in node.neighbours:
+                        force = c1 * math.log10(Layouter.__dist(node, other) / c2)
+                    elif other != node:
+                        force = c3 / math.sqrt(Layouter.__dist(node, other))
+                    shift = Layouter.__shift(node, other, force)
                     node.moveBy(shift[0], shift[1])
-                    neigh.moveBy(-shift[0], -shift[1])
-#                    todo_nodes.remove(neigh)
-                for nneigh in todo_nodes:
-                    if nneigh not in node.neighbours:
-                        if nneigh != node:
-                            force = c3 / math.sqrt(Layouter.__dist(node, nneigh))
-                            shift = Layouter.__shift(node, nneigh, force)
-                            node.moveBy(shift[0], shift[1])
-#                            todo_nodes.remove(nneigh)
-#                todo_nodes.remove(node)
+                    other.moveBy(-shift[0], -shift[1])
 
     @staticmethod
     def __shift(node1, node2, force):
