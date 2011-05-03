@@ -36,43 +36,6 @@ class Layouter(object):
             node.moveBy(sx, sy)
         
     @staticmethod
-    def __spring_layout(diagram, c1=2, c2=1, c3=1, c4=0.1, m=100):
-        """
-        Layout function using mechanical model of spring embedder.
-        """
-        # Incidence matrix
-        incidence = Layouter.__incidence_matrix(diagram)
-
-        # Moving all nodes in random positions
-        maxrand = 10
-        for node in diagram.nodes.values():
-            node.setPos(random.random() * maxrand,
-                        random.random() * maxrand)
-            node.update()
-
-        for i in range(m):
-            todo_nodes = diagram.nodes.values()
-            for node in todo_nodes:
-                for other in todo_nodes:
-                    if other != node:
-                        # each nodes 
-                        force = -c3 / math.sqrt(Layouter.__dist(node, other))
-                        if other in node.neighbours:
-                            force = force + c1 * math.log10(Layouter.__dist(node, other) / c2)
-                        force = c4 * force
-                        shift = Layouter.__shift(node, other, force)
-                        node.moveBy(shift[0], shift[1])
-                        other.moveBy(-shift[0], -shift[1])
-
-    @staticmethod
-    def __shift(node1, node2, force):
-        versor = Layouter.__versor(node1, node2)
-        shift = [0,0]
-        shift[0] = versor[0] * force
-        shift[1] = versor[1] * force
-        return shift
-
-    @staticmethod
     def __sort_nodes_by_degree(nodes, rev=True):
         """
         Function sorting nodes in order of vertex grade
@@ -107,7 +70,42 @@ class Layouter(object):
         Function calculating node's degree
         """
         return len(node.neighbours)
-    
+
+    @staticmethod
+    def __spring_layout(diagram, c1=2, c2=0.1, c3=1, c4=0.1, m=100):
+        """
+        Layout function using mechanical model of spring embedder.
+        """
+        # Moving all nodes in random positions
+        maxrand = 10
+        for node in diagram.nodes.values():
+            node.setPos(random.random() * maxrand,
+                        random.random() * maxrand)
+            node.update()
+
+        for i in range(m):
+            for node in diagram.nodes.values():
+                for other in diagram.nodes.values():
+                    if other != node:
+                        d = Layouter.__dist(node, other)
+                        if d != 0:
+                            force = -c3 / math.sqrt(d)
+                        if other in node.neighbours:
+                            force = force + c1 * math.log10(d/c2)
+                        force = c4 * force
+                        shift = Layouter.__shift(node, other, force)
+                        node.moveBy(shift[0], shift[1])
+                        other.moveBy(-shift[0], -shift[1])
+
+    @staticmethod
+    def __shift(node1, node2, force):
+        versor = Layouter.__versor(node1, node2)
+        shift = [0,0]
+        shift[0] = versor[0] * force
+        shift[1] = versor[1] * force
+        return shift
+
+
     @staticmethod
     def __incidence_matrix(diagram):
         """
@@ -127,11 +125,16 @@ class Layouter(object):
         """
         Function calculating euclidean distance between two given nodes
         """
-        d =  math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)) - math.sqrt(2) * Layouter.__max_size_of_drawable_node([node1, node2])
-        if d < 0:
-            return 0.5
-        else:
-            return d
+#        d = -math.sqrt(math.pow(node1.boundingRect().size().width(), 2) + math.pow(node1.boundingRect().size().height(),2))/2
+#        d = d - math.sqrt(math.pow(node2.boundingRect().size().width(),2) + math.pow(node2.boundingRect().size().height(),2))/2
+#        d = d + math.fabs(math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)))
+        return math.fabs(math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)))
+#        return math.fabs(d)
+#        d =  math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)) - math.sqrt(2) * Layouter.__max_size_of_drawable_node([node1, node2])
+#        if d < 0:
+#            return 0.5
+#        else:
+#            return d
 
     @staticmethod
     def __versor(node1, node2):
