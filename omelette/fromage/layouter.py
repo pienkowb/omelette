@@ -40,13 +40,11 @@ class Layouter(object):
         """
         Layout function using mechanical model of spring embedder.
         """
-        maxrand = 10
-        infinity = 200
-#TODO set infinity as scene size
         # Incidence matrix
         incidence = Layouter.__incidence_matrix(diagram)
 
         # Moving all nodes in random positions
+        maxrand = 10
         for node in diagram.nodes.values():
             node.setPos(random.random() * maxrand,
                         random.random() * maxrand)
@@ -57,6 +55,7 @@ class Layouter(object):
             for node in todo_nodes:
                 for other in todo_nodes:
                     if other != node:
+                        # each nodes 
                         force = -c3 / math.sqrt(Layouter.__dist(node, other))
                         if other in node.neighbours:
                             force = force + c1 * math.log10(Layouter.__dist(node, other) / c2)
