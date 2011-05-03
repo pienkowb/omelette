@@ -36,11 +36,11 @@ class Layouter(object):
             node.moveBy(sx, sy)
         
     @staticmethod
-    def __spring_layout(diagram, c1=2, c2=2, c3=0.1, c4=0.1, m=200):
+    def __spring_layout(diagram, c1=2, c2=1, c3=1, c4=0.1, m=100):
         """
         Layout function using mechanical model of spring embedder.
         """
-        maxrand = 100
+        maxrand = 10
         infinity = 200
 #TODO set infinity as scene size
         # Incidence matrix
@@ -48,23 +48,22 @@ class Layouter(object):
 
         # Moving all nodes in random positions
         for node in diagram.nodes.values():
-            node.setPos(random.randint(0, maxrand),
-                        random.randint(0, maxrand))
+            node.setPos(random.random() * maxrand,
+                        random.random() * maxrand)
             node.update()
 
         for i in range(m):
             todo_nodes = diagram.nodes.values()
             for node in todo_nodes:
                 for other in todo_nodes:
-                    force = 0
-                    if other in node.neighbours:
-                        force = c1 * math.log10(Layouter.__dist(node, other) / c2)
-                    elif other != node:
-                        force = c3 / math.sqrt(Layouter.__dist(node, other))
-                    force = c4 * force
-                    shift = Layouter.__shift(node, other, force)
-                    node.moveBy(shift[0], shift[1])
-                    other.moveBy(-shift[0], -shift[1])
+                    if other != node:
+                        force = -c3 / math.sqrt(Layouter.__dist(node, other))
+                        if other in node.neighbours:
+                            force = force + c1 * math.log10(Layouter.__dist(node, other) / c2)
+                        force = c4 * force
+                        shift = Layouter.__shift(node, other, force)
+                        node.moveBy(shift[0], shift[1])
+                        other.moveBy(-shift[0], -shift[1])
 
     @staticmethod
     def __shift(node1, node2, force):
