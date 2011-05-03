@@ -36,11 +36,11 @@ class Layouter(object):
             node.moveBy(sx, sy)
         
     @staticmethod
-    def __spring_layout(diagram, c1=2, c2=1, c3=1, c4=0.1, m=100):
+    def __spring_layout(diagram, c1=2, c2=2, c3=0.1, c4=0.1, m=200):
         """
         Layout function using mechanical model of spring embedder.
         """
-        maxrand = 300
+        maxrand = 100
         infinity = 200
 #TODO set infinity as scene size
         # Incidence matrix
@@ -51,11 +51,33 @@ class Layouter(object):
             node.setPos(random.randint(0, maxrand),
                         random.randint(0, maxrand))
             node.update()
-        print Layouter.__versor(diagram.nodes.values()[0], diagram.nodes.values()[1])
 
-        # Calculating force for each node
+        for i in range(m):
+            todo_nodes = diagram.nodes.values()
+            for node in todo_nodes:
+                for neigh in node.neighbours:
+                    force = c1 * math.log10(
+                        Layouter.__dist(node, neigh) / c2)
+                    shift = Layouter.__shift(node, neigh, force)
+                    node.moveBy(shift[0], shift[1])
+                    neigh.moveBy(-shift[0], -shift[1])
+#                    todo_nodes.remove(neigh)
+                for nneigh in todo_nodes:
+                    if nneigh not in node.neighbours:
+                        if nneigh != node:
+                            force = c3 / math.sqrt(Layouter.__dist(node, nneigh))
+                            shift = Layouter.__shift(node, nneigh, force)
+                            node.moveBy(shift[0], shift[1])
+#                            todo_nodes.remove(nneigh)
+#                todo_nodes.remove(node)
 
-        # Moving node
+    @staticmethod
+    def __shift(node1, node2, force):
+        versor = Layouter.__versor(node1, node2)
+        shift = [0,0]
+        shift[0] = versor[0] * force
+        shift[1] = versor[1] * force
+        return shift
 
     @staticmethod
     def __sort_nodes_by_degree(nodes, rev=True):
@@ -112,7 +134,11 @@ class Layouter(object):
         """
         Function calculating euclidean distance between two given nodes
         """
-        return math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2))
+        d =  math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)) - math.sqrt(2) * Layouter.__max_size_of_drawable_node([node1, node2])
+        if d < 0:
+            return 0.5
+        else:
+            return d
 
     @staticmethod
     def __versor(node1, node2):
