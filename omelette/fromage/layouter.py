@@ -61,6 +61,7 @@ class Layouter(object):
                         force = c1 * math.log10(Layouter.__dist(node, other) / c2)
                     elif other != node:
                         force = c3 / math.sqrt(Layouter.__dist(node, other))
+                    force = c4 * force
                     shift = Layouter.__shift(node, other, force)
                     node.moveBy(shift[0], shift[1])
                     other.moveBy(-shift[0], -shift[1])
