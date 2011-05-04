@@ -1,4 +1,4 @@
-from omelette.compiler import logger
+from omelette.compiler import logging
 import collections
 
 class DependencyResolver(object):
@@ -43,8 +43,8 @@ class DependencyResolver(object):
     def resolve(self):
         circular_refs = self.__find_circular_refs(self.__uml_objects)
         if circular_refs > frozenset([]):
-            logger.instance.log_error(-1, "circular refferences: " +
-                    repr(circular_refs))
+            logging.getLogger('compiler').error("circular reference",
+                    object_name=" ".join(circular_refs))
             return
 
         for uml_object in self.__uml_objects.values():
