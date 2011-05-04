@@ -183,8 +183,8 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         if tag not in self.uml_object: 
             # just dock the unused DrawableText somewhere
             dockPoint = QPointF(self.real_line().p1().x(), self.real_line().p1().y())
-            dtext.setPos(dockPoint)
             dtext.origin_pos = QPointF(dockPoint)
+            dtext.setPos(dockPoint)
             dtext.setVisible(False)
             return
         
