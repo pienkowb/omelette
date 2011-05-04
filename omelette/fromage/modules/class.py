@@ -121,7 +121,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         
         intersection_point = QPointF()
         
-        # Iterate over pairs of vertexes that make rectangle edges
+        # Iterate over pairs of vertices that make rectangle edges
         for (a, b) in [(0, 1), (1, 2), (2, 3), (3, 0)]:
             bok = QLineF(vertexes[a], vertexes[b])
             itype = line.intersect(bok, intersection_point)
