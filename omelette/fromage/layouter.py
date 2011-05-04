@@ -80,7 +80,7 @@ class Layouter(object):
 ##########################################################################
 
     @staticmethod
-    def __spring_layout(diagram, c1=2, c2=2, c3=1, c4=0.1, m=1):
+    def __spring_layout(diagram, c1=2, c2=2, c3=1, c4=0.1, m=100):
         """
         Layout function using mechanical model of spring embedder.
         """
@@ -105,7 +105,6 @@ class Layouter(object):
                             force = force + c1 * math.log(d/c2, 2)
                         force = c4 * force
                         shift = shift + Layouter.__shift(node, other, force)
-                print shift
                 shifts.append(shift)
             for node in diagram.nodes.values():
                 node.moveBy(shifts[nodeslist.index(node)][0], shifts[nodeslist.index(node)][1])
@@ -141,13 +140,13 @@ class Layouter(object):
 #        d = -math.sqrt(math.pow(node1.boundingRect().size().width(), 2) + math.pow(node1.boundingRect().size().height(),2))/2
 #        d = d - math.sqrt(math.pow(node2.boundingRect().size().width(),2) + math.pow(node2.boundingRect().size().height(),2))/2
 #        d = d + math.fabs(math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)))
-        return math.fabs(math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)))
+#        return math.fabs(math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)))
 #        return math.fabs(d)
-#        d =  math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)) - math.sqrt(2) * Layouter.__max_size_of_drawable_node([node1, node2])
-#        if d < 0:
-#            return 0.5
-#        else:
-#            return d
+        d =  math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)) - math.sqrt(2) * Layouter.__max_size_of_drawable_node([node1, node2])
+        if d < 0:
+            return 0.5
+        else:
+            return d
 
     @staticmethod
     def __versor(node1, node2):
