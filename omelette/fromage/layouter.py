@@ -2,7 +2,11 @@ import math
 import random
 
 class Layouter(object):
-    
+
+##########################################################################
+# circular layout section
+##########################################################################
+
     @staticmethod
     def __circular_layout(diagram, sx=0, sy=0, start=math.pi/2, spread=2):
         """
@@ -71,31 +75,40 @@ class Layouter(object):
         """
         return len(node.neighbours)
 
+##########################################################################
+# spring layout section (Eades)
+##########################################################################
+
     @staticmethod
-    def __spring_layout(diagram, c1=2, c2=0.1, c3=1, c4=0.1, m=100):
+    def __spring_layout(diagram, c1=2, c2=2, c3=1, c4=0.1, m=1):
         """
         Layout function using mechanical model of spring embedder.
         """
         # Moving all nodes in random positions
-        maxrand = 10
+        maxrand = 100
         for node in diagram.nodes.values():
             node.setPos(random.random() * maxrand,
                         random.random() * maxrand)
             node.update()
 
         for i in range(m):
+            nodeslist = []
+            shifts = []
             for node in diagram.nodes.values():
+                nodeslist.append(node)
+                shift = []
                 for other in diagram.nodes.values():
-                    if other != node:
-                        d = Layouter.__dist(node, other)
-                        if d != 0:
-                            force = -c3 / math.sqrt(d)
+                    d = Layouter.__dist(node, other)
+                    if d != 0:
+                        force = -c3 / math.sqrt(d)
                         if other in node.neighbours:
-                            force = force + c1 * math.log10(d/c2)
+                            force = force + c1 * math.log(d/c2, 2)
                         force = c4 * force
-                        shift = Layouter.__shift(node, other, force)
-                        node.moveBy(shift[0], shift[1])
-                        other.moveBy(-shift[0], -shift[1])
+                        shift = shift + Layouter.__shift(node, other, force)
+                print shift
+                shifts.append(shift)
+            for node in diagram.nodes.values():
+                node.moveBy(shifts[nodeslist.index(node)][0], shifts[nodeslist.index(node)][1])
 
     @staticmethod
     def __shift(node1, node2, force):
@@ -157,7 +170,9 @@ class Layouter(object):
             if maxheight < node.boundingRect().size().height():
                 maxheight = node.boundingRect().size().height()
         return max(maxwidth, maxheight)
-    
+
+##########################################################################
+
     @staticmethod
     def layout(diagram, mode=1):
         """
@@ -165,5 +180,5 @@ class Layouter(object):
         """
         if mode == 0:
             Layouter.__circular_layout(diagram)
-        elif mode == 1:
+        if mode == 1:
             Layouter.__spring_layout(diagram)
