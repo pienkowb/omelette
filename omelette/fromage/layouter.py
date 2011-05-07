@@ -116,6 +116,7 @@ class Layouter(object):
     @staticmethod
     def __force(node1, node2, c1, c2, c3, c4):
         """
+        Function calculating force between two nodes
         """
         d = Layouter.__dist(node1, node2)
         # Calculating repel force between node and other
