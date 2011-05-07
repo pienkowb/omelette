@@ -83,7 +83,7 @@ class Layouter(object):
 ##########################################################################
 
     @staticmethod
-    def __spring_layout(diagram, c1=1, c2=1, c3=3, c4=0.1, m=100):
+    def __spring_layout(diagram, c1=1, c2=1, c3=1, c4=0.1, m=100):
         """
         Layout function using mechanical model of spring embedder.
         c1 is the attraction direct factor
@@ -138,12 +138,9 @@ class Layouter(object):
         """
         Function calculating euclidean distance between two given nodes
         """
-        d =  math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2)
-            + math.pow(node1.pos().y() - node2.pos().y(), 2))
-            - math.sqrt(2) * Layouter.__max_size_of_drawable_node(
-            [node1, node2])
+        d =  math.sqrt(math.pow(node1.pos().x() - node2.pos().x(), 2) + math.pow(node1.pos().y() - node2.pos().y(), 2)) - math.sqrt(2) * Layouter.__max_size_of_drawable_node([node1, node2])
         if d < 0:
-            return 0.5
+            return 1
         else:
             return d
 
@@ -154,8 +151,7 @@ class Layouter(object):
         from node1 to node2
         """
         d = Layouter.__dist(node1, node2)
-        return ((node2.pos().x() - node1.pos().x())/d,
-            (node2.pos().y() - node1.pos().y())/d)
+        return ((node2.pos().x() - node1.pos().x())/d, (node2.pos().y() - node1.pos().y())/d)
 
 ##########################################################################
 # common section
