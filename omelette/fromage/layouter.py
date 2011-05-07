@@ -106,20 +106,24 @@ class Layouter(object):
                 nodeslist.append(node)
                 shift = []
                 for other in diagram.nodes.values():
-                    d = Layouter.__dist(node, other)
-                    if d != 0:
-                        # Calculating repel force between node and other
-                        force = -c3 / math.sqrt(d)
-                        # Calculating attract force between node and other
-                        if other in node.neighbours:
-                            force = force + c1 * math.log(d/c2, 2)
-                        force = c4 * force
-                        # Calculating cumulative shift
-                        shift = shift + Layouter.__shift(node, other, force)
+                    # Calculating cumulative shift
+                    shift = shift + Layouter.__shift(node, other, Layouter.__force(node, other, c1, c2, c3, c4))
                 shifts.append(shift)
             # Moving all nodes according to calculated shifts
             for node in diagram.nodes.values():
                 node.moveBy(shifts[nodeslist.index(node)][0], shifts[nodeslist.index(node)][1])
+
+    @staticmethod
+    def __force(node1, node2, c1, c2, c3, c4):
+        """
+        """
+        d = Layouter.__dist(node1, node2)
+        # Calculating repel force between node and other
+        force = -c3 / math.sqrt(d)
+        # Calculating attract force between node and other
+        if node2 in node1.neighbours:
+            force = force + c1 * math.log(d/c2, 2)
+        return c4 * force
 
     @staticmethod
     def __shift(node1, node2, force):
