@@ -50,16 +50,13 @@ class DrawableNote(DrawableNode, QGraphicsItem):
         height = metrics.height()
         
         rect_ratio = (width / height) * 0.337 # LOL MAGIC NUMBER
+        rect_ratio = min(10, rect_ratio)
         
         note_width = height * rect_ratio
         note_height = 2 * note_width / height # no higher than that
         
-        print "%d %d %d" % (rect_ratio, note_width, note_height)
-        
         self.__bounding_rect = QRectF(metrics.boundingRect(QRect(0,0, note_width, note_height), Qt.TextWordWrap | Qt.TextDontClip, text)
                                 .adjusted(0, 0, 2 * self.__text_margin + self.__note_margin, 2 * self.__text_margin))
-        
-        print "real: %d" % (self.__bounding_rect.width())
         
     def itemChange(self, change, value):        
         if(change == QGraphicsItem.ItemPositionChange):
