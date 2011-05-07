@@ -1,7 +1,7 @@
 import unittest
 from omelette.compiler.code import Code
 from omelette.compiler.compiler import Compiler
-from omelette.compiler import logger
+from omelette.compiler import logging
 
 class CompilerTest(unittest.TestCase):
 
@@ -52,13 +52,14 @@ class CompilerTest(unittest.TestCase):
 class CompilerIntegrationTest(unittest.TestCase):
 
     def setUp(self):
-        logger.instance.clear()
+        self.logger = logging.getLogger("compiler")
+        self.logger.flush()
         self.instance = Compiler()
 
     def test_circular_refference(self):
         code = Code("objectname objectname")
         self.instance.compile(code)
-        self.assertTrue(logger.instance.has_errors, 
+        self.assertFalse(self.logger.is_empty(), 
         "logger should contain errors")
 
     def test_sophisticated_circular(self):
@@ -66,7 +67,7 @@ class CompilerIntegrationTest(unittest.TestCase):
         b c
         c a""")
         self.instance.compile(code)
-        self.assertTrue(logger.instance.has_errors, 
+        self.assertFalse(self.logger.is_empty(), 
         "logger should contain errors")
 
 if __name__ == "__main__":
