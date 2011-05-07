@@ -49,26 +49,31 @@ class CompilerTest(unittest.TestCase):
         self.assertEquals(len(result), 1)
         self.assertEquals(result.keys().pop(), "Student")
 
+
 class CompilerIntegrationTest(unittest.TestCase):
 
     def setUp(self):
+        self.instance = Compiler()
+
         self.logger = logging.getLogger("compiler")
         self.logger.flush()
-        self.instance = Compiler()
 
     def test_circular_refference(self):
         code = Code("objectname objectname")
+
         self.instance.compile(code)
-        self.assertFalse(self.logger.is_empty(), 
-        "logger should contain errors")
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
 
     def test_sophisticated_circular(self):
         code = Code("""a b
-        b c
-        c a""")
+            b c
+            c a""")
+
         self.instance.compile(code)
-        self.assertFalse(self.logger.is_empty(), 
-        "logger should contain errors")
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
+
 
 if __name__ == "__main__":
     unittest.main()
