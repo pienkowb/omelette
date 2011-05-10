@@ -81,7 +81,7 @@ def main(argv):
     
     img = QImage(scene.sceneRect().toRect().size(), QImage.Format_ARGB32)
     painter = QPainter(img)
-    painter.fillRect(scene.sceneRect().toRect().size(), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
+    painter.fillRect(scene.sceneRect(), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
     painter.resetMatrix()
     scene.render(painter)
     painter.end()
