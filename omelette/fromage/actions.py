@@ -4,7 +4,8 @@ from omelette.compiler.compiler import Compiler
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
-from PyQt4.QtGui import QImage, QPainter
+from PyQt4.QtGui import QImage, QPainter, QBrush, QColor
+from PyQt4.Qt import *
 
 class Actions(object):
 
@@ -124,6 +125,7 @@ class Actions(object):
 
         img = QImage(self.window.scene.sceneRect().size().toSize(), QImage.Format_ARGB32)
         painter = QPainter(img)
+        painter.fillRect(self.window.scene.sceneRect(), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
         painter.resetMatrix()
         self.window.scene.render(painter)
         painter.end()
