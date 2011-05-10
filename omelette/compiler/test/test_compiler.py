@@ -51,6 +51,7 @@ class CompilerTest(unittest.TestCase):
 
 
 class CompilerIntegrationTest(unittest.TestCase):
+    """Test for compilation errors"""
 
     def setUp(self):
         self.instance = Compiler()
@@ -58,7 +59,7 @@ class CompilerIntegrationTest(unittest.TestCase):
         self.logger = logging.getLogger("compiler")
         self.logger.flush()
 
-    def test_circular_refference(self):
+    def test_circular_reference(self):
         code = Code("objectname objectname")
 
         self.instance.compile(code)
@@ -69,6 +70,15 @@ class CompilerIntegrationTest(unittest.TestCase):
         code = Code("""a b
             b c
             c a""")
+
+        self.instance.compile(code)
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
+
+    def test_bad_reference(self):
+        """object refers to a non-existing object"""
+
+        code = Code("""not-defined""")
 
         self.instance.compile(code)
         self.assertFalse(self.logger.is_empty(),
