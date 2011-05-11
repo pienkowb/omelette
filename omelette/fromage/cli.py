@@ -43,15 +43,14 @@ def main(argv):
             assert False, "unhandled opt"
     
     if(input == "" or output == ""):
-        usage()
-        return 1
-    
-    try:
-        input_file = open(input, 'r')
-        code = Code(input_file.read())
-    except IOError, err:
-        print "IOError: " + str(err)
-        return 2
+        input_file = sys.stdin
+    else:
+        try:
+            input_file = open(input, 'r')
+        except IOError, err:
+            print "IOError: " + str(err)
+            return 2
+    code = Code(input_file.read())
     
     diagram = Diagram()
     scene = QGraphicsScene(None)
