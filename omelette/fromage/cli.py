@@ -5,7 +5,8 @@ sys.path.append('../../')
 sys.path.append('.')
  
 from PyQt4 import QtGui, QtCore
-from PyQt4.QtGui import QImage, QPainter, QGraphicsScene
+from PyQt4.QtGui import QImage, QPainter, QGraphicsScene, QBrush, QColor
+from PyQt4.Qt import *
 
 from omelette.fromage.diagram import Diagram
 from omelette.compiler.compiler import Compiler
@@ -80,6 +81,7 @@ def main(argv):
     
     img = QImage(scene.sceneRect().toRect().size(), QImage.Format_ARGB32)
     painter = QPainter(img)
+    painter.fillRect(scene.sceneRect(), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
     painter.resetMatrix()
     scene.render(painter)
     painter.end()
