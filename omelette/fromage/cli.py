@@ -1,15 +1,18 @@
-import sys
-import getopt
+#!/usr/bin/env python
+import sys, os
 
-sys.path.append('../../')
-sys.path.append('.')
- 
+script_path = os.path.dirname(os.path.realpath(__file__))
+modules_path = os.path.normcase("../../")
+modules_directory = os.path.join(script_path, modules_path)
+sys.path.append(modules_directory)
+
+import getopt
 from PyQt4 import QtGui, QtCore
 from PyQt4.QtGui import QImage, QPainter, QGraphicsScene
 
 from omelette.fromage.diagram import Diagram
 from omelette.compiler.compiler import Compiler
-from omelette.compiler.code import Code
+from omelette.compiler.code import Code, Library
 from omelette.fromage.layouter import Layouter
 
 QT_APP = QtGui.QApplication([])
