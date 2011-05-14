@@ -76,6 +76,8 @@ class Actions(object):
         self.window.setWindowTitle(filename)
         self.window.statusbar.showMessage('Loaded document %s' % (filename), 2000)
 
+        self.generate()
+
     def save_file(self):
         if self.filename.isEmpty():
             self.save_file_as()
@@ -127,7 +129,7 @@ class Actions(object):
         painter.resetMatrix()
         self.window.scene.render(painter)
         painter.end()
-        
+
         if(img.save(fn) == False):
             self.window.statusbar.showMessage('Saving failed', 2000)
             return

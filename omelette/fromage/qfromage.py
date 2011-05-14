@@ -52,6 +52,7 @@ if __name__ == "__main__":
         with open(sys.argv[1], 'r') as f:
             for line in f:
                 form.qsci.append(line)
+            form.actions.generate()
             form.show()
     else:
         form.show()
