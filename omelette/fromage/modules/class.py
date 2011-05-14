@@ -12,6 +12,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         self.__font = QFont('Comic Sans MS', 10)
         self.__section_margin = 5
         self.__text_margin = 3
+        self.__min_width = 100 
 
         self.setFlag(QGraphicsItem.ItemIsMovable, 1)
         self.setFlag(QGraphicsItem.ItemIsSelectable, 1)
@@ -111,7 +112,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
             drawable_width = max(drawable_width, size[0])
             drawable_height += size[1]
 
-        self.__bounding_rect = QRectF(0, 0, 2 * self.__text_margin + drawable_width, drawable_height)
+        self.__bounding_rect = QRectF(0, 0, max(2 * self.__text_margin + drawable_width, self.__min_width), drawable_height)
 
     def crop_line(self, line, line_point):
         global_rect = self.globalBoundingRect()
