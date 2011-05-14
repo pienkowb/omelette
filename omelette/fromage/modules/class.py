@@ -50,14 +50,14 @@ class DrawableClass(DrawableNode, QGraphicsItem):
 
         # Name of the class        
         current_height = self.__section_margin
-        painter.drawText(QRect(self.__text_margin, current_height, metrics.width(self.uml_object['name']), metrics.height()), 0, self.uml_object['name'])
+        painter.drawText(QRect(self.__text_margin, current_height, self.__bounding_rect.width() - self.__text_margin * 2, metrics.height()), Qt.AlignCenter, self.uml_object['name'])
         current_height += metrics.height()
         
         # Stereotype
         if("stereotype" in self.uml_object.properties):
             current_height += self.__text_margin
             stereotype = "<< " + self.uml_object["stereotype"] + " >>"
-            painter.drawText(QRect(self.__text_margin, current_height, metrics.width(stereotype), metrics.height()), 0, stereotype)
+            painter.drawText(QRect(self.__text_margin, current_height, self.__bounding_rect.width() - self.__text_margin * 2, metrics.height()), Qt.AlignCenter, stereotype)
             current_height += metrics.height()
             
         current_height += self.__section_margin
