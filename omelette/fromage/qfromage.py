@@ -13,6 +13,10 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
     def __init__(self, parent=None):
         QtGui.QWidget.__init__(self, parent)
 
+        frect = self.frameGeometry()
+        frect.moveCenter(QtGui.QDesktopWidget().availableGeometry().center())
+        self.move(frect.topLeft())
+
         self.setupUi(self)
 
         self.layout = QtGui.QHBoxLayout(self.centralwidget)
