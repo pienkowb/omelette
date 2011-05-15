@@ -39,18 +39,16 @@ class Layouter(object):
                 y = sy + r * math.cos(start + angle * i)
                 i += 1
                 node.moveBy(x, y)
-<<<<<<< HEAD
-=======
         else:
             node.moveBy(sx, sy)
-        
+
     @staticmethod
     def __sort_nodes_by_degree(nodes, rev=True):
         """
         Function sorting nodes in order of vertex grade
         """
         return sorted(nodes, key=Layouter.__node_degree, reverse=rev)
-    
+
     @staticmethod
     def __sort_nodes_by_neighbourhood(nodes):
         """
@@ -72,7 +70,7 @@ class Layouter(object):
                                 d += 1
                                 i += 1
         return sortednodes
-            
+
     @staticmethod
     def __node_degree(node):
         """
@@ -188,4 +186,3 @@ class Layouter(object):
             Layouter.__circular_layout(diagram)
         if mode == 1:
             Layouter.__spring_layout(diagram)
->>>>>>> b0bec8fd2b00af021dfdcea71b8eccd228743735
