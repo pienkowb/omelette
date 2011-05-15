@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>653</width>
-    <height>352</height>
+    <width>683</width>
+    <height>448</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,7 +59,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>653</width>
+     <width>683</width>
      <height>18</height>
     </rect>
    </property>
@@ -92,9 +92,18 @@
     </property>
     <addaction name="actionGenerate"/>
    </widget>
+   <widget class="QMenu" name="menuLayout">
+    <property name="title">
+     <string>Layout</string>
+    </property>
+    <addaction name="actionCircular_Layout"/>
+    <addaction name="separator"/>
+    <addaction name="actionSpring_Layout"/>
+   </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
    <addaction name="menuRun"/>
+   <addaction name="menuLayout"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
@@ -253,6 +262,22 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionCircular_Layout">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Circular Layout</string>
+   </property>
+  </action>
+  <action name="actionSpring_Layout">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Spring Layout</string>
    </property>
   </action>
  </widget>

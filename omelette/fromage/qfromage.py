@@ -46,6 +46,8 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.actions.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.actions.enable_save)
         QtCore.QObject.connect(self.actionExport, QtCore.SIGNAL("triggered()"), self.actions.export)
+        QtCore.QObject.connect(self.actionCircular_Layout, QtCore.SIGNAL("triggered()"), self.actions.circular_layout)
+        QtCore.QObject.connect(self.actionSpring_Layout, QtCore.SIGNAL("triggered()"), self.actions.spring_layout)
 
 
 if __name__ == "__main__":

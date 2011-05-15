@@ -1,9 +1,8 @@
-
 # -*- coding: utf-8 -*-
 
 # Form implementation generated from reading ui file 'resources/fromage.ui'
 #
-# Created: Sat Apr 16 11:49:35 2011
+# Created: Sun May 15 12:23:24 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -19,7 +18,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(653, 352)
+        MainWindow.resize(683, 448)
         MainWindow.setAutoFillBackground(True)
         MainWindow.setUnifiedTitleAndToolBarOnMac(False)
         self.centralwidget = QtGui.QWidget(MainWindow)
@@ -33,7 +32,7 @@ class Ui_MainWindow(object):
         self.toolBar.setObjectName(_fromUtf8("toolBar"))
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.menuBar = QtGui.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 653, 18))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 683, 18))
         self.menuBar.setObjectName(_fromUtf8("menuBar"))
         self.menuFile = QtGui.QMenu(self.menuBar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -41,6 +40,8 @@ class Ui_MainWindow(object):
         self.menuEdit.setObjectName(_fromUtf8("menuEdit"))
         self.menuRun = QtGui.QMenu(self.menuBar)
         self.menuRun.setObjectName(_fromUtf8("menuRun"))
+        self.menuLayout = QtGui.QMenu(self.menuBar)
+        self.menuLayout.setObjectName(_fromUtf8("menuLayout"))
         MainWindow.setMenuBar(self.menuBar)
         self.actionNew = QtGui.QAction(MainWindow)
         icon = QtGui.QIcon()
@@ -98,6 +99,12 @@ class Ui_MainWindow(object):
         icon10.addPixmap(QtGui.QPixmap(_fromUtf8(":/export.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionExport.setIcon(icon10)
         self.actionExport.setObjectName(_fromUtf8("actionExport"))
+        self.actionCircular_Layout = QtGui.QAction(MainWindow)
+        self.actionCircular_Layout.setCheckable(True)
+        self.actionCircular_Layout.setObjectName(_fromUtf8("actionCircular_Layout"))
+        self.actionSpring_Layout = QtGui.QAction(MainWindow)
+        self.actionSpring_Layout.setCheckable(True)
+        self.actionSpring_Layout.setObjectName(_fromUtf8("actionSpring_Layout"))
         self.toolBar.addAction(self.actionNew)
         self.toolBar.addAction(self.actionOpen)
         self.toolBar.addAction(self.actionSave)
@@ -127,9 +134,13 @@ class Ui_MainWindow(object):
         self.menuEdit.addAction(self.actionUndo)
         self.menuEdit.addAction(self.actionRedo)
         self.menuRun.addAction(self.actionGenerate)
+        self.menuLayout.addAction(self.actionCircular_Layout)
+        self.menuLayout.addSeparator()
+        self.menuLayout.addAction(self.actionSpring_Layout)
         self.menuBar.addAction(self.menuFile.menuAction())
         self.menuBar.addAction(self.menuEdit.menuAction())
         self.menuBar.addAction(self.menuRun.menuAction())
+        self.menuBar.addAction(self.menuLayout.menuAction())
 
         self.retranslateUi(MainWindow)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
@@ -140,6 +151,7 @@ class Ui_MainWindow(object):
         self.menuFile.setTitle(QtGui.QApplication.translate("MainWindow", "File", None, QtGui.QApplication.UnicodeUTF8))
         self.menuEdit.setTitle(QtGui.QApplication.translate("MainWindow", "Edit", None, QtGui.QApplication.UnicodeUTF8))
         self.menuRun.setTitle(QtGui.QApplication.translate("MainWindow", "Run", None, QtGui.QApplication.UnicodeUTF8))
+        self.menuLayout.setTitle(QtGui.QApplication.translate("MainWindow", "Layout", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setText(QtGui.QApplication.translate("MainWindow", "New", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setToolTip(QtGui.QApplication.translate("MainWindow", "New", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))
@@ -170,5 +182,7 @@ class Ui_MainWindow(object):
         self.actionExport.setText(QtGui.QApplication.translate("MainWindow", "Export", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExport.setToolTip(QtGui.QApplication.translate("MainWindow", "Exports to image", None, QtGui.QApplication.UnicodeUTF8))
         self.actionExport.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+E", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionCircular_Layout.setText(QtGui.QApplication.translate("MainWindow", "Circular Layout", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionSpring_Layout.setText(QtGui.QApplication.translate("MainWindow", "Spring Layout", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons

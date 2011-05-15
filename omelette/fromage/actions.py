@@ -16,6 +16,9 @@ class Actions(object):
         self.window.actionSave.setDisabled(True)
         self.window.actionSaveAs.setDisabled(True)
 
+        self.window.actionCircular_Layout.setChecked(True)
+        self.is_layout_spring = False
+
     def generate(self):
         self.compiler.clear()
         self.window.scene.clear()
@@ -33,7 +36,10 @@ class Actions(object):
         # needed to layout and draw edges
         self.diagram.set_anchors()
 
-        Layouter.layout(self.diagram)
+        if self.isLayoutSpring():
+            Layouter.layout(self.diagram)
+        else:
+            Layouter.layout(self.diagram,0)
 
         # edges must be updated after nodes are updated and layouted
         for edge in self.diagram.edges.values():
@@ -135,3 +141,20 @@ class Actions(object):
             return
 
         self.window.statusbar.showMessage('Image %s saved' % (self.filename), 2000)
+
+    def circular_layout(self):
+        if self.window.actionSpring_Layout.isChecked:
+            self.window.actionSpring_Layout.setChecked(False)
+
+        if self.window.actionCircular_Layout.isChecked:
+            self.is_layout_spring = False
+
+    def spring_layout(self):
+        if self.window.actionCircular_Layout.isChecked:
+            self.window.actionCircular_Layout.setChecked(False)
+
+        if self.window.actionSpring_Layout.isChecked:
+            self.is_layout_spring = True
+
+    def isLayoutSpring(self):
+        return self.is_layout_spring
