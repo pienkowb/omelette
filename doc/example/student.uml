@@ -1,0 +1,39 @@
+% Demonstracja podstawowej składni
+
+class Projekt
+    +nazwa : String
+
+class o
+    name : "Opiekun projektu"
+    +wystaw_ocene()
+    +przyjmij_sprawozdanie()
+
+class c
+    name : "Czlonek zespolu"
+    stereotype : "Student"
+    +pisz_kod()
+
+class pm
+    name : "Szef projektu"
+    stereotype : "Student"
+    +zarzadzaj_projektem()
+
+association 
+    source-object : o
+    target-object : Projekt
+
+association 
+    name          : "tworz"
+    source-count  : 6
+    target-count  : 1
+    source-object : c
+    target-object : Projekt
+
+generalization 
+    source-object : pm
+    target-object : c
+
+association 
+    name          : "zarzadzaj"
+    source-object : pm
+    target-object : Projekt

@@ -1,0 +1,49 @@
+class Student
+class Kierunek
+
+association
+    source-object : Student
+    target-object : Kierunek
+
+prototype generalization is_kierunek
+    target-object : Kierunek
+
+class AIR
+is_kierunek
+    source-object : AIR
+
+class Elektrotechnika
+is_kierunek
+    source-object : Elektrotechnika
+
+class Informatyka
+    +jimp
+    +jimp2
+
+is_kierunek
+    source-object : Informatyka
+
+prototype class spec
+    stereotype : "Specjalnosc"
+
+spec IO
+    name : "Inzynieria oprogramowania"
+    +Teoria_Sterowania
+
+spec IK
+    name : "Inzynieria Komputerowa"
+    +Teoria_Sterowania
+
+spec IWE
+    name : "Informatyka w elektroenergetyce"
+    +Teoria_Sterowania
+
+prototype generalization is_specjalnosc
+    target-object : Informatyka
+
+is_specjalnosc
+    source-object : IO
+is_specjalnosc
+    source-object : IK
+is_specjalnosc
+    source-object : IWE
