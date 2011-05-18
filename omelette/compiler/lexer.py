@@ -47,7 +47,7 @@ class Lexer(object):
     def __build_grammar(self):
         self["number"] = Word(nums) # TODO: a proper number representation
         self["name"] = Word(alphanums, alphanums + "-_")
-        self["string"] = quotedString
+        self["string"] = quotedString.setParseAction(removeQuotes);
         self["visibility"] = Word("+-#~", exact=1).setResultsName("visibility")
         self["static"] = Literal("_").setResultsName("static")
 
