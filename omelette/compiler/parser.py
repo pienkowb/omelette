@@ -37,6 +37,29 @@ class Parser(object):
         self.__lexer["operation"].setParseAction(self.__handle_operation)
         self.__lexer["attribute"].setParseAction(self.__handle_attribute)
         self.__lexer["property"].setParseAction(self.__handle_property)
+        self.__lexer["constraint"].setParseAction(self.__handle_constraint)
+
+    @callback
+    def __handle_constraint(self, token):
+        type = token["type"]
+        key = token["key"]
+        
+        if type == "deny":
+            self.__uml_object.denied.append(key)
+            return
+            
+        constants = token.get("constants")
+        value = []
+        if constants!=None:
+            for constant in constants:
+                value.append(constant)
+        else:
+            value = token.get("value")
+            
+        if type == "allow":
+            self.__uml_object.allowed[key] = value
+        if type == "require":
+            self.__uml_object.required[key] = value
 
     @callback
     def __handle_definition(self, token):

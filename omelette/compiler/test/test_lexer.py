@@ -7,6 +7,19 @@ class LexerTest(unittest.TestCase):
         self.code = """
 
         father son
+            allow key klucz1 OBJECT
+            allow key klucz2 STRING
+            allow key klucz3 NUMBER
+            allow key klucz4 MULTIPLICITY
+            allow key klucz5 [fasada]
+            allow key klucz6 [rzubr, bubr, desu]
+            require key klucz7 OBJECT
+            require key klucz8 STRING
+            require key klucz9 NUMBER
+            require key klucz10 MULTIPLICITY
+            allow key klucz11 [fasada]
+            allow key klucz12 [rzubr, bubr, desu]
+            deny key klucz13
             + at1 : type1
 
             - op1()
@@ -34,6 +47,7 @@ class LexerTest(unittest.TestCase):
         self.attribute_hits = 0;
         self.property_hits = 0;
         self.header_hits = 0;
+        self.constraint_hits = 0;
 
         self.handlers = {}
         self.handlers["definition"] = self.__hit_definition
@@ -41,6 +55,10 @@ class LexerTest(unittest.TestCase):
         self.handlers["attribute"] = self.__hit_attribute
         self.handlers["property"] = self.__hit_property
         self.handlers["header"] = self.__hit_header
+        self.handlers["constraint"] = self.__hit_constraint
+    
+    def __hit_constraint(self, s, l, t):
+        self.constraint_hits = self.constraint_hits + 1
 
     def __hit_definition(self, s, l, t):
         self.definition_hits = self.definition_hits + 1
@@ -73,6 +91,7 @@ class LexerTest(unittest.TestCase):
         self.assertNotEquals(self.operation_hits, 0)
         self.assertNotEquals(self.property_hits, 0)
         self.assertNotEquals(self.header_hits, 0)
+        self.assertNotEquals(self.constraint_hits, 0)
 
     def test_register_handlers_3(self):
         """Tests if lexer calls handlers proper times."""
@@ -85,6 +104,7 @@ class LexerTest(unittest.TestCase):
         self.assertEquals(self.operation_hits, 3)
         self.assertEquals(self.property_hits, 5)
         self.assertEquals(self.header_hits, 3)
+        self.assertEquals(self.constraint_hits, 13)
 
     def test_register_handlers_4(self):
         """Tests if lexer does not accept a handler for non-existent token."""

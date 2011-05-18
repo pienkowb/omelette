@@ -55,13 +55,28 @@ class Lexer(object):
         self.__build_attribute()
         self.__build_operation()
         self.__build_property()
+        self.__build_constraint()
         self.__build_definition()
 
         self["grammar"] = ZeroOrMore(self["definition"]).setResultsName("code")
 
+    def __build_constraint(self):
+        constraint_type = (Literal("allow") ^ "require").setResultsName("type")
+        constraint_key = self["name"].setResultsName("key")
+        constant = self["name"].setResultsName("constant")
+        constants = delimitedList(constant).setResultsName("constants")
+        constraint_value = (Literal("OBJECT") ^ "STRING" ^ "NUMBER" ^
+            "MULTIPLICITY").setResultsName("value") ^ (Literal("[")+constants+"]")
+        standard_constraint = (constraint_type+ "key" + constraint_key +
+            constraint_value)
+        deny_constraint = (Literal("deny").setResultsName("type") + "key" +
+            constraint_key)
+        
+        self["constraint"] = (deny_constraint ^ standard_constraint).setResultsName("constraint")
+
     def __build_definition(self):
         element = Optional(self["operation"] ^ self["attribute"] ^
-            self["property"]) + LineEnd()
+            self["property"] ^ self["constraint"]) + LineEnd()
 
         self["definition"] = (ZeroOrMore(LineEnd()) + self["header"] +
             LineEnd() + ZeroOrMore(element)).setResultsName("definition")
@@ -75,7 +90,7 @@ class Lexer(object):
             Optional(object_name)).setResultsName("header")
 
     def __build_attribute(self):
-        type = self["name"].setResultsName("type")
+        type = (self["name"]).setResultsName("type")
         name = self["name"].setResultsName("name")
         default = (self["number"] ^ self["string"]).setResultsName("default")
 
