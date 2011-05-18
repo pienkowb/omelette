@@ -66,7 +66,8 @@ class LexerTest(unittest.TestCase):
         """Tests if lexer calls handlers at all."""
 
         self.lexer.register_handlers(self.handlers)
-        self.lexer["grammar"].parseString(self.code)
+        x=self.lexer["grammar"].parseString(self.code)
+        print x.asDict()
 
         self.assertNotEquals(self.definition_hits, 0)
         self.assertNotEquals(self.attribute_hits, 0)
