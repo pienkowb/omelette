@@ -16,6 +16,8 @@ class Actions(object):
         self.filename = QtCore.QString()
         self.window.actionSave.setDisabled(True)
         self.window.actionSaveAs.setDisabled(True)
+        
+        self.__export_scene_margins = 50
 
     def generate(self):
         self.compiler.clear()
@@ -117,15 +119,32 @@ class Actions(object):
     def redo(self):
         self.window.qsci.redo()
 
+    def __narrowen_scene(self):
+        sceneRect = QRectF(0,0,0,0)
+        
+        for node in self.diagram.nodes.values():
+            sceneRect = sceneRect.united(node.globalBoundingRect())
+            
+        esm = self.__export_scene_margins
+        sceneRect = sceneRect.adjusted(-esm, -esm, esm, esm)
+            
+        self.window.scene.setSceneRect(sceneRect)
+
+
     def export(self):
         fn = QtGui.QFileDialog.getSaveFileName(self.window, "Save Image", QtCore.QString(), "Image Files (*.png)");
         if fn.isEmpty():
             self.window.statusbar.showMessage('Saving aborted', 2000)
             return
 
+        self.__narrowen_scene()
+
         img = QImage(self.window.scene.sceneRect().size().toSize(), QImage.Format_ARGB32)
         painter = QPainter(img)
-        painter.fillRect(self.window.scene.sceneRect(), QBrush(QColor(255, 255, 255), Qt.SolidPattern))
+        
+        absoluteRect = QRectF(0, 0, self.window.scene.sceneRect().width(), self.window.scene.sceneRect().height())
+        
+        painter.fillRect(absoluteRect, QBrush(QColor(255, 255, 255), Qt.SolidPattern))
         painter.resetMatrix()
         self.window.scene.render(painter)
         painter.end()
