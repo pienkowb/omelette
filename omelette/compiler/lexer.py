@@ -46,10 +46,12 @@ class Lexer(object):
 
     def __build_grammar(self):
         self["number"] = Word(nums) # TODO: a proper number representation
-        self["name"] = Word(alphanums, alphanums + "-_")
+        self["name"] = Word(alphanums, alphanums + "-_").setResultsName("name")
         self["string"] = quotedString.setParseAction(removeQuotes);
         self["visibility"] = Word("+-#~", exact=1).setResultsName("visibility")
         self["static"] = Literal("_").setResultsName("static")
+        self["multiplicity"] = ((self["number"] ^ "*") + Optional( ".." +
+            (self["number"] ^ "*")).setResultsName("multiplicity"))
 
         self.__build_header()
         self.__build_attribute()
@@ -111,10 +113,8 @@ class Lexer(object):
             Optional(":" + return_type)).setResultsName("operation")
 
     def __build_property(self):
-        multiplicity = ((self["number"] ^ "*") + Optional( ".." +
-            (self["number"] ^ "*")).setResultsName("multiplicity"))
         name = self["name"].setResultsName("name")
-        value = (Group(multiplicity ^ self["name"] ^ self["string"])
+        value = (Group(self["multiplicity"] ^ self["name"] ^ self["string"])
             .setResultsName("value"))
         values = value.setResultsName("values")
 

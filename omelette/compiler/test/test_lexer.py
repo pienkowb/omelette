@@ -24,6 +24,7 @@ class LexerTest(unittest.TestCase):
 
             - op1()
             pr1 : 12
+            klucz: nazwa
 
 
         prototype son grandson
@@ -48,6 +49,10 @@ class LexerTest(unittest.TestCase):
         self.property_hits = 0;
         self.header_hits = 0;
         self.constraint_hits = 0;
+        
+        self.string_hits = 0;
+        self.multiplicity_hits = 0;
+        self.name_hits = 0;
 
         self.handlers = {}
         self.handlers["definition"] = self.__hit_definition
@@ -56,7 +61,11 @@ class LexerTest(unittest.TestCase):
         self.handlers["property"] = self.__hit_property
         self.handlers["header"] = self.__hit_header
         self.handlers["constraint"] = self.__hit_constraint
-    
+        
+        self.handlers["name"] = self.__hit_name
+        self.handlers["string"] = self.__hit_string
+        self.handlers["multiplicity"] = self.__hit_multiplicity
+
     def __hit_constraint(self, s, l, t):
         self.constraint_hits = self.constraint_hits + 1
 
@@ -102,7 +111,7 @@ class LexerTest(unittest.TestCase):
         self.assertEquals(self.definition_hits, 3)
         self.assertEquals(self.attribute_hits, 3)
         self.assertEquals(self.operation_hits, 3)
-        self.assertEquals(self.property_hits, 5)
+        self.assertEquals(self.property_hits, 6)
         self.assertEquals(self.header_hits, 3)
         self.assertEquals(self.constraint_hits, 13)
 
@@ -125,6 +134,24 @@ class LexerTest(unittest.TestCase):
         self.assertEquals(self.operation_hits, 0)
         self.assertEquals(self.property_hits, 0)
         self.assertEquals(self.header_hits, 0)
+
+    def test_datatypes_handlers(self):
+        self.lexer.register_handlers(self.handlers)
+        self.lexer["grammar"].parseString(self.code)
+
+        self.assertEquals(self.string_hits, 2)
+        self.assertEquals(self.multiplicity_hits, 4)
+        self.assertEquals(self.name_hits, 1)
+
+
+    def __hit_string(self, s, l, t):
+        self.string_hits = self.string_hits + 1
+
+    def __hit_multiplicity(self, s, l, t):
+        self.multiplicity_hits = self.multiplicity_hits + 1
+        
+    def __hit_name(self, s, l, t):
+        self.name_hits = self.name_hits + 1
 
 
 if __name__ == "__main__":

@@ -100,14 +100,14 @@ class ParserTest(unittest.TestCase):
             """)
 
         expected = UMLObject("class", "2c", False)
-        expected["2cp1"] = "2cp1v"
-        expected["2cp2"] = "1234"
-        expected["2cp3"] = "2cp3"
-        expected["2cp4"] = "2cp4"
-        expected["2cp5"] = "1..3"
-        expected["2cp6"] = "1..*"
-        expected["2cp7"] = "*..1"
-        expected["2cp8"] = "*..*"
+        expected["2cp1"] = ("OBJECT", "2cp1v")
+        expected["2cp2"] = ("MULTIPLICITY", "1234")
+        expected["2cp3"] = ("STRING", "2cp3")
+        expected["2cp4"] = ("STRING", "2cp4")
+        expected["2cp5"] = ("MULTIPLICITY", "1..3")
+        expected["2cp6"] = ("MULTIPLICITY", "1..*")
+        expected["2cp7"] = ("MULTIPLICITY", "*..1")
+        expected["2cp8"] = ("MULTIPLICITY", "*..*")
 
         result = self.parser.parse(code.objects()[1:])["2c"]
         self.assertEquals(expected, result)

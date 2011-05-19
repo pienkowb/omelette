@@ -19,6 +19,7 @@ class Parser(object):
 
     def parse(self, code_objects):
         self.__uml_object = None
+        self.__last_type = None
         self.__objects = {}
 
         for code_object in code_objects:
@@ -38,6 +39,10 @@ class Parser(object):
         self.__lexer["attribute"].setParseAction(self.__handle_attribute)
         self.__lexer["property"].setParseAction(self.__handle_property)
         self.__lexer["constraint"].setParseAction(self.__handle_constraint)
+        
+        self.__lexer["multiplicity"].setParseAction(self.__handle_multiplicity)
+        self.__lexer["name"].setParseAction(self.__handle_name)
+        
 
     @callback
     def __handle_constraint(self, token):
@@ -116,5 +121,19 @@ class Parser(object):
     def __handle_property(self, token):
         name = token["property"]["name"]
         values = "".join(token["property"]["values"])
+        
+        if self.__last_type == None:
+            values = ("STRING", values)
+        else:
+            values = (self.__last_type, values)
+        self.__last_type=None
 
         self.__uml_object[name] = values
+        
+    @callback
+    def __handle_multiplicity(self, token):
+        self.__last_type = "MULTIPLICITY"
+        
+    @callback
+    def __handle_name(self, token):
+        self.__last_type = "OBJECT"
