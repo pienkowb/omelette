@@ -1,7 +1,7 @@
 import unittest
 from omelette.compiler.code import Code
 from omelette.compiler.compiler import Compiler
-from omelette.compiler import logger
+from omelette.compiler import logging
 
 class CompilerTest(unittest.TestCase):
 
@@ -49,25 +49,41 @@ class CompilerTest(unittest.TestCase):
         self.assertEquals(len(result), 1)
         self.assertEquals(result.keys().pop(), "Student")
 
+
 class CompilerIntegrationTest(unittest.TestCase):
+    """Test for compilation errors"""
 
     def setUp(self):
-        logger.instance.clear()
         self.instance = Compiler()
 
-    def test_circular_refference(self):
+        self.logger = logging.getLogger("compiler")
+        self.logger.flush()
+
+    def test_circular_reference(self):
         code = Code("objectname objectname")
+
         self.instance.compile(code)
-        self.assertTrue(logger.instance.has_errors, 
-        "logger should contain errors")
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
 
     def test_sophisticated_circular(self):
         code = Code("""a b
-        b c
-        c a""")
+            b c
+            c a""")
+
         self.instance.compile(code)
-        self.assertTrue(logger.instance.has_errors, 
-        "logger should contain errors")
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
+
+    def test_bad_reference(self):
+        """object refers to a non-existing object"""
+
+        code = Code("""not-defined""")
+
+        self.instance.compile(code)
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
+
 
 if __name__ == "__main__":
     unittest.main()

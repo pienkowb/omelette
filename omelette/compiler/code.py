@@ -119,7 +119,10 @@ class Library(Code):
 
     @staticmethod
     def load_libraries():
-        lib_directory = os.path.normcase("../../lib")
+        script_path = os.path.dirname(os.path.realpath(__file__))
+        lib_path = os.path.normcase("../../lib")
+        lib_directory = os.path.join(script_path, lib_path)
+
         libraries = []
 
         for name in os.listdir(lib_directory):
