@@ -19,21 +19,19 @@ class DependencyResolver(object):
         ref_count=collections.defaultdict(int)
 
         for uml_object in objects.values():
+            # Add all objects, even when they aren't referenced, we need them
+            # to properly calculate number of incoming refs in other objects.
             if not uml_object.name in ref_count:
                 ref_count[uml_object.name]=0
             if not uml_object.parent is None:
                 if uml_object.parent in objects:
                     ref_count[uml_object.parent]+=1
-                else:
-                    l = logging.getLogger('compiler')
-                    msg = "non-existing object referenced: " + uml_object.parent
-                    l.error(msg, object=uml_object)
 
 
         while(1):
             leafs = filter(lambda n: ref_count[n] == 0, ref_count.keys())
             
-            if len(leafs) < 1:
+            if not leafs:
             # no leafs left, either we reduced all of the nodes, or there are
             # circular references
                 break
@@ -41,16 +39,18 @@ class DependencyResolver(object):
             # delete all leafs, and update reference count of their parents
                 for o in map(lambda key: objects[key], leafs):
                     if not o.parent is None:
-                        ref_count[o.parent]-=1
+                        if o.parent in ref_count:
+                            ref_count[o.parent]-=1
                     del ref_count[o.name]
 
-        return frozenset(ref_count.keys())
+        return ref_count.keys()
 
     def resolve(self):
         circular_refs = self.__find_circular_refs(self.__uml_objects)
-        if circular_refs > frozenset([]):
-            msg = "circular reference: " + " ".join(circular_refs)
-            logging.getLogger('compiler').error(msg)
+        if circular_refs:
+            msg = "circular references: " + ", ".join(circular_refs)
+            o = self.__uml_objects[circular_refs[0]]
+            logging.getLogger('compiler').error(msg, object=o)
             return
 
         for uml_object in self.__uml_objects.values():
@@ -62,7 +62,13 @@ class DependencyResolver(object):
         if uml_object.parent == None:
             uml_object.type = uml_object.name
         else:
-            parent = self.__uml_objects[uml_object.parent]
+            if uml_object.parent in self.__uml_objects:
+                parent = self.__uml_objects[uml_object.parent]
+            else:
+                l = logging.getLogger('compiler')
+                msg = "non-existing object referenced: " + uml_object.parent
+                l.error(msg, object=uml_object)
+                return
             self.__resolve_object(parent)
 
             uml_object.type = parent.type
