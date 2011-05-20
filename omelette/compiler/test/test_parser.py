@@ -55,8 +55,8 @@ class ParserTest(unittest.TestCase):
             "at2a15"))
 
         result = self.parser.parse(code.objects()[1:])["2a"]
-        
-        
+
+
         self.assertEquals(expected, result)
 
     def test_operations(self):
@@ -114,42 +114,39 @@ class ParserTest(unittest.TestCase):
 
     def test_constraints(self):
         """Tests if parser accepts various constraints"""
-            
+
         code = Code("""class 2d
             allow key klucz1 OBJECT
             allow key klucz2 STRING
-            allow key klucz3 NUMBER
-            allow key klucz4 MULTIPLICITY
-            allow key klucz5 [fasada]
-            allow key klucz6 [rzubr, bubr, desu]
-            require key klucz7 OBJECT
+            allow key klucz3 MULTIPLICITY
+            allow key klucz4 [fasada]
+            allow key klucz5 [rzubr, bubr, desu]
+            require key klucz6 OBJECT
             deny key zabronione
-            require key klucz8 STRING
-            require key klucz9 NUMBER
-            require key klucz10 MULTIPLICITY
-            require key klucz11 [fasada]
-            require key klucz12 [rzubr, bubr, desu]
+            require key klucz7 STRING
+            require key klucz8 MULTIPLICITY
+            require key klucz9 [fasada]
+            require key klucz10 [rzubr, bubr, desu]
             """)
-                
+
         expected = UMLObject("class", "2d", False)
         expected.allowed = {
             "klucz1" : "OBJECT",
             "klucz2" : "STRING",
-            "klucz3" : "NUMBER",
-            "klucz4" : "MULTIPLICITY",
-            "klucz5" : ["fasada"],
-            "klucz6" : ["rzubr", "bubr", "desu"]}
+            "klucz3" : "MULTIPLICITY",
+            "klucz4" : ["fasada"],
+            "klucz5" : ["rzubr", "bubr", "desu"]}
         expected.required = {
-            "klucz7" : "OBJECT",
-            "klucz8" : "STRING",
-            "klucz9" : "NUMBER",
-            "klucz10" : "MULTIPLICITY",
-            "klucz11" : ["fasada"],
-            "klucz12" : ["rzubr", "bubr", "desu"]}
-            
+            "klucz6" : "OBJECT",
+            "klucz7" : "STRING",
+            "klucz8" : "MULTIPLICITY",
+            "klucz9" : ["fasada"],
+            "klucz10" : ["rzubr", "bubr", "desu"]}
+
         expected.denied = ["zabronione"]
         result = self.parser.parse(code.objects()[1:])["2d"]
         self.assertEquals(expected, result)
+
 
 if __name__ == "__main__":
     unittest.main()

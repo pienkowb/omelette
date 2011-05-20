@@ -47,10 +47,10 @@ class Lexer(object):
     def __build_grammar(self):
         self["number"] = Word(nums) # TODO: a proper number representation
         self["name"] = Word(alphanums, alphanums + "-_").setResultsName("name")
-        self["string"] = quotedString.setParseAction(removeQuotes);
+        self["string"] = quotedString.setParseAction(removeQuotes)
         self["visibility"] = Word("+-#~", exact=1).setResultsName("visibility")
         self["static"] = Literal("_").setResultsName("static")
-        self["multiplicity"] = ((self["number"] ^ "*") + Optional( ".." +
+        self["multiplicity"] = ((self["number"] ^ "*") + Optional(".." +
             (self["number"] ^ "*")).setResultsName("multiplicity"))
 
         self.__build_header()
@@ -61,20 +61,6 @@ class Lexer(object):
         self.__build_definition()
 
         self["grammar"] = ZeroOrMore(self["definition"]).setResultsName("code")
-
-    def __build_constraint(self):
-        constraint_type = (Literal("allow") ^ "require").setResultsName("type")
-        constraint_key = self["name"].setResultsName("key")
-        constant = self["name"].setResultsName("constant")
-        constants = delimitedList(constant).setResultsName("constants")
-        constraint_value = (Literal("OBJECT") ^ "STRING" ^ "NUMBER" ^
-            "MULTIPLICITY").setResultsName("value") ^ (Literal("[")+constants+"]")
-        standard_constraint = (constraint_type+ "key" + constraint_key +
-            constraint_value)
-        deny_constraint = (Literal("deny").setResultsName("type") + "key" +
-            constraint_key)
-        
-        self["constraint"] = (deny_constraint ^ standard_constraint).setResultsName("constraint")
 
     def __build_definition(self):
         element = Optional(self["operation"] ^ self["attribute"] ^
@@ -116,6 +102,21 @@ class Lexer(object):
         name = self["name"].setResultsName("name")
         value = (Group(self["multiplicity"] ^ self["name"] ^ self["string"])
             .setResultsName("value"))
-        values = value.setResultsName("values")
 
-        self["property"] = (name + ":" + values).setResultsName("property")
+        self["property"] = (name + ":" + value).setResultsName("property")
+
+    def __build_constraint(self):
+        type = (Literal("allow") ^ "require").setResultsName("type")
+        key = self["name"].setResultsName("key")
+
+        constant = self["name"].setResultsName("constant")
+        constants = delimitedList(constant).setResultsName("constants")
+
+        value = ((Literal("OBJECT") ^ "STRING" ^ "MULTIPLICITY")
+            .setResultsName("value") ^ (Literal("[") + constants + "]"))
+
+        standard_constraint = type + "key" + key + value
+        deny_constraint = Literal("deny").setResultsName("type") + "key" + key
+
+        self["constraint"] = ((deny_constraint ^ standard_constraint)
+            .setResultsName("constraint"))
