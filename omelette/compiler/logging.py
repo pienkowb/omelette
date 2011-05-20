@@ -10,20 +10,20 @@ class Logger:
     def __init__(self):
         self.events = []
 
-    def info(self, msg, line_number=None, object=None):
-        e = Event(msg, "INFO", line_number, object)
+    def info(self, msg, object=None):
+        e = Event(msg, "INFO", object)
         self.events.append(e)
 
-    def warning(self, msg, line_number=None, object=None):
-        e = Event(msg, "WARNING", line_number, object)
+    def warning(self, msg, object=None):
+        e = Event(msg, "WARNING", object)
         self.events.append(e)
 
-    def error(self, msg, line_number=None, object=None):
-        e = Event(msg, "ERROR", line_number, object)
+    def error(self, msg, object=None):
+        e = Event(msg, "ERROR", object)
         self.events.append(e)
 
-    def critical(self, msg, line_number=None, object=None):
-        e = Event(msg, "CRITICAL", line_number, object)
+    def critical(self, msg, object=None):
+        e = Event(msg, "CRITICAL", object)
         self.events.append(e)
 
     def flush(self):
@@ -33,11 +33,16 @@ class Logger:
         return len(self.events) == 0
 
 class Event:
-    def __init__(self, msg, level, line_number, object):
+    def __init__(self, msg, level, object):
         self.msg = msg
         self.level = level
-        self.line_number = line_number
-        self.object = object
+        if not object is None:
+            self.object = object.name
+            if not object.code_object is None:
+                self.line_number = object.code_object.position
+        else:
+            self.line_number = -1
+
 
     def __str__(self):
         value = self.level
