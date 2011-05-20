@@ -52,7 +52,7 @@ class Parser(object):
         prototype = "prototype" in token["header"]
 
         if name == None:
-            name = "@%s" % id(self.__code_object)
+            name = "@%s" % self.__code_object.position
 
         if parent == "base":
             parent = None
