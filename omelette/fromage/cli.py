@@ -1,5 +1,6 @@
 #!/usr/bin/env python
-import sys, os
+import sys
+import os
 
 script_path = os.path.dirname(os.path.realpath(__file__))
 modules_path = os.path.normcase("../../")
@@ -7,8 +8,9 @@ modules_directory = os.path.join(script_path, modules_path)
 sys.path.append(modules_directory)
 
 import getopt
-from PyQt4 import QtGui, QtCore
-from PyQt4.QtGui import QImage, QPainter, QGraphicsScene
+from PyQt4 import QtGui
+from PyQt4.QtGui import QImage, QPainter, QGraphicsScene, QBrush, QColor
+from PyQt4.Qt import *
 
 from omelette.fromage.diagram import Diagram
 from omelette.compiler.compiler import Compiler
@@ -22,13 +24,13 @@ def usage():
 
 def main(argv):
     try:
-        opts, args = getopt.getopt(sys.argv[1:], 
+        opts, args = getopt.getopt(sys.argv[1:],
                                    "hi:o:", ["help", "input=", "output="])
     except getopt.GetoptError, err:
         print str(err)
         usage()
         return 1
-    
+
     input = ""
     output = ""
     for o, a in opts:
@@ -41,7 +43,7 @@ def main(argv):
             output = a
         else:
             assert False, "unhandled opt"
-    
+
     if(input == "" or output == ""):
         input_file = sys.stdin
     else:
@@ -51,13 +53,13 @@ def main(argv):
             print "IOError: " + str(err)
             return 2
     code = Code(input_file.read())
-    
+
     diagram = Diagram()
     scene = QGraphicsScene(None)
     compiler = Compiler(Library.load_libraries())
 
     uml_objects = compiler.compile(code)
-    
+
     for uml_object in uml_objects.values():
         diagram.add(uml_object)
 
@@ -79,9 +81,11 @@ def main(argv):
     for drawable in diagram.elements():
         scene.addItem(drawable)
         drawable.resize_scene_rect()
-    
+
     img = QImage(scene.sceneRect().toRect().size(), QImage.Format_ARGB32)
     painter = QPainter(img)
+    painter.fillRect(scene.sceneRect(), QBrush(QColor(255, 255, 255),
+        Qt.SolidPattern))
     painter.resetMatrix()
     scene.render(painter)
     painter.end()
