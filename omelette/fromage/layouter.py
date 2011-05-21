@@ -39,7 +39,7 @@ class Layouter(object):
                 y = sy + r * math.cos(start + angle * i)
                 i += 1
                 node.moveBy(x, y)
-        else:
+        elif n == 1:
             node = diagram.nodes.itervalues().next() # Get first (only) item from nodes
             node.moveBy(sx, sy)
 

@@ -36,6 +36,7 @@ def main(argv):
     for o, a in opts:
         print o + " " + a
         if o in ("-h", "--help"):
+            usage()
             return 0
         elif o in ("-i", "--input"):
             input = a
@@ -80,12 +81,22 @@ def main(argv):
     # ready
     for drawable in diagram.elements():
         scene.addItem(drawable)
-        drawable.resize_scene_rect()
+
+    sceneRect = QRectF(0,0,0,0)
+    
+    for node in diagram.nodes.values():
+        sceneRect = sceneRect.united(node.globalFullBoundingRect())
+        
+    esm = 50 # Export scene margins
+    sceneRect = sceneRect.adjusted(-esm, -esm, esm, esm)
+    scene.setSceneRect(sceneRect)
 
     img = QImage(scene.sceneRect().toRect().size(), QImage.Format_ARGB32)
     painter = QPainter(img)
-    painter.fillRect(scene.sceneRect(), QBrush(QColor(255, 255, 255),
-        Qt.SolidPattern))
+    
+    absoluteRect = QRectF(0, 0, scene.sceneRect().width(), scene.sceneRect().height())
+    painter.fillRect(absoluteRect, QBrush(QColor(255, 255, 255),  Qt.SolidPattern))
+    
     painter.resetMatrix()
     scene.render(painter)
     painter.end()
