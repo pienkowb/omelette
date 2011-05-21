@@ -57,12 +57,13 @@ class Parser(object):
         prototype = "prototype" in token["header"]
 
         if name == None:
-            name = "@%s" % id(self.__code_object)
+            name = "%s" % self.__code_object.position
 
         if parent == "base":
             parent = None
 
-        self.__uml_object = UMLObject(parent, name, prototype)
+        self.__uml_object = UMLObject(parent, name, prototype,
+                self.__code_object)
 
     @callback
     def __handle_attribute(self, token):

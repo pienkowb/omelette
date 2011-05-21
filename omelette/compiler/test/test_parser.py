@@ -29,7 +29,7 @@ class ParserTest(unittest.TestCase):
             _# at2a15 = \'at2a15\'
             """)
 
-        expected = UMLObject("class", "2a", False)
+        expected = UMLObject("class", "2a", False, code.objects()[1])
         expected.add_attribute(Attribute("+", "at2a1"))
         expected.add_attribute(Attribute("-", "at2a2"))
         expected.add_attribute(Attribute("#", "at2a3"))
@@ -55,8 +55,6 @@ class ParserTest(unittest.TestCase):
             "at2a15"))
 
         result = self.parser.parse(code.objects())["2a"]
-
-
         self.assertEquals(expected, result)
 
     def test_operations(self):
@@ -71,7 +69,7 @@ class ParserTest(unittest.TestCase):
             _- op2b6(op2b6p1 : op2b6p1t, op2b6p2)
             """)
 
-        expected = UMLObject("class", "2b", False)
+        expected = UMLObject("class", "2b", False, code.objects()[1])
         expected.add_operation(Operation("+", "op2b1"))
         expected.add_operation(Operation("-", "op2b2", False, [], "op2b2t"))
         expected.add_operation(Operation("#", "op2b3", False, [], "op2b3t"))
@@ -99,7 +97,7 @@ class ParserTest(unittest.TestCase):
             2cp8 : *..*
             """)
 
-        expected = UMLObject("class", "2c", False)
+        expected = UMLObject("class", "2c", False, code.objects()[1])
         expected.properties = {
             "2cp1": ("2cp1v", "OBJECT"),
             "2cp2": ("1234", "MULTIPLICITY"),
@@ -130,7 +128,7 @@ class ParserTest(unittest.TestCase):
             require key klucz10 [rzubr, bubr, desu]
             """)
 
-        expected = UMLObject("class", "2d", False)
+        expected = UMLObject("class", "2d", False, code.objects()[1])
         expected.allowed = {
             "klucz1" : "OBJECT",
             "klucz2" : "STRING",
@@ -143,8 +141,8 @@ class ParserTest(unittest.TestCase):
             "klucz8" : "MULTIPLICITY",
             "klucz9" : ["fasada"],
             "klucz10" : ["rzubr", "bubr", "desu"]}
-
         expected.denied = ["zabronione"]
+
         result = self.parser.parse(code.objects())["2d"]
         self.assertEquals(expected, result)
 

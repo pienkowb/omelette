@@ -1,0 +1,37 @@
+class Klasa
+    stereotype : "Stereotyp"
+    +metoda(argument) : typ 
+    -pole : typ = wartosc
+    _+statyczna metoda
+
+class InnaKlasa
+
+note Notatka
+    text : "Notatka notatka notatka notatka, notatka notatka notatka. Notatka notatka notatka notatka"
+
+actor Aktor
+usecase uc
+    name : "Przypadek uzycia"
+
+association 
+    source-object : Aktor
+    source-count  : 1
+    source-role   : "Aktor"
+
+    target-object : uc
+
+    name          : "Uzywa"
+
+generalization 
+    source-object : Aktor
+    target-object : Klasa
+
+composition 
+    source-object : Aktor
+    target-object : Notatka
+
+aggregation 
+    source-object : Klasa
+    target-object : InnaKlasa
+
+
