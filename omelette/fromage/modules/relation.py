@@ -183,16 +183,42 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
             
         # Updating arrows
         # (Damn, that's ugly.)
-        if('source-arrow' in self.uml_object):
-            self.source_arrow = str2arrow(self.uml_object['source-arrow'])
+        if('arrow' in self.uml_object):
+            # Relation config variant 1
+            # arrow: STRING
+            # direction: none, source, target, both
+            direction = 'none'
+            if('direction' in self.uml_object):
+                direction = self.uml_object['direction']
+                
+            arrow = None
+            if('arrow' in self.uml_object):
+                arrow = str2arrow(self.uml_object['arrow'])
+                
+            if(direction != 'none' and arrow != None):
+                if(direction == 'both' or direction == 'source'):
+                    self.source_arrow = arrow
+                else:
+                    self.source_arrow = None
+                    
+                if(direction == 'both' or direction == 'target'):
+                    self.target_arrow = arrow
+                else:
+                    self.target_arrow
         else:
-            self.source_arrow = None
-            
-        if('target-arrow' in self.uml_object):
-            self.target_arrow = str2arrow(self.uml_object['target-arrow'])
-        else:
-            self.target_arrow = None
-            
+            # Relation config variant 2
+            # source-arrow: STRING
+            # target-arrow: STRING
+            if('source-arrow' in self.uml_object):
+                self.source_arrow = str2arrow(self.uml_object['source-arrow'])
+            else:
+                self.source_arrow = None
+                
+            if('target-arrow' in self.uml_object):
+                self.target_arrow = str2arrow(self.uml_object['target-arrow'])
+            else:
+                self.target_arrow = None
+                
         if('linetype' in self.uml_object):
             self.__line_type = str2linetype(self.uml_object['linetype'])
             
