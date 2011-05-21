@@ -123,7 +123,7 @@ class Actions(object):
         sceneRect = QRectF(0,0,0,0)
         
         for node in self.diagram.nodes.values():
-            sceneRect = sceneRect.united(node.globalBoundingRect())
+            sceneRect = sceneRect.united(node.globalFullBoundingRect())
             
         esm = self.__export_scene_margins
         sceneRect = sceneRect.adjusted(-esm, -esm, esm, esm)
