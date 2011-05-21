@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'resources/fromage.ui'
 #
-# Created: Sun May 15 12:23:24 2011
+# Created: Fri May 20 21:26:14 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -18,10 +18,15 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         MainWindow.setObjectName(_fromUtf8("MainWindow"))
         MainWindow.setEnabled(True)
-        MainWindow.resize(683, 448)
+        MainWindow.resize(696, 594)
         MainWindow.setAutoFillBackground(True)
         MainWindow.setUnifiedTitleAndToolBarOnMac(False)
         self.centralwidget = QtGui.QWidget(MainWindow)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Preferred, QtGui.QSizePolicy.Maximum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.centralwidget.sizePolicy().hasHeightForWidth())
+        self.centralwidget.setSizePolicy(sizePolicy)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         MainWindow.setCentralWidget(self.centralwidget)
         self.statusbar = QtGui.QStatusBar(MainWindow)
@@ -32,7 +37,7 @@ class Ui_MainWindow(object):
         self.toolBar.setObjectName(_fromUtf8("toolBar"))
         MainWindow.addToolBar(QtCore.Qt.TopToolBarArea, self.toolBar)
         self.menuBar = QtGui.QMenuBar(MainWindow)
-        self.menuBar.setGeometry(QtCore.QRect(0, 0, 683, 18))
+        self.menuBar.setGeometry(QtCore.QRect(0, 0, 696, 18))
         self.menuBar.setObjectName(_fromUtf8("menuBar"))
         self.menuFile = QtGui.QMenu(self.menuBar)
         self.menuFile.setObjectName(_fromUtf8("menuFile"))
@@ -43,6 +48,19 @@ class Ui_MainWindow(object):
         self.menuLayout = QtGui.QMenu(self.menuBar)
         self.menuLayout.setObjectName(_fromUtf8("menuLayout"))
         MainWindow.setMenuBar(self.menuBar)
+        self.dock_widget = QtGui.QDockWidget(MainWindow)
+        sizePolicy = QtGui.QSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.dock_widget.sizePolicy().hasHeightForWidth())
+        self.dock_widget.setSizePolicy(sizePolicy)
+        self.dock_widget.setFloating(False)
+        self.dock_widget.setFeatures(QtGui.QDockWidget.DockWidgetFloatable|QtGui.QDockWidget.DockWidgetMovable)
+        self.dock_widget.setObjectName(_fromUtf8("dock_widget"))
+        self.dockContents = QtGui.QWidget()
+        self.dockContents.setObjectName(_fromUtf8("dockContents"))
+        self.dock_widget.setWidget(self.dockContents)
+        MainWindow.addDockWidget(QtCore.Qt.DockWidgetArea(8), self.dock_widget)
         self.actionNew = QtGui.QAction(MainWindow)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/document-new.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
@@ -152,6 +170,7 @@ class Ui_MainWindow(object):
         self.menuEdit.setTitle(QtGui.QApplication.translate("MainWindow", "Edit", None, QtGui.QApplication.UnicodeUTF8))
         self.menuRun.setTitle(QtGui.QApplication.translate("MainWindow", "Run", None, QtGui.QApplication.UnicodeUTF8))
         self.menuLayout.setTitle(QtGui.QApplication.translate("MainWindow", "Layout", None, QtGui.QApplication.UnicodeUTF8))
+        self.dock_widget.setWindowTitle(QtGui.QApplication.translate("MainWindow", "Messages", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setText(QtGui.QApplication.translate("MainWindow", "New", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setToolTip(QtGui.QApplication.translate("MainWindow", "New", None, QtGui.QApplication.UnicodeUTF8))
         self.actionNew.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+N", None, QtGui.QApplication.UnicodeUTF8))

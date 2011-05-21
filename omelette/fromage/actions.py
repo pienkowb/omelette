@@ -1,6 +1,7 @@
 from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
+from omelette.compiler import logging
 from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
@@ -25,6 +26,8 @@ class Actions(object):
         self.diagram = Diagram()
         code = Code(str(self.window.qsci.text()))
         uml_objects = self.compiler.compile(code)
+        logger = logging.getLogger('compiler')
+        self.set_msg_view(logger)
 
         for uml_object in uml_objects.values():
             self.diagram.add(uml_object)
@@ -158,3 +161,14 @@ class Actions(object):
 
     def isLayoutSpring(self):
         return self.is_layout_spring
+
+    def set_msg_view(self, logger):
+        events = logger.events
+        for n, e in enumerate(events):
+            descr = QtGui.QTableWidgetItem(str(e))
+            level = QtGui.QTableWidgetItem(str(e.level))
+            line_nr = QtGui.QTableWidgetItem(str(e.line_number))
+            self.window.msg_view.setRowCount(n+1)
+            self.window.msg_view.setItem(n, 0, level)
+            self.window.msg_view.setItem(n, 1, line_nr)
+            self.window.msg_view.setItem(n, 2, descr)

@@ -19,7 +19,9 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
 
         self.setupUi(self)
 
-        self.layout = QtGui.QHBoxLayout(self.centralwidget)
+        self.hlayout = QtGui.QHBoxLayout(self.centralwidget)
+        self.vlayout = QtGui.QVBoxLayout(self.dockContents)
+
         self.splitter = QtGui.QSplitter(self.centralwidget)
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
 
@@ -30,7 +32,14 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         self.scene.setSceneRect(QtCore.QRectF(0, 0, 500, 500))
         self.splitter.setSizes([1,1])
 
-        self.layout.addWidget(self.splitter)
+        self.msg_view = QtGui.QTableWidget()
+        self.msg_view.setColumnCount(3)
+        self.msg_view.setHorizontalHeaderLabels(["Marker", "Line number", "Message"])
+        self.msg_view.horizontalHeader().setStretchLastSection(True)
+        self.msg_view.setFixedHeight(80)
+
+        self.vlayout.addWidget(self.msg_view)
+        self.hlayout.addWidget(self.splitter)
 
         self.actions = Actions(self)
 

@@ -9,8 +9,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>683</width>
-    <height>448</height>
+    <width>696</width>
+    <height>594</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -22,7 +22,14 @@
   <property name="unifiedTitleAndToolBarOnMac">
    <bool>false</bool>
   </property>
-  <widget class="QWidget" name="centralwidget"/>
+  <widget class="QWidget" name="centralwidget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+  </widget>
   <widget class="QStatusBar" name="statusbar">
    <property name="enabled">
     <bool>true</bool>
@@ -59,7 +66,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>683</width>
+     <width>696</width>
      <height>18</height>
     </rect>
    </property>
@@ -104,6 +111,27 @@
    <addaction name="menuEdit"/>
    <addaction name="menuRun"/>
    <addaction name="menuLayout"/>
+  </widget>
+  <widget class="QDockWidget" name="dock_widget">
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
+   <property name="floating">
+    <bool>false</bool>
+   </property>
+   <property name="features">
+    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+   </property>
+   <property name="windowTitle">
+    <string>Messages</string>
+   </property>
+   <attribute name="dockWidgetArea">
+    <number>8</number>
+   </attribute>
+   <widget class="QWidget" name="dockContents"/>
   </widget>
   <action name="actionNew">
    <property name="icon">
