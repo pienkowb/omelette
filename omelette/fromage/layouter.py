@@ -40,6 +40,7 @@ class Layouter(object):
                 i += 1
                 node.moveBy(x, y)
         else:
+            node = diagram.nodes.itervalues().next() # Get first (only) item from nodes
             node.moveBy(sx, sy)
 
     @staticmethod
