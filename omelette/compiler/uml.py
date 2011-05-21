@@ -11,6 +11,7 @@ class UMLObject(object):
         is_prototype -- prototype objects aren't returned by Compiler.compile
         method (default: False)
         """
+
         self.__operations = []
         self.__attributes = []
         self.properties = {}
@@ -25,10 +26,13 @@ class UMLObject(object):
         self.is_prototype = is_prototype
 
     def __setitem__(self, key, value):
-        self.properties[key] = value
+        property = self.properties.get(key)
+        type = property[1] if property else None
+
+        self.properties[key] = (value, type)
 
     def __getitem__(self, key):
-        return self.properties[key]
+        return self.properties[key][0]
 
     def add_operation(self, operation):
         """Adds an instance of Operation class to objects operations"""
@@ -57,6 +61,7 @@ def _try_to_format(format, value):
     Tries to format value according to the format parameter.
     If unscuccessful returns empty string.
     """
+
     return format % value if value else ""
 
 
@@ -109,6 +114,7 @@ class Operation(_Field):
         Used in __formatted_params, returns "arg1 : type" if param's type is
         not None, otherwise just "arg1".
         """
+
         (name, type) = parameter
         return name + ((" : " + type) if type else "")
 
@@ -125,6 +131,7 @@ class Attribute(_Field):
         type -- type of value returned by the operation as a String (default: None)
         default_value -- (default : None).
         """
+
         self.is_static = is_static
         self.visibility = visibility
         self.name = name

@@ -102,7 +102,7 @@ class Parser(object):
         type = self.__last_type if self.__last_type else "STRING"
         self.__last_type = None
 
-        self.__uml_object.properties[name] = (type, value)
+        self.__uml_object.properties[name] = (value, type)
 
     @callback
     def __handle_constraint(self, token):
