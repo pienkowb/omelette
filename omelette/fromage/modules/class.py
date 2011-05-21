@@ -12,6 +12,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         self.__font = QFont('Comic Sans MS', 10)
         self.__section_margin = 5
         self.__text_margin = 3
+        self.__min_width = 100 
 
         self.setFlag(QGraphicsItem.ItemIsMovable, 1)
         self.setFlag(QGraphicsItem.ItemIsSelectable, 1)
@@ -50,14 +51,14 @@ class DrawableClass(DrawableNode, QGraphicsItem):
 
         # Name of the class        
         current_height = self.__section_margin
-        painter.drawText(QRect(self.__text_margin, current_height, metrics.width(self.uml_object['name']), metrics.height()), 0, self.uml_object['name'])
+        painter.drawText(QRect(self.__text_margin, current_height, self.__bounding_rect.width() - self.__text_margin * 2, metrics.height()), Qt.AlignCenter, self.uml_object['name'])
         current_height += metrics.height()
         
         # Stereotype
         if("stereotype" in self.uml_object.properties):
             current_height += self.__text_margin
             stereotype = "<< " + self.uml_object["stereotype"] + " >>"
-            painter.drawText(QRect(self.__text_margin, current_height, metrics.width(stereotype), metrics.height()), 0, stereotype)
+            painter.drawText(QRect(self.__text_margin, current_height, self.__bounding_rect.width() - self.__text_margin * 2, metrics.height()), Qt.AlignCenter, stereotype)
             current_height += metrics.height()
             
         current_height += self.__section_margin
@@ -111,7 +112,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
             drawable_width = max(drawable_width, size[0])
             drawable_height += size[1]
 
-        self.__bounding_rect = QRectF(0, 0, 2 * self.__text_margin + drawable_width, drawable_height)
+        self.__bounding_rect = QRectF(0, 0, max(2 * self.__text_margin + drawable_width, self.__min_width), drawable_height)
 
     def crop_line(self, line, line_point):
         global_rect = self.globalBoundingRect()
@@ -121,7 +122,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         
         intersection_point = QPointF()
         
-        # Iterate over pairs of vertexes that make rectangle edges
+        # Iterate over pairs of vertices that make rectangle edges
         for (a, b) in [(0, 1), (1, 2), (2, 3), (3, 0)]:
             bok = QLineF(vertexes[a], vertexes[b])
             itype = line.intersect(bok, intersection_point)

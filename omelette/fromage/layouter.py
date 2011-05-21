@@ -178,7 +178,7 @@ class Layouter(object):
 ##########################################################################
 
     @staticmethod
-    def layout(diagram, mode=1):
+    def layout(diagram, mode=0):
         """
         General function calling different layout functions
         """

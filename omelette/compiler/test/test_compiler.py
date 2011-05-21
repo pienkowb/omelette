@@ -49,26 +49,41 @@ class CompilerTest(unittest.TestCase):
         self.assertEquals(len(result), 1)
         self.assertEquals(result.keys().pop(), "Student")
 
+
 class CompilerIntegrationTest(unittest.TestCase):
+    """Test for compilation errors"""
 
     def setUp(self):
-        self.logger = logging.getLogger("compiler")
-        self.logger.flush()
         self.instance = Compiler()
 
-    def test_circular_refference(self):
+        self.logger = logging.getLogger("compiler")
+        self.logger.flush()
+
+    def test_circular_reference(self):
         code = Code("objectname objectname")
+
         self.instance.compile(code)
-        self.assertFalse(self.logger.is_empty(), 
-        "logger should contain errors")
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
 
     def test_sophisticated_circular(self):
         code = Code("""a b
-        b c
-        c a""")
+            b c
+            c a""")
+
         self.instance.compile(code)
-        self.assertFalse(self.logger.is_empty(), 
-        "logger should contain errors")
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
+
+    def test_bad_reference(self):
+        """object refers to a non-existing object"""
+
+        code = Code("""not-defined""")
+
+        self.instance.compile(code)
+        self.assertFalse(self.logger.is_empty(),
+            "Logger should contain errors")
+
 
 if __name__ == "__main__":
     unittest.main()

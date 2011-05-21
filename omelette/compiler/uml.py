@@ -1,7 +1,8 @@
 class UMLObject(object):
     """Class representing UML diagram object."""
 
-    def __init__(self, parent=None, name=None, is_prototype=False):
+    def __init__(self, parent=None, name=None, is_prototype=False,
+            code_object=None):
         """
         Create UMLObject
 
@@ -15,10 +16,15 @@ class UMLObject(object):
         self.__attributes = []
         self.properties = {}
 
+        self.required = {}
+        self.allowed = {}
+        self.denied = []
+
         self.type = None
         self.parent = parent
         self.name = name
         self.is_prototype = is_prototype
+        self.code_object = code_object
 
     def __setitem__(self, key, value):
         self.properties[key] = value

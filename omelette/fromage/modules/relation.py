@@ -17,7 +17,19 @@ def str2arrow(name):
     elif name == "generalization":
         return ArrowHeadGen(filled=False)
     else: 
-        raise AttributeError('Unknow arrowname given!!')
+        raise AttributeError('Unknow arrowname given.')
+
+def str2linetype(name):
+    if name == "solid":
+        return Qt.SolidLine
+    elif name == "dash":
+        return Qt.DashLine
+    elif name == "dot":
+        return Qt.DotLine
+    elif name == "dashdot":
+        return Qt.DashDotLine
+    else:
+        raise AttributeError('Unknown line type given.')
 
 # Warning. Copy&Paste methodology was used to write following code
 #TODO: Please consider refactoring and/or moving ArrowHead classes.
@@ -103,6 +115,8 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         self.__font = QFont('Comic Sans MS', 10)
         self.__fontMetrics = QFontMetrics(self.__font)
         
+        self.__line_type = Qt.SolidLine
+        
         self.__texts = {}
         
         self.__create_text('name', 0.5, 1)
@@ -179,12 +193,15 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         else:
             self.target_arrow = None
             
+        if('linetype' in self.uml_object):
+            self.__line_type = str2linetype(self.uml_object['linetype'])
+            
     def __update_text(self, tag, dtext):
         if tag not in self.uml_object: 
             # just dock the unused DrawableText somewhere
             dockPoint = QPointF(self.real_line().p1().x(), self.real_line().p1().y())
-            dtext.setPos(dockPoint)
             dtext.origin_pos = QPointF(dockPoint)
+            dtext.setPos(dockPoint)
             dtext.setVisible(False)
             return
         
@@ -225,10 +242,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         
         painter.setRenderHint(QPainter.Antialiasing, True)
         
-        myPen = self.pen()
-        myPen.setColor(QColor(0, 0, 0))
-        
-        painter.setPen(myPen)
+        painter.setPen(QPen(QColor(0, 0, 0), 1, self.__line_type))
         painter.setBrush(QColor(255, 255, 255))
         
         painter.drawLine(self.real_line())

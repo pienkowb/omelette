@@ -29,7 +29,9 @@ class ParserTest(unittest.TestCase):
             _# at2a15 = \'at2a15\'
             """)
 
-        expected = UMLObject("class", "2a", False)
+        code_object = code.objects()[1]
+        
+        expected = UMLObject("class", "2a", False, code_object)
         expected.add_attribute(Attribute("+", "at2a1"))
         expected.add_attribute(Attribute("-", "at2a2"))
         expected.add_attribute(Attribute("#", "at2a3"))
@@ -54,7 +56,7 @@ class ParserTest(unittest.TestCase):
         expected.add_attribute(Attribute("#", "at2a15", True, None,
             "\'at2a15\'"))
 
-        result = self.parser.parse(code.objects()[1:])["2a"]
+        result = self.parser.parse([code_object])["2a"]
         self.assertEquals(expected, result)
 
     def test_operations(self):
@@ -68,8 +70,9 @@ class ParserTest(unittest.TestCase):
             _+ op2b5(op2b5p1 : op2b5p1t)
             _- op2b6(op2b6p1 : op2b6p1t, op2b6p2)
             """)
+        code_object = code.objects()[1]
 
-        expected = UMLObject("class", "2b", False)
+        expected = UMLObject("class", "2b", False, code_object)
         expected.add_operation(Operation("+", "op2b1"))
         expected.add_operation(Operation("-", "op2b2", False, [], "op2b2t"))
         expected.add_operation(Operation("#", "op2b3", False, [], "op2b3t"))
@@ -80,7 +83,7 @@ class ParserTest(unittest.TestCase):
         expected.add_operation(Operation("-", "op2b6", True, [("op2b6p1",
             "op2b6p1t"), ("op2b6p2", None)]))
 
-        result = self.parser.parse(code.objects()[1:])["2b"]
+        result = self.parser.parse([code_object])["2b"]
         self.assertEquals(expected, result)
 
     def test_properties(self):
@@ -97,7 +100,9 @@ class ParserTest(unittest.TestCase):
             2cp8 : *..*
             """)
 
-        expected = UMLObject("class", "2c", False)
+        code_object = code.objects()[1]
+
+        expected = UMLObject("class", "2c", False, code_object)
         expected["2cp1"] = "2cp1v"
         expected["2cp2"] = "1234"
         expected["2cp3"] = "\"2cp3\""
@@ -107,7 +112,7 @@ class ParserTest(unittest.TestCase):
         expected["2cp7"] = "*..1"
         expected["2cp8"] = "*..*"
 
-        result = self.parser.parse(code.objects()[1:])["2c"]
+        result = self.parser.parse([code_object])["2c"]
         self.assertEquals(expected, result)
 
 
