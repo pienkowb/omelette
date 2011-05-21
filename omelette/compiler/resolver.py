@@ -29,15 +29,15 @@ class DependencyResolver(object):
 
 
         while(1):
-            leafs = filter(lambda n: ref_count[n] == 0, ref_count.keys())
+            leaves = filter(lambda n: ref_count[n] == 0, ref_count.keys())
             
-            if not leafs:
-            # no leafs left, either we reduced all of the nodes, or there are
+            if not leaves:
+            # no leaves left, either we reduced all of the nodes, or there are
             # circular references
                 break
             else:
-            # delete all leafs, and update reference count of their parents
-                for o in map(lambda key: objects[key], leafs):
+            # delete all leaves, and update reference count of their parents
+                for o in map(lambda key: objects[key], leaves):
                     if not o.parent is None:
                         if o.parent in ref_count:
                             ref_count[o.parent]-=1
