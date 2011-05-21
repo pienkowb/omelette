@@ -44,6 +44,12 @@ class Drawable(object):
 
         return global_rect
     
+    def globalFullBoundingRect(self):
+        full_rect = QRectF(self.childrenBoundingRect() | self.boundingRect())
+        full_rect.translate(self.pos())
+        
+        return full_rect
+    
     def resize_scene_rect(self):
         # Check if we are QGraphicsItem and if we are on scene
         if(not callable(self.scene) or self.scene() == None): 
