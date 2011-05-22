@@ -30,6 +30,9 @@ class Actions(object):
         logger = logging.getLogger('compiler')
         self.set_msg_view(logger)
 
+        if logger.has("ERROR CRITICAL"):
+            return
+
         for uml_object in uml_objects.values():
             self.diagram.add(uml_object)
 
