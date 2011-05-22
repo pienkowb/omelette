@@ -16,7 +16,7 @@ class ValidatorTest(unittest.TestCase):
     def test_validate_all_allowed(self):
         self.uml_object.properties = {
             "arrow": ("association", "STRING"),
-            "direction": ("target", "CONSTANT"),
+            "direction": ("target", "OBJECT"),
             "source-object": ("Student", "OBJECT"),
             "source-role": ("learns", "STRING"),
             "source-count": ("1", "MULTIPLICITY")}
@@ -33,7 +33,7 @@ class ValidatorTest(unittest.TestCase):
     def test_validate_no_required(self):
         self.uml_object.properties = {
             "arrow": ("association", "STRING"),
-            "direction": ("none", "CONSTANT")}
+            "direction": ("none", "OBJECT")}
 
         self.assertFalse(Validator(self.uml_object).validate())
 
