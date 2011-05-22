@@ -16,6 +16,7 @@ from omelette.fromage.diagram import Diagram
 from omelette.compiler.compiler import Compiler
 from omelette.compiler.code import Code, Library
 from omelette.fromage.layouter import Layouter
+from omelette.compiler import logging
 
 QT_APP = QtGui.QApplication([])
 
@@ -44,7 +45,7 @@ def main(argv):
         else:
             assert False, "unhandled opt"
 
-    if(input == "" or output == ""):
+    if(input == ""):
         input_file = sys.stdin
     else:
         try:
@@ -92,7 +93,13 @@ def main(argv):
     ret = img.save(output)
     print("Save returned " + str(ret))
 
-    return 0
+    logger = logging.getLogger('compiler')
+    if logger.is_empty():
+        return ret and 1 or 0
+    else:
+        for e in logger.events:
+            print str(e)
+        return 1
 
 if __name__ == "__main__":
     exit(main(sys.argv))

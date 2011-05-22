@@ -47,7 +47,7 @@ class Event:
     def __str__(self):
         value = self.level
         if not self.line_number is None:
-            value += " " + str(self.line_number)
+            value += ":" + str(self.line_number)
         elif not self.object is None:
             value += " " + self.object.name
         value += ": " + self.msg 
