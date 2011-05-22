@@ -96,7 +96,10 @@ def main(argv):
 
     for e in logger.events:
         print str(e)
-    return 1
+    if not logger.has("ERROR CRITICAL"):
+        return 0
+    else:
+        return 1
 
 if __name__ == "__main__":
     exit(main(sys.argv))
