@@ -24,6 +24,7 @@ def usage():
     print "Usage: cli.py -h --help -i --input -o -output"
 
 def main(argv):
+    logger = logging.getLogger('compiler')
     try:
         opts, args = getopt.getopt(sys.argv[1:],
                                    "hi:o:", ["help", "input=", "output="])
@@ -60,7 +61,12 @@ def main(argv):
     compiler = Compiler(Library.load_libraries())
 
     uml_objects = compiler.compile(code)
+    if not logger.is_empty():
+        for e in logger.events:
+            print str(e)
+        return 1
 
+    
     for uml_object in uml_objects.values():
         diagram.add(uml_object)
 
@@ -92,14 +98,6 @@ def main(argv):
     painter.end()
     ret = img.save(output)
     print("Save returned " + str(ret))
-
-    logger = logging.getLogger('compiler')
-    if logger.is_empty():
-        return 0
-    else:
-        for e in logger.events:
-            print str(e)
-        return 1
 
 if __name__ == "__main__":
     exit(main(sys.argv))
