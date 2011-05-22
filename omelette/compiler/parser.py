@@ -24,7 +24,11 @@ class Parser(object):
         self.__objects = {}
 
         for code_object in code_objects:
-            if code_object.position < 0: continue
+            if code_object.position < 0: 
+                if not code_object.is_empty():
+                    message = "object definition without header"
+                    logging.getLogger("compiler").warning(message) 
+                continue
 
             self.__code_object = code_object
             self.__lexer["definition"].parseString(str(code_object))

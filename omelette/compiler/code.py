@@ -1,4 +1,5 @@
 import os.path
+import re
 from pyparsing import StringEnd, ParseException
 from omelette.compiler.lexer import Lexer
 
@@ -30,6 +31,10 @@ class _CodeObject(object):
             del self.lines[position:]
 
             self.modified = other.modified = True
+
+    def is_empty(self):
+        non_empty = re.compile("\\S")
+        return not filter( lambda l :  non_empty.search(l), self.lines )
 
     def __cmp__(self, other):
         return cmp(self.position, other.position)
