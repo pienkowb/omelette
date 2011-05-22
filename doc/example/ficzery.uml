@@ -1,8 +1,8 @@
 class Klasa
     stereotype : "Stereotyp"
     +metoda(argument) : typ 
-    -pole : typ = wartosc
-    _+statyczna metoda
+    -pole : typ = "wartosc"
+    _+statyczna_metoda()
 
 class InnaKlasa
 

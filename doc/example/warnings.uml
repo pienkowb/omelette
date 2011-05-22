@@ -3,6 +3,8 @@ class a
 class b
     syntax : "error
     syntax-error :
-    syntax : error :
-    5yntax : error
 class c
+    syntax : error :
+    +pole
+    -metoda()
+    5yntax : error
