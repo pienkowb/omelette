@@ -1,1 +1,1 @@
-python `dirname $0`/../omelette/fromage/cli.py
+python `dirname $0`/../omelette/fromage/cli.py $@

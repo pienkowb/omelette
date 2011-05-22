@@ -42,16 +42,18 @@ class LexerTest(unittest.TestCase):
 
         self.lexer = Lexer()
 
-        self.definition_hits = 0;
-        self.operation_hits = 0;
-        self.attribute_hits = 0;
-        self.property_hits = 0;
-        self.header_hits = 0;
-        self.constraint_hits = 0;
+        self.definition_hits = 0
+        self.operation_hits = 0
+        self.attribute_hits = 0
+        self.property_hits = 0
+        self.header_hits = 0
+        self.constraint_hits = 0
 
-        self.string_hits = 0;
-        self.multiplicity_hits = 0;
-        self.name_hits = 0;
+        self.string_hits = 0
+        self.multiplicity_hits = 0
+        self.name_hits = 0
+
+        self.error_hits = 0
 
         self.handlers = {}
         self.handlers["definition"] = self.__hit_definition
@@ -64,6 +66,8 @@ class LexerTest(unittest.TestCase):
         self.handlers["name"] = self.__hit_name
         self.handlers["string"] = self.__hit_string
         self.handlers["multiplicity"] = self.__hit_multiplicity
+
+        self.handlers["error"] = self.__hit_error
 
     def __hit_constraint(self, s, l, t):
         self.constraint_hits = self.constraint_hits + 1
@@ -82,6 +86,18 @@ class LexerTest(unittest.TestCase):
 
     def __hit_header(self, s, l, t):
         self.header_hits = self.header_hits + 1
+
+    def __hit_string(self, s, l, t):
+        self.string_hits = self.string_hits + 1
+
+    def __hit_multiplicity(self, s, l, t):
+        self.multiplicity_hits = self.multiplicity_hits + 1
+
+    def __hit_name(self, s, l, t):
+        self.name_hits = self.name_hits + 1
+
+    def __hit_error(self, s, l, t):
+        self.error_hits = self.error_hits + 1
 
     def test_register_handlers_1(self):
         """Tests if lexer accepts handlers for a set of typical tokens."""
@@ -141,15 +157,6 @@ class LexerTest(unittest.TestCase):
         self.assertEquals(self.string_hits, 2)
         self.assertEquals(self.multiplicity_hits, 4)
         self.assertEquals(self.name_hits, 1)
-
-    def __hit_string(self, s, l, t):
-        self.string_hits = self.string_hits + 1
-
-    def __hit_multiplicity(self, s, l, t):
-        self.multiplicity_hits = self.multiplicity_hits + 1
-
-    def __hit_name(self, s, l, t):
-        self.name_hits = self.name_hits + 1
 
 
 if __name__ == "__main__":
