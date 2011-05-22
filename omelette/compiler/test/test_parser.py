@@ -121,7 +121,6 @@ class ParserTest(unittest.TestCase):
             allow key klucz4 [fasada]
             allow key klucz5 [rzubr, bubr, desu]
             require key klucz6 OBJECT
-            deny key zabronione
             require key klucz7 STRING
             require key klucz8 MULTIPLICITY
             require key klucz9 [fasada]
@@ -141,7 +140,6 @@ class ParserTest(unittest.TestCase):
             "klucz8" : "MULTIPLICITY",
             "klucz9" : ["fasada"],
             "klucz10" : ["rzubr", "bubr", "desu"]}
-        expected.denied = ["zabronione"]
 
         result = self.parser.parse(code.objects())["2d"]
         self.assertEquals(expected, result)

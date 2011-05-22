@@ -19,7 +19,6 @@ class UMLObject(object):
 
         self.required = {}
         self.allowed = {}
-        self.denied = []
 
         self.type = None
         self.parent = parent
@@ -58,6 +57,7 @@ class UMLObject(object):
     def __contains__(self, key):
         return key in self.properties
 
+
 def _try_to_format(format, value):
     """
     Tries to format value according to the format parameter.
@@ -77,7 +77,8 @@ class _Field(object):
 class Operation(_Field):
     """Class representing UML Operation."""
 
-    def __init__(self, visibility, name, is_static=False, parameters=[], type=None):
+    def __init__(self, visibility, name, is_static=False, parameters=[],
+            type=None):
         """
         Create Operation with given visibility ("+", "-", "#" or "~") and name.
 
@@ -124,7 +125,8 @@ class Operation(_Field):
 class Attribute(_Field):
     """Class representing UML Attribute."""
 
-    def __init__(self, visibility, name, is_static=False, type=None, default_value=None):
+    def __init__(self, visibility, name, is_static=False, type=None,
+            default_value=None):
         """
         Create Attribute with given visibility ("+", "-", "#" or "~") and name.
 

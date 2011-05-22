@@ -24,10 +24,10 @@ class Parser(object):
         self.__objects = {}
 
         for code_object in code_objects:
-            if code_object.position < 0: 
+            if code_object.position < 0:
                 if not code_object.is_empty():
                     message = "object definition without header"
-                    logging.getLogger("compiler").warning(message) 
+                    logging.getLogger("compiler").warning(message)
                 continue
 
             self.__code_object = code_object
@@ -120,10 +120,6 @@ class Parser(object):
 
     @callback
     def __handle_constraint(self, token):
-        if token["type"] == "deny":
-            self.__uml_object.denied.append(token["key"])
-            return
-
         value = token.get("value")
         constants = token.get("constants")
 

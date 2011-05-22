@@ -17,7 +17,6 @@ class LexerTest(unittest.TestCase):
             require key klucz8 MULTIPLICITY
             allow key klucz9 [fasada]
             allow key klucz10 [rzubr, bubr, desu]
-            deny key klucz11
 
             + at1 : type1
 
@@ -135,7 +134,7 @@ class LexerTest(unittest.TestCase):
         self.assertEquals(self.operation_hits, 3)
         self.assertEquals(self.property_hits, 6)
         self.assertEquals(self.header_hits, 3)
-        self.assertEquals(self.constraint_hits, 11)
+        self.assertEquals(self.constraint_hits, 10)
         self.assertEquals(self.error_hits, 1)
 
     def test_register_handlers_4(self):

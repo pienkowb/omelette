@@ -120,8 +120,5 @@ class Lexer(object):
         value = ((Literal("OBJECT") ^ "STRING" ^ "MULTIPLICITY")
             .setResultsName("value") ^ (Literal("[") + constants + "]"))
 
-        standard_constraint = type + "key" + key + value
-        deny_constraint = Literal("deny").setResultsName("type") + "key" + key
-
-        self["constraint"] = ((deny_constraint ^ standard_constraint)
+        self["constraint"] = ((type + "key" + key + value)
             .setResultsName("constraint"))
