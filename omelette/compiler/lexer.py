@@ -67,7 +67,9 @@ class Lexer(object):
         element = (self["operation"] ^ self["attribute"] ^ self["property"] ^
             self["constraint"]) + LineEnd()
 
-        self["error"] = SkipTo(LineEnd()).setResultsName("error") + LineEnd()
+        self["error"] = ((~self["header"] +
+        SkipTo(LineEnd()).setResultsName("line")).setResultsName("error") 
+        + LineEnd())
 
         self["definition"] = ((ZeroOrMore(LineEnd()) + self["header"] +
             ZeroOrMore(element ^ LineEnd() ^ self["error"]))

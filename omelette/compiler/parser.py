@@ -55,7 +55,7 @@ class Parser(object):
 
     @callback
     def __handle_error(self, token):
-        line = token["error"]
+        line = token["error"].get("line")
         message = "unrecognised syntax: " + line
         logging.getLogger("compiler").warning(message, object=self.__uml_object)
 

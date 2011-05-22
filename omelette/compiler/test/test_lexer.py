@@ -36,6 +36,7 @@ class LexerTest(unittest.TestCase):
         prototype grandson
             _+ op3(param3:type3)
             pr3 : 13..*
+            error :errror :errro " errror
             _- at3 : type4
             pr4: 0
             pr5: *"""
@@ -48,6 +49,7 @@ class LexerTest(unittest.TestCase):
         self.property_hits = 0
         self.header_hits = 0
         self.constraint_hits = 0
+        self.error_hits = 0
 
         self.string_hits = 0
         self.multiplicity_hits = 0
@@ -62,6 +64,7 @@ class LexerTest(unittest.TestCase):
         self.handlers["property"] = self.__hit_property
         self.handlers["header"] = self.__hit_header
         self.handlers["constraint"] = self.__hit_constraint
+        self.handlers["error"] = self.__hit_error
 
         self.handlers["name"] = self.__hit_name
         self.handlers["string"] = self.__hit_string
@@ -71,6 +74,9 @@ class LexerTest(unittest.TestCase):
 
     def __hit_constraint(self, s, l, t):
         self.constraint_hits = self.constraint_hits + 1
+
+    def __hit_error(self, s, l, t):
+        self.error_hits = self.error_hits + 1
 
     def __hit_definition(self, s, l, t):
         self.definition_hits = self.definition_hits + 1
@@ -116,6 +122,7 @@ class LexerTest(unittest.TestCase):
         self.assertNotEquals(self.property_hits, 0)
         self.assertNotEquals(self.header_hits, 0)
         self.assertNotEquals(self.constraint_hits, 0)
+        self.assertNotEquals(self.error_hits, 0)
 
     def test_register_handlers_3(self):
         """Tests if lexer calls handlers proper times."""
@@ -129,6 +136,7 @@ class LexerTest(unittest.TestCase):
         self.assertEquals(self.property_hits, 6)
         self.assertEquals(self.header_hits, 3)
         self.assertEquals(self.constraint_hits, 11)
+        self.assertEquals(self.error_hits, 1)
 
     def test_register_handlers_4(self):
         """Tests if lexer does not accept a handler for non-existent token."""
