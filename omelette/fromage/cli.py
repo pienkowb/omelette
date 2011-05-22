@@ -95,7 +95,7 @@ def main(argv):
 
     logger = logging.getLogger('compiler')
     if logger.is_empty():
-        return ret and 1 or 0
+        return 0
     else:
         for e in logger.events:
             print str(e)
