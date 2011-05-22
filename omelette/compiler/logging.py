@@ -32,7 +32,28 @@ class Logger:
     def is_empty(self):
         return len(self.events) == 0
 
+    def get_events(self, levels="INFO WARNING ERROR CRITICAL"):
+        """
+        get_events("ERROR CRITICAL")
+        possible levels: INFO, WARNING, ERROR, CRITICAL
+        """
+
+        result = []
+        for l in levels.split():
+            result += filter(lambda e: e.level == l, self.events)
+        return sorted(result, key=lambda e: e.line_number)
+
+    def has(self, level):
+        """
+        Check if there are events of specified levels.
+        possible levels: INFO, WARNING, ERROR, CRITICAL
+        has("ERROR CRITICAL")
+        """
+
+        return len(self.get_events(level)) > 0
+
 class Event:
+
     def __init__(self, msg, level, object):
         self.msg = msg
         self.level = level
