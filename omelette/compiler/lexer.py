@@ -57,14 +57,14 @@ class Lexer(object):
         self.__build_property()
         self.__build_definition()
 
-        self["grammar"] = ZeroOrMore(self["definition"]).setResultsName("code")
+        self["grammar"] = ZeroOrMore(self["definition"] ^ self["error"]).setResultsName("code")
 
     def __build_definition(self):
-        element = Optional(self["operation"] ^ self["attribute"] ^
-            self["property"]) + LineEnd()
+        element = (self["operation"] ^ self["attribute"] ^ self["property"]) + LineEnd()
+        self["error"] = SkipTo(LineEnd()).setResultsName("error") + LineEnd()
 
-        self["definition"] = (ZeroOrMore(LineEnd()) + self["header"] +
-            LineEnd() + ZeroOrMore(element)).setResultsName("definition")
+        self["definition"] = (ZeroOrMore(LineEnd()) + self["header"] 
+                + ZeroOrMore(element ^ LineEnd() ^ self["error"])).setResultsName("definition")
 
     def __build_header(self):
         object_name = self["name"].setResultsName("name")
@@ -72,7 +72,7 @@ class Lexer(object):
         prototype = Literal("prototype").setResultsName("prototype")
 
         self["header"] = (Optional(prototype) + parent_name +
-            Optional(object_name)).setResultsName("header")
+            Optional(object_name)).setResultsName("header") + LineEnd()
 
     def __build_attribute(self):
         type = self["name"].setResultsName("type")

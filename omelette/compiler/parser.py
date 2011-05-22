@@ -1,6 +1,7 @@
 from pyparsing import *
 from omelette.compiler.lexer import Lexer
 from omelette.compiler.uml import *
+from omelette.compiler import logging
 
 def callback(handler):
     def wrapper(self, s, l, t):
@@ -37,6 +38,7 @@ class Parser(object):
         self.__lexer["operation"].setParseAction(self.__handle_operation)
         self.__lexer["attribute"].setParseAction(self.__handle_attribute)
         self.__lexer["property"].setParseAction(self.__handle_property)
+        self.__lexer["error"].setParseAction(self.__handle_error)
 
     @callback
     def __handle_definition(self, token):
@@ -44,6 +46,13 @@ class Parser(object):
 
         self.__objects[name] = self.__uml_object
         self.__uml_object = None
+
+    @callback
+    def __handle_error(self, token):
+        line = token["error"]
+        msg = "unrecognised syntax: " + line
+        logging.getLogger('compiler').warning(msg, object=self.__uml_object)
+
 
     @callback
     def __handle_header(self, token):
