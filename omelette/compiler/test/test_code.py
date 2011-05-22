@@ -78,26 +78,16 @@ class CodeTest(unittest.TestCase):
         self.assertEquals(result[1].modified, True)
 
     def test_is_empty(self):
-        empty = Code("""
+        empty = Code("\n\n\n")
 
-
-
-        """)
         result = empty.objects().pop()
-        print result
         self.assertTrue(result.is_empty())
 
-    def test_isnt_empty(self):
-        notempty = Code("""
+    def test_is_not_empty(self):
+        not_empty = Code("\n    target: School\n")
 
-        prop : val " dasd 
-
-
-        """)
-        result = notempty.objects().pop()
-        print result
+        result = not_empty.objects().pop()
         self.assertFalse(result.is_empty())
-
 
 
 if __name__ == "__main__":
