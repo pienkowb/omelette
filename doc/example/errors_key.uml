@@ -1,0 +1,4 @@
+class a
+class b
+association 
+    source-object : a
