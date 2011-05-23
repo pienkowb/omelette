@@ -1,5 +1,3 @@
-% Demonstracja podstawowej składni
-
 class Projekt
     +nazwa : String
 

@@ -24,6 +24,7 @@ def usage():
     print "Usage: cli.py -h --help -i --input -o -output"
 
 def main(argv):
+    logger = logging.getLogger('compiler')
     try:
         opts, args = getopt.getopt(sys.argv[1:],
                                    "hi:o:", ["help", "input=", "output="])
@@ -37,7 +38,6 @@ def main(argv):
     for o, a in opts:
         print o + " " + a
         if o in ("-h", "--help"):
-            usage()
             return 0
         elif o in ("-i", "--input"):
             input = a
@@ -61,55 +61,44 @@ def main(argv):
     compiler = Compiler(Library.load_libraries())
 
     uml_objects = compiler.compile(code)
+    if not logger.has("ERROR CRITICAL"):
+        for uml_object in uml_objects.values():
+            diagram.add(uml_object)
 
-    for uml_object in uml_objects.values():
-        diagram.add(uml_object)
+        # nodes must be updated before layouting
+        for node in diagram.nodes.values():
+            node.update()
 
-    # nodes must be updated before layouting
-    for node in diagram.nodes.values():
-        node.update()
+        # needed to layout and draw edges
+        diagram.set_anchors()
 
-    # needed to layout and draw edges
-    diagram.set_anchors()
+        Layouter.layout(diagram)
 
-    Layouter.layout(diagram)
+        # edges must be updated after nodes are updated and layouted
+        for edge in diagram.edges.values():
+            edge.update()
 
-    # edges must be updated after nodes are updated and layouted
-    for edge in diagram.edges.values():
-        edge.update()
+        # this actually paints things, so must be invoked when everything is
+        # ready
+        for drawable in diagram.elements():
+            scene.addItem(drawable)
+            drawable.resize_scene_rect()
 
-    # this actually paints things, so must be invoked when everything is
-    # ready
-    for drawable in diagram.elements():
-        scene.addItem(drawable)
+        img = QImage(scene.sceneRect().toRect().size(), QImage.Format_ARGB32)
+        painter = QPainter(img)
+        painter.fillRect(scene.sceneRect(), QBrush(QColor(255, 255, 255),
+            Qt.SolidPattern))
+        painter.resetMatrix()
+        scene.render(painter)
+        painter.end()
+        ret = img.save(output)
+        print("Save returned " + str(ret))
 
-    sceneRect = QRectF(0,0,0,0)
-    
-    for node in diagram.nodes.values():
-        sceneRect = sceneRect.united(node.globalFullBoundingRect())
-        
-    esm = 50 # Export scene margins
-    sceneRect = sceneRect.adjusted(-esm, -esm, esm, esm)
-    scene.setSceneRect(sceneRect)
-
-    img = QImage(scene.sceneRect().toRect().size(), QImage.Format_ARGB32)
-    painter = QPainter(img)
-    
-    absoluteRect = QRectF(0, 0, scene.sceneRect().width(), scene.sceneRect().height())
-    painter.fillRect(absoluteRect, QBrush(QColor(255, 255, 255),  Qt.SolidPattern))
-    
-    painter.resetMatrix()
-    scene.render(painter)
-    painter.end()
-    ret = img.save(output)
-    print("Save returned " + str(ret))
-
-    logger = logging.getLogger('compiler')
-    if logger.is_empty():
+    for e in logger.events:
+        print str(e)
+    if not logger.has("ERROR CRITICAL"):
         return 0
     else:
-        for e in logger.events:
-            print str(e)
         return 1
 
 if __name__ == "__main__":

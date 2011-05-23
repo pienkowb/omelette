@@ -1,0 +1,10 @@
+property : x
+class a
+class b
+    syntax : "error
+    syntax-error :
+class c
+    syntax : error :
+    +pole
+    -metoda()
+    5yntax : error
