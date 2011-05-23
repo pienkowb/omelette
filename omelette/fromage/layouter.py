@@ -165,7 +165,7 @@ class Layouter(object):
     @staticmethod
     def __czit_layout(diagram, scale=2.5):
         try:
-            import piygraphviz as pgv
+            import pygraphviz as pgv
         except ImportError:
             return False
         A=pgv.AGraph()
