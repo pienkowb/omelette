@@ -31,6 +31,9 @@ class _CodeObject(object):
 
             self.modified = other.modified = True
 
+    def is_empty(self):
+        return all(map(lambda line: not line.strip(), self.lines))
+
     def __cmp__(self, other):
         return cmp(self.position, other.position)
 

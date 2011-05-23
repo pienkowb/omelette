@@ -1,7 +1,7 @@
 from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
-from omelette.fromage.ui import Ui_MainWindow
+from omelette.compiler import logging
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
 from PyQt4.QtGui import QImage, QPainter, QBrush, QColor
@@ -19,12 +19,23 @@ class Actions(object):
         
         self.__export_scene_margins = 50
 
+        self.window.actionCircular_Layout.setChecked(True)
+        self.is_layout_spring = False
+
     def generate(self):
+        logger = logging.getLogger("compiler")
+        logger.flush()
+
         self.compiler.clear()
         self.window.scene.clear()
         self.diagram = Diagram()
+
         code = Code(str(self.window.qsci.text()))
         uml_objects = self.compiler.compile(code)
+        self.set_msg_view(logger)
+
+        if logger.has("ERROR CRITICAL"):
+            return
 
         for uml_object in uml_objects.values():
             self.diagram.add(uml_object)
@@ -36,7 +47,10 @@ class Actions(object):
         # needed to layout and draw edges
         self.diagram.set_anchors()
 
-        Layouter.layout(self.diagram)
+        if self.isLayoutSpring():
+            Layouter.layout(self.diagram)
+        else:
+            Layouter.layout(self.diagram,0)
 
         # edges must be updated after nodes are updated and layouted
         for edge in self.diagram.edges.values():
@@ -59,7 +73,7 @@ class Actions(object):
         self.window.statusbar.showMessage('Created empty document', 2000)
 
     def open_file(self):
-        fn = QtGui.QFileDialog.getOpenFileName(self.window , QtCore.QString(), QtCore.QString())
+        fn = QtGui.QFileDialog.getOpenFileName(self.window, "Load file", QtCore.QString(), "UML Files (*.uml)")
         if fn.isEmpty():
             self.window.statusbar.showMessage('Loading aborted', 2000)
             return
@@ -78,6 +92,8 @@ class Actions(object):
 
         self.window.setWindowTitle(filename)
         self.window.statusbar.showMessage('Loaded document %s' % (filename), 2000)
+
+        self.generate()
 
     def save_file(self):
         if self.filename.isEmpty():
@@ -148,9 +164,37 @@ class Actions(object):
         painter.resetMatrix()
         self.window.scene.render(painter)
         painter.end()
-        
+
         if(img.save(fn) == False):
             self.window.statusbar.showMessage('Saving failed', 2000)
             return
 
         self.window.statusbar.showMessage('Image %s saved' % (self.filename), 2000)
+
+    def circular_layout(self):
+        if self.window.actionSpring_Layout.isChecked:
+            self.window.actionSpring_Layout.setChecked(False)
+
+        if self.window.actionCircular_Layout.isChecked:
+            self.is_layout_spring = False
+
+    def spring_layout(self):
+        if self.window.actionCircular_Layout.isChecked:
+            self.window.actionCircular_Layout.setChecked(False)
+
+        if self.window.actionSpring_Layout.isChecked:
+            self.is_layout_spring = True
+
+    def isLayoutSpring(self):
+        return self.is_layout_spring
+
+    def set_msg_view(self, logger):
+        events = logger.events
+        for n, e in enumerate(events):
+            descr = QtGui.QTableWidgetItem(str(e.msg))
+            level = QtGui.QTableWidgetItem(str(e.level))
+            line_nr = QtGui.QTableWidgetItem(str(e.line_number))
+            self.window.msg_view.setRowCount(n+1)
+            self.window.msg_view.setItem(n, 0, level)
+            self.window.msg_view.setItem(n, 1, line_nr)
+            self.window.msg_view.setItem(n, 2, descr)

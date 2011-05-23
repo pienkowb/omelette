@@ -1,20 +1,38 @@
 prototype base class
+    allow name STRING
+    allow stereotype STRING
+
 
 prototype base relation
+    allow name STRING
+
+    allow arrow STRING
+    allow direction [none, source, target, both]
+
+    require source-object OBJECT
+    allow source-count MULTIPLICITY
+    allow source-role STRING
+
+    require target-object OBJECT
+    allow target-count MULTIPLICITY
+    allow target-role STRING
 
 prototype relation generalization
-    target-arrow: generalization
+    arrow: "generalization"
+    direction: target
 
 prototype relation association
-    target-arrow: association
+    arrow: "association"
+    direction: none
 
 prototype relation aggregation
-    target-arrow: aggregation
+    arrow: "aggregation"
+    direction: source
 
 prototype relation composition
-    target-arrow: composition
+    arrow: "composition"
+    direction: source
 
-    
-prototype base usecase
-prototype base actor
+
 prototype base note
+    allow text STRING

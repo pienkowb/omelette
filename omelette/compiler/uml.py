@@ -1,7 +1,8 @@
 class UMLObject(object):
     """Class representing UML diagram object."""
 
-    def __init__(self, parent=None, name=None, is_prototype=False):
+    def __init__(self, parent=None, name=None, is_prototype=False,
+            code_object=None):
         """
         Create UMLObject
 
@@ -11,20 +12,28 @@ class UMLObject(object):
         is_prototype -- prototype objects aren't returned by Compiler.compile
         method (default: False)
         """
+
         self.__operations = []
         self.__attributes = []
         self.properties = {}
+
+        self.required = {}
+        self.allowed = {}
 
         self.type = None
         self.parent = parent
         self.name = name
         self.is_prototype = is_prototype
+        self.code_object = code_object
 
     def __setitem__(self, key, value):
-        self.properties[key] = value
+        property = self.properties.get(key)
+        type = property[1] if property else None
+
+        self.properties[key] = (value, type)
 
     def __getitem__(self, key):
-        return self.properties[key]
+        return self.properties[key][0]
 
     def add_operation(self, operation):
         """Adds an instance of Operation class to objects operations"""
@@ -48,11 +57,13 @@ class UMLObject(object):
     def __contains__(self, key):
         return key in self.properties
 
+
 def _try_to_format(format, value):
     """
     Tries to format value according to the format parameter.
     If unscuccessful returns empty string.
     """
+
     return format % value if value else ""
 
 
@@ -66,7 +77,8 @@ class _Field(object):
 class Operation(_Field):
     """Class representing UML Operation."""
 
-    def __init__(self, visibility, name, is_static=False, parameters=[], type=None):
+    def __init__(self, visibility, name, is_static=False, parameters=[],
+            type=None):
         """
         Create Operation with given visibility ("+", "-", "#" or "~") and name.
 
@@ -105,6 +117,7 @@ class Operation(_Field):
         Used in __formatted_params, returns "arg1 : type" if param's type is
         not None, otherwise just "arg1".
         """
+
         (name, type) = parameter
         return name + ((" : " + type) if type else "")
 
@@ -112,7 +125,8 @@ class Operation(_Field):
 class Attribute(_Field):
     """Class representing UML Attribute."""
 
-    def __init__(self, visibility, name, is_static=False, type=None, default_value=None):
+    def __init__(self, visibility, name, is_static=False, type=None,
+            default_value=None):
         """
         Create Attribute with given visibility ("+", "-", "#" or "~") and name.
 
@@ -121,6 +135,7 @@ class Attribute(_Field):
         type -- type of value returned by the operation as a String (default: None)
         default_value -- (default : None).
         """
+
         self.is_static = is_static
         self.visibility = visibility
         self.name = name

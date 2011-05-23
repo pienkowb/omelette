@@ -46,25 +46,33 @@ class Lexer(object):
 
     def __build_grammar(self):
         self["number"] = Word(nums) # TODO: a proper number representation
-        self["name"] = Word(alphanums, alphanums + "-_")
-        self["string"] = quotedString
+        self["name"] = Word(alphanums, alphanums + "-_").setResultsName("name")
+        self["string"] = quotedString.setParseAction(removeQuotes)
         self["visibility"] = Word("+-#~", exact=1).setResultsName("visibility")
         self["static"] = Literal("_").setResultsName("static")
+        self["multiplicity"] = ((self["number"] ^ "*") + Optional(".." +
+            (self["number"] ^ "*")).setResultsName("multiplicity"))
 
         self.__build_header()
         self.__build_attribute()
         self.__build_operation()
         self.__build_property()
+        self.__build_constraint()
         self.__build_definition()
 
-        self["grammar"] = ZeroOrMore(self["definition"]).setResultsName("code")
+        self["grammar"] = (ZeroOrMore(self["definition"] ^ self["error"])
+            .setResultsName("code"))
 
     def __build_definition(self):
-        element = Optional(self["operation"] ^ self["attribute"] ^
-            self["property"]) + LineEnd()
+        element = (self["operation"] ^ self["attribute"] ^ self["property"] ^
+            self["constraint"]) + LineEnd()
 
-        self["definition"] = (ZeroOrMore(LineEnd()) + self["header"] +
-            LineEnd() + ZeroOrMore(element)).setResultsName("definition")
+        self["error"] = ((~self["header"] + SkipTo(LineEnd())
+            .setResultsName("line")).setResultsName("error") + LineEnd())
+
+        self["definition"] = ((ZeroOrMore(LineEnd()) + self["header"] +
+            ZeroOrMore(element ^ LineEnd() ^ self["error"]))
+            .setResultsName("definition"))
 
     def __build_header(self):
         object_name = self["name"].setResultsName("name")
@@ -72,10 +80,10 @@ class Lexer(object):
         prototype = Literal("prototype").setResultsName("prototype")
 
         self["header"] = (Optional(prototype) + parent_name +
-            Optional(object_name)).setResultsName("header")
+            Optional(object_name)).setResultsName("header") + LineEnd()
 
     def __build_attribute(self):
-        type = self["name"].setResultsName("type")
+        type = (self["name"]).setResultsName("type")
         name = self["name"].setResultsName("name")
         default = (self["number"] ^ self["string"]).setResultsName("default")
 
@@ -96,11 +104,20 @@ class Lexer(object):
             Optional(":" + return_type)).setResultsName("operation")
 
     def __build_property(self):
-        multiplicity = ((self["number"] ^ "*") + Optional( ".." +
-            (self["number"] ^ "*")).setResultsName("multiplicity"))
         name = self["name"].setResultsName("name")
-        value = (Group(multiplicity ^ self["name"] ^ self["string"])
+        value = (Group(self["multiplicity"] ^ self["name"] ^ self["string"])
             .setResultsName("value"))
-        values = value.setResultsName("values")
 
-        self["property"] = (name + ":" + values).setResultsName("property")
+        self["property"] = (name + ":" + value).setResultsName("property")
+
+    def __build_constraint(self):
+        type = (Literal("allow") ^ "require").setResultsName("type")
+        key = self["name"].setResultsName("key")
+
+        constant = self["name"].setResultsName("constant")
+        constants = delimitedList(constant).setResultsName("constants")
+
+        value = ((Literal("OBJECT") ^ "STRING" ^ "MULTIPLICITY")
+            .setResultsName("value") ^ (Literal("[") + constants + "]"))
+
+        self["constraint"] = (type + key + value).setResultsName("constraint")

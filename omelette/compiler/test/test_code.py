@@ -77,6 +77,18 @@ class CodeTest(unittest.TestCase):
         self.assertEquals(result[1].lines[4], self.lines[5])
         self.assertEquals(result[1].modified, True)
 
+    def test_is_empty(self):
+        empty = Code("\n\n\n")
+
+        result = empty.objects().pop()
+        self.assertTrue(result.is_empty())
+
+    def test_is_not_empty(self):
+        not_empty = Code("\n    target: School\n")
+
+        result = not_empty.objects().pop()
+        self.assertFalse(result.is_empty())
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -29,7 +29,7 @@ class ParserTest(unittest.TestCase):
             _# at2a15 = \'at2a15\'
             """)
 
-        expected = UMLObject("class", "2a", False)
+        expected = UMLObject("class", "2a", False, code.objects()[1])
         expected.add_attribute(Attribute("+", "at2a1"))
         expected.add_attribute(Attribute("-", "at2a2"))
         expected.add_attribute(Attribute("#", "at2a3"))
@@ -44,17 +44,17 @@ class ParserTest(unittest.TestCase):
         expected.add_attribute(Attribute("-", "at2a10", False, "at2a10t",
             "1234"))
         expected.add_attribute(Attribute("#", "at2a11", False, "at2a11t",
-            "\"at2a11\""))
+            "at2a11"))
         expected.add_attribute(Attribute("~", "at2a12", False, "at2a12t",
-            "\'at2a12\'"))
+            "at2a12"))
 
         expected.add_attribute(Attribute("+", "at2a13", True, None, "54321"))
         expected.add_attribute(Attribute("-", "at2a14", True, None,
-            "\"at2a14\""))
+            "at2a14"))
         expected.add_attribute(Attribute("#", "at2a15", True, None,
-            "\'at2a15\'"))
+            "at2a15"))
 
-        result = self.parser.parse(code.objects()[1:])["2a"]
+        result = self.parser.parse(code.objects())["2a"]
         self.assertEquals(expected, result)
 
     def test_operations(self):
@@ -69,7 +69,7 @@ class ParserTest(unittest.TestCase):
             _- op2b6(op2b6p1 : op2b6p1t, op2b6p2)
             """)
 
-        expected = UMLObject("class", "2b", False)
+        expected = UMLObject("class", "2b", False, code.objects()[1])
         expected.add_operation(Operation("+", "op2b1"))
         expected.add_operation(Operation("-", "op2b2", False, [], "op2b2t"))
         expected.add_operation(Operation("#", "op2b3", False, [], "op2b3t"))
@@ -80,7 +80,7 @@ class ParserTest(unittest.TestCase):
         expected.add_operation(Operation("-", "op2b6", True, [("op2b6p1",
             "op2b6p1t"), ("op2b6p2", None)]))
 
-        result = self.parser.parse(code.objects()[1:])["2b"]
+        result = self.parser.parse(code.objects())["2b"]
         self.assertEquals(expected, result)
 
     def test_properties(self):
@@ -97,17 +97,51 @@ class ParserTest(unittest.TestCase):
             2cp8 : *..*
             """)
 
-        expected = UMLObject("class", "2c", False)
-        expected["2cp1"] = "2cp1v"
-        expected["2cp2"] = "1234"
-        expected["2cp3"] = "\"2cp3\""
-        expected["2cp4"] = "\'2cp4\'"
-        expected["2cp5"] = "1..3"
-        expected["2cp6"] = "1..*"
-        expected["2cp7"] = "*..1"
-        expected["2cp8"] = "*..*"
+        expected = UMLObject("class", "2c", False, code.objects()[1])
+        expected.properties = {
+            "2cp1": ("2cp1v", "OBJECT"),
+            "2cp2": ("1234", "MULTIPLICITY"),
+            "2cp3": ("2cp3", "STRING"),
+            "2cp4": ("2cp4", "STRING"),
+            "2cp5": ("1..3", "MULTIPLICITY"),
+            "2cp6": ("1..*", "MULTIPLICITY"),
+            "2cp7": ("*..1", "MULTIPLICITY"),
+            "2cp8": ("*..*", "MULTIPLICITY")}
 
-        result = self.parser.parse(code.objects()[1:])["2c"]
+        result = self.parser.parse(code.objects())["2c"]
+        self.assertEquals(expected, result)
+
+    def test_constraints(self):
+        """Tests if parser accepts various constraints"""
+
+        code = Code("""class 2d
+            allow klucz1 OBJECT
+            allow klucz2 STRING
+            allow klucz3 MULTIPLICITY
+            allow klucz4 [fasada]
+            allow klucz5 [rzubr, bubr, desu]
+            require klucz6 OBJECT
+            require klucz7 STRING
+            require klucz8 MULTIPLICITY
+            require klucz9 [fasada]
+            require klucz10 [rzubr, bubr, desu]
+            """)
+
+        expected = UMLObject("class", "2d", False, code.objects()[1])
+        expected.allowed = {
+            "klucz1" : "OBJECT",
+            "klucz2" : "STRING",
+            "klucz3" : "MULTIPLICITY",
+            "klucz4" : ["fasada"],
+            "klucz5" : ["rzubr", "bubr", "desu"]}
+        expected.required = {
+            "klucz6" : "OBJECT",
+            "klucz7" : "STRING",
+            "klucz8" : "MULTIPLICITY",
+            "klucz9" : ["fasada"],
+            "klucz10" : ["rzubr", "bubr", "desu"]}
+
+        result = self.parser.parse(code.objects())["2d"]
         self.assertEquals(expected, result)
 
 

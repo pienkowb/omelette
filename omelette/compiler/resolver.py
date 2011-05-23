@@ -6,9 +6,9 @@ class DependencyResolver(object):
     def __init__(self, uml_objects):
         self.__uml_objects = uml_objects
 
-    def __find_circular_refs(self, objects):
+    def __find_circular_refs(self):
         """
-        this method performs topological sorting in order to check
+        This method performs topological sorting in order to check
         if there are any circular references in given array of umlobjects
         i.e. if one object is descendant and ancestor of another object
 
@@ -16,41 +16,42 @@ class DependencyResolver(object):
         if no circular references were found).
         """
 
-        ref_count=collections.defaultdict(int)
+        ref_count = collections.defaultdict(int)
 
-        for uml_object in objects.values():
+        for uml_object in self.__uml_objects.values():
+            # Add all objects, even when they aren't referenced, we need them
+            # to properly calculate number of incoming refs in other objects.
             if not uml_object.name in ref_count:
-                ref_count[uml_object.name]=0
+                ref_count[uml_object.name] = 0
+
             if not uml_object.parent is None:
-                if uml_object.parent in objects:
-                    ref_count[uml_object.parent]+=1
-                else:
-                    l = logging.getLogger('compiler')
-                    msg = "non-existing object referenced: " + uml_object.parent
-                    l.error(msg, object=uml_object)
+                if uml_object.parent in self.__uml_objects:
+                    ref_count[uml_object.parent] += 1
 
+        while True:
+            leaves = filter(lambda n: ref_count[n] == 0, ref_count.keys())
 
-        while(1):
-            leafs = filter(lambda n: ref_count[n] == 0, ref_count.keys())
-            
-            if len(leafs) < 1:
-            # no leafs left, either we reduced all of the nodes, or there are
-            # circular references
+            if not leaves:
+                # No leaves left, either we reduced all of the nodes, or there
+                # are circular references
                 break
             else:
-            # delete all leafs, and update reference count of their parents
-                for o in map(lambda key: objects[key], leafs):
-                    if not o.parent is None:
-                        ref_count[o.parent]-=1
-                    del ref_count[o.name]
+                # Delete all leaves, and update reference count of their parents
+                for object in map(lambda key: self.__uml_objects[key], leaves):
+                    if not object.parent is None:
+                        if object.parent in ref_count:
+                            ref_count[object.parent] -= 1
+                    del ref_count[object.name]
 
-        return frozenset(ref_count.keys())
+        return ref_count.keys()
 
     def resolve(self):
-        circular_refs = self.__find_circular_refs(self.__uml_objects)
-        if circular_refs > frozenset([]):
-            msg = "circular reference: " + " ".join(circular_refs)
-            logging.getLogger('compiler').error(msg)
+        circular_refs = self.__find_circular_refs()
+
+        if circular_refs:
+            message = "circular references: " + ", ".join(circular_refs)
+            uml_object = self.__uml_objects[circular_refs[0]]
+            logging.getLogger("compiler").error(message, object=uml_object)
             return
 
         for uml_object in self.__uml_objects.values():
@@ -62,12 +63,25 @@ class DependencyResolver(object):
         if uml_object.parent == None:
             uml_object.type = uml_object.name
         else:
-            parent = self.__uml_objects[uml_object.parent]
-            self.__resolve_object(parent)
+            if uml_object.parent in self.__uml_objects:
+                parent = self.__uml_objects[uml_object.parent]
+            else:
+                logger = logging.getLogger("compiler")
+                message = "non-existing object referenced: " + uml_object.parent
+                logger.error(message, object=uml_object)
+                return
 
+            self.__resolve_object(parent)
             uml_object.type = parent.type
 
             properties = parent.properties.copy()
             properties.update(uml_object.properties)
             uml_object.properties = properties
 
+            required = parent.required.copy()
+            required.update(uml_object.required)
+            uml_object.required = required
+
+            allowed = parent.allowed.copy()
+            allowed.update(uml_object.allowed)
+            uml_object.allowed = allowed

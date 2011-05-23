@@ -1,0 +1,33 @@
+class Student
+
+association
+    source-object : Student
+    target-object : Informatyka
+
+class Informatyka
+    +jimp
+    +jimp2
+
+prototype class spec
+    stereotype : "Specjalnosc"
+
+spec IO
+    name : "Inzynieria oprogramowania"
+    +Inzynieria_wymagan_oprogramowania
+
+spec IK
+    name : "Inzynieria Komputerowa"
+    +Wiedza_o_tancu
+
+spec IWE
+    name : "Informatyka w elektroenergetyce"
+
+prototype generalization is_specjalnosc
+    target-object : Informatyka
+
+is_specjalnosc
+    source-object : IO
+is_specjalnosc
+    source-object : IK
+is_specjalnosc
+    source-object : IWE

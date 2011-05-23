@@ -62,6 +62,23 @@ class LoggerTest(unittest.TestCase):
 
         self.assertEquals(m1.getLogger("test"), m2.getLogger("test"))
 
+    def test_get_events(self):
+        instance = logging.getLogger("test")
+        instance.warning("ops")
+        instance.critical("ooops")
+        result = instance.get_events("CRITICAL WARNING INFO")
+        self.assertEquals(2,len(result))
+        result = instance.get_events("CRITICAL")
+        self.assertEquals(1,len(result))
+
+    def test_has(self):
+        instance = logging.getLogger("test")
+        instance.warning("ops")
+        instance.critical("ooops")
+        self.assertTrue(instance.has("CRITICAL"))
+        self.assertTrue(instance.has("CRITICAL WARNING"))
+        self.assertFalse(instance.has("ERROR"))
+
 
 if __name__ == "__main__":
     unittest.main()
