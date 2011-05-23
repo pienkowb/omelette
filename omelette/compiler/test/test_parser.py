@@ -115,16 +115,16 @@ class ParserTest(unittest.TestCase):
         """Tests if parser accepts various constraints"""
 
         code = Code("""class 2d
-            allow key klucz1 OBJECT
-            allow key klucz2 STRING
-            allow key klucz3 MULTIPLICITY
-            allow key klucz4 [fasada]
-            allow key klucz5 [rzubr, bubr, desu]
-            require key klucz6 OBJECT
-            require key klucz7 STRING
-            require key klucz8 MULTIPLICITY
-            require key klucz9 [fasada]
-            require key klucz10 [rzubr, bubr, desu]
+            allow klucz1 OBJECT
+            allow klucz2 STRING
+            allow klucz3 MULTIPLICITY
+            allow klucz4 [fasada]
+            allow klucz5 [rzubr, bubr, desu]
+            require klucz6 OBJECT
+            require klucz7 STRING
+            require klucz8 MULTIPLICITY
+            require klucz9 [fasada]
+            require klucz10 [rzubr, bubr, desu]
             """)
 
         expected = UMLObject("class", "2d", False, code.objects()[1])

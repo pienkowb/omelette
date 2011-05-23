@@ -7,16 +7,16 @@ class LexerTest(unittest.TestCase):
         self.code = """
 
         father son
-            allow key klucz1 OBJECT
-            allow key klucz2 STRING
-            allow key klucz3 MULTIPLICITY
-            allow key klucz4 [fasada]
-            allow key klucz5 [rzubr, bubr, desu]
-            require key klucz6 OBJECT
-            require key klucz7 STRING
-            require key klucz8 MULTIPLICITY
-            allow key klucz9 [fasada]
-            allow key klucz10 [rzubr, bubr, desu]
+            allow klucz1 OBJECT
+            allow klucz2 STRING
+            allow klucz3 MULTIPLICITY
+            allow klucz4 [fasada]
+            allow klucz5 [rzubr, bubr, desu]
+            require klucz6 OBJECT
+            require klucz7 STRING
+            require klucz8 MULTIPLICITY
+            allow klucz9 [fasada]
+            allow klucz10 [rzubr, bubr, desu]
 
             + at1 : type1
 

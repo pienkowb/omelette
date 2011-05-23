@@ -1,6 +1,7 @@
 from omelette.compiler.code import Library
 from omelette.compiler.parser import Parser
 from omelette.compiler.resolver import DependencyResolver
+from omelette.compiler.validator import Validator
 
 class Compiler(object):
 
@@ -30,6 +31,9 @@ class Compiler(object):
         for name, uml_object in uml_objects.items():
             if uml_object.is_prototype:
                 del uml_objects[name]
+
+        for uml_object in uml_objects.values():
+            Validator(uml_object).validate()
 
         return uml_objects
 

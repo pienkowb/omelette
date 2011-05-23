@@ -2,7 +2,6 @@ from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
 from omelette.compiler import logging
-from omelette.fromage.ui import Ui_MainWindow
 from omelette.fromage.layouter import Layouter
 from omelette.fromage.diagram import Diagram
 from PyQt4.QtGui import QImage, QPainter, QBrush, QColor
@@ -22,12 +21,15 @@ class Actions(object):
         self.is_layout_spring = False
 
     def generate(self):
+        logger = logging.getLogger("compiler")
+        logger.flush()
+
         self.compiler.clear()
         self.window.scene.clear()
         self.diagram = Diagram()
+
         code = Code(str(self.window.qsci.text()))
         uml_objects = self.compiler.compile(code)
-        logger = logging.getLogger('compiler')
         self.set_msg_view(logger)
 
         if logger.has("ERROR CRITICAL"):
@@ -170,7 +172,7 @@ class Actions(object):
     def set_msg_view(self, logger):
         events = logger.events
         for n, e in enumerate(events):
-            descr = QtGui.QTableWidgetItem(str(e))
+            descr = QtGui.QTableWidgetItem(str(e.msg))
             level = QtGui.QTableWidgetItem(str(e.level))
             line_nr = QtGui.QTableWidgetItem(str(e.line_number))
             self.window.msg_view.setRowCount(n+1)

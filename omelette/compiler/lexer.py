@@ -120,5 +120,4 @@ class Lexer(object):
         value = ((Literal("OBJECT") ^ "STRING" ^ "MULTIPLICITY")
             .setResultsName("value") ^ (Literal("[") + constants + "]"))
 
-        self["constraint"] = ((type + "key" + key + value)
-            .setResultsName("constraint"))
+        self["constraint"] = (type + key + value).setResultsName("constraint")
