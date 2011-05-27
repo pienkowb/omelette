@@ -25,12 +25,14 @@ class LayoutFactory(object):
 
     __layouts = { "circular layout" : (lambda diagram : CircularLayout(diagram)),
             "springs layout" : (lambda diagram : SpringLayout(diagram)),
-            "neato layout" : (lambda diagram : GraphvizLayout(diagram, 'neato')),
-            "dot layout" : (lambda diagram : GraphvizLayout(diagram, 'dot')),
+            "neato layout" : (lambda diagram : GraphvizLayout(diagram, 'neato',
+                2.5)),
+            "dot layout" : (lambda diagram : GraphvizLayout(diagram, 'dot', 1.0/30)),
             "fdp layout" : (lambda diagram : GraphvizLayout(diagram, 'fdp')),
-            "sfdp layout" : (lambda diagram : GraphvizLayout(diagram, 'sfdp')),
+            "sfdp layout" : (lambda diagram : GraphvizLayout(diagram, 'sfdp', 4)),
             "twopi layout" : (lambda diagram : GraphvizLayout(diagram, 'twopi')),
-            "circo layout" : (lambda diagram : GraphvizLayout(diagram, 'circo'))}
+            "circo layout" : (lambda diagram : GraphvizLayout(diagram, 'circo',
+                1.0/30))}
 
     def __init__(self, diagram):
         self.diagram = diagram
@@ -189,11 +191,12 @@ class SpringLayout(Layout):
 
 class GraphvizLayout(Layout):
 
-    def __init__(self, diagram, algorithm):
+    def __init__(self, diagram, algorithm, scale=2.5):
         self.alg = algorithm
+        self.scale = scale
         super(GraphvizLayout, self).__init__(diagram)
 
-    def apply(self, scale=2.5):
+    def apply(self):
         try:
             import pygraphviz as pgv
         except ImportError:
@@ -217,8 +220,8 @@ class GraphvizLayout(Layout):
         for n in A.nodes():
             node = self.diagram.nodes[n.name.encode('ascii','ignore')]
             x,y = n.attr['pos'].split(',')
-            x=float(x)*scale
-            y=float(y)*scale
+            x=float(x)*self.scale
+            y=float(y)*self.scale
             if x < lowest_x: 
                 lowest_x = x
             if y < lowest_y: 
