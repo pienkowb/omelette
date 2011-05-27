@@ -7,7 +7,7 @@ class Layout(object):
         self.diagram = diagram
 
     def apply(self):
-        raise NotImplemented
+        raise NotImplemented()
 
     def _max_size_of_drawable_node(self, nodes):
         """
@@ -23,19 +23,14 @@ class Layout(object):
 
 class LayoutFactory(object):
 
-    __layouts = { "circular layout" : (lambda diagram : CircularLayout(diagram)),
-            "springs layout" : (lambda diagram : SpringLayout(diagram)),
-            "neato layout" : (lambda diagram : GraphvizLayout(diagram, 'neato',
-                2.5)),
-            "dot layout" : (lambda diagram : GraphvizLayout(diagram, 'dot', 1.0/30)),
-            "fdp layout" : (lambda diagram : GraphvizLayout(diagram, 'fdp')),
-            "sfdp layout" : (lambda diagram : GraphvizLayout(diagram, 'sfdp', 4)),
-            "twopi layout" : (lambda diagram : GraphvizLayout(diagram, 'twopi')),
-            "circo layout" : (lambda diagram : GraphvizLayout(diagram, 'circo',
-                1.0/30))}
+    __layouts = {}
 
     def __init__(self, diagram):
         self.diagram = diagram
+
+    @staticmethod
+    def register(layouts):
+        LayoutFactory.__layouts.update(layouts)
 
     def layouts(self):
         return LayoutFactory.layouts.keys()
@@ -45,6 +40,9 @@ class LayoutFactory(object):
             
 
 class CircularLayout(Layout):
+
+    LayoutFactory.register({"circular layout" : (lambda diagram :
+        CircularLayout(diagram))})
 
     def apply(self, sx=0, sy=0, start=math.pi/2, spread=2):
         """
@@ -115,6 +113,7 @@ class CircularLayout(Layout):
         return len(node.neighbours)
 
 class SpringLayout(Layout):
+    LayoutFactory.register({ "springs layout" : (lambda diagram : SpringLayout(diagram))})
 
     def apply(self, c1=1, c2=1, c3=1, c4=0.1, m=100):
         """
@@ -190,6 +189,14 @@ class SpringLayout(Layout):
         return ((node2.pos().x() - node1.pos().x())/d, (node2.pos().y() - node1.pos().y())/d)
 
 class GraphvizLayout(Layout):
+    LayoutFactory.register({ "neato layout" : (lambda diagram : GraphvizLayout(diagram, 'neato',
+                2.5)),
+            "dot layout" : (lambda diagram : GraphvizLayout(diagram, 'dot', 1.0/30)),
+            "fdp layout" : (lambda diagram : GraphvizLayout(diagram, 'fdp')),
+            "sfdp layout" : (lambda diagram : GraphvizLayout(diagram, 'sfdp', 4)),
+            "twopi layout" : (lambda diagram : GraphvizLayout(diagram, 'twopi')),
+            "circo layout" : (lambda diagram : GraphvizLayout(diagram, 'circo',
+                1.0/30))})
 
     def __init__(self, diagram, algorithm, scale=2.5):
         self.alg = algorithm
