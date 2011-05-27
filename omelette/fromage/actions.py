@@ -2,7 +2,7 @@ from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
 from omelette.fromage.ui import Ui_MainWindow
-from omelette.fromage.layouter import Layouter
+from omelette.fromage.layouter import *
 from omelette.fromage.diagram import Diagram
 from PyQt4.QtGui import QImage, QPainter, QBrush, QColor
 from PyQt4.Qt import *
@@ -16,6 +16,17 @@ class Actions(object):
         self.filename = QtCore.QString()
         self.window.actionSave.setDisabled(True)
         self.window.actionSaveAs.setDisabled(True)
+
+    def __update(self):
+        # edges must be updated after nodes are updated and layouted
+        for edge in self.diagram.edges.values():
+            edge.update()
+
+        # this actually paints things, so must be invoked when everything is
+        # ready
+        for drawable in self.diagram.elements():
+            self.window.scene.addItem(drawable)
+            drawable.resize_scene_rect()
 
     def generate(self):
         self.compiler.clear()
@@ -33,18 +44,9 @@ class Actions(object):
 
         # needed to layout and draw edges
         self.diagram.set_anchors()
+        LayoutFactory(self.diagram).get('neato layout').apply()
+        self.__update()
 
-        Layouter.layout(self.diagram)
-
-        # edges must be updated after nodes are updated and layouted
-        for edge in self.diagram.edges.values():
-            edge.update()
-
-        # this actually paints things, so must be invoked when everything is
-        # ready
-        for drawable in self.diagram.elements():
-            self.window.scene.addItem(drawable)
-            drawable.resize_scene_rect()
 
     def enable_save(self):
         self.window.actionSave.setEnabled(True)
