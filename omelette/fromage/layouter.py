@@ -1,6 +1,10 @@
 import math
 import random
 
+def _has_layouts(cls):
+    LayoutFactory.register(cls.layouts)
+    return cls
+
 class Layout(object):
 
     def __init__(self, diagram):
@@ -39,10 +43,10 @@ class LayoutFactory(object):
         return LayoutFactory.__layouts[layout](self.diagram)
             
 
+@_has_layouts
 class CircularLayout(Layout):
 
-    LayoutFactory.register({"circular layout" : (lambda diagram :
-        CircularLayout(diagram))})
+    layouts = {"Circular layout" : (lambda diagram : CircularLayout(diagram))}
 
     def apply(self, sx=0, sy=0, start=math.pi/2, spread=2):
         """
@@ -112,8 +116,9 @@ class CircularLayout(Layout):
         """
         return len(node.neighbours)
 
+@_has_layouts
 class SpringLayout(Layout):
-    LayoutFactory.register({ "springs layout" : (lambda diagram : SpringLayout(diagram))})
+    layouts = { "Spring layout" : (lambda diagram : SpringLayout(diagram))}
 
     def apply(self, c1=1, c2=1, c3=1, c4=0.1, m=100):
         """
@@ -188,21 +193,19 @@ class SpringLayout(Layout):
         d = self.__dist(node1, node2)
         return ((node2.pos().x() - node1.pos().x())/d, (node2.pos().y() - node1.pos().y())/d)
 
+@_has_layouts
 class GraphvizLayout(Layout):
-    LayoutFactory.register({ "neato layout" : (lambda diagram : GraphvizLayout(diagram, 'neato',
-                2.5)),
-            "dot layout" : (lambda diagram : GraphvizLayout(diagram, 'dot', 1.0/30)),
-            "fdp layout" : (lambda diagram : GraphvizLayout(diagram, 'fdp')),
-            "sfdp layout" : (lambda diagram : GraphvizLayout(diagram, 'sfdp', 4)),
-            "twopi layout" : (lambda diagram : GraphvizLayout(diagram, 'twopi')),
-            "circo layout" : (lambda diagram : GraphvizLayout(diagram, 'circo',
-                1.0/30))})
+    layouts = { "Neato layout" : (lambda diagram : GraphvizLayout(diagram, 'neato', 2.5)),
+            "Dot layout" : (lambda diagram : GraphvizLayout(diagram, 'dot', 1.0/30)),
+            "FDP layout" : (lambda diagram : GraphvizLayout(diagram, 'fdp')),
+            "SFDP layout" : (lambda diagram : GraphvizLayout(diagram, 'sfdp', 4)),
+            "TWOPI layout" : (lambda diagram : GraphvizLayout(diagram, 'twopi')),
+            "Circo layout" : (lambda diagram : GraphvizLayout(diagram, 'circo', 1.0/30))}
 
     def __init__(self, diagram, algorithm, scale=2.5):
         self.alg = algorithm
         self.scale = scale
-        super(GraphvizLayout, self).__init__(diagram)
-
+        super(GraphvizLayout, self).__init__(diagram) 
     def apply(self):
         try:
             import pygraphviz as pgv
@@ -237,3 +240,4 @@ class GraphvizLayout(Layout):
         for n in self.diagram.nodes.values():
             n.moveBy(-lowest_x, -lowest_y)
         return True
+
