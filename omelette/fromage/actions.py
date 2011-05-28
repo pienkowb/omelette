@@ -44,7 +44,7 @@ class Actions(object):
 
         # needed to layout and draw edges
         self.diagram.set_anchors()
-        LayoutFactory(self.diagram).get('neato layout').apply()
+        LayoutFactory.get('Dot layout').apply(self.diagram)
         self.__update()
 
 

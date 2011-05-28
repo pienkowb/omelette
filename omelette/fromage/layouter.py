@@ -6,12 +6,10 @@ def _has_layouts(cls):
     return cls
 
 class Layout(object):
+    layouts = {"None" : (lambda : Layout())}
 
-    def __init__(self, diagram):
-        self.diagram = diagram
-
-    def apply(self):
-        raise NotImplemented()
+    def apply(self, diagram):
+        pass
 
     def _max_size_of_drawable_node(self, nodes):
         """
@@ -29,26 +27,25 @@ class LayoutFactory(object):
 
     __layouts = {}
 
-    def __init__(self, diagram):
-        self.diagram = diagram
-
     @staticmethod
     def register(layouts):
         LayoutFactory.__layouts.update(layouts)
 
-    def layouts(self):
+    @staticmethod
+    def layouts():
         return LayoutFactory.layouts.keys()
 
-    def get(self, layout):
-        return LayoutFactory.__layouts[layout](self.diagram)
+    @staticmethod
+    def get(layout):
+        return LayoutFactory.__layouts[layout]()
             
 
 @_has_layouts
 class CircularLayout(Layout):
 
-    layouts = {"Circular layout" : (lambda diagram : CircularLayout(diagram))}
+    layouts = {"Circular layout" : (lambda : CircularLayout())}
 
-    def apply(self, sx=0, sy=0, start=math.pi/2, spread=2):
+    def apply(self, diagram, sx=0, sy=0, start=math.pi/2, spread=2):
         """
         Basic layout function placing all nodes on circle, adjusting
         circle range to size of nodes.
@@ -58,8 +55,8 @@ class CircularLayout(Layout):
         """
         r = 0
         # Finding max size of drawable
-        maxsize = self._max_size_of_drawable_node(self.diagram.nodes.values())
-        n = len(self.diagram.nodes) # number of drawables
+        maxsize = self._max_size_of_drawable_node(diagram.nodes.values())
+        n = len(diagram.nodes) # number of drawables
         if n > 1:
             angle = 2 * math.pi / n # calculating angle step
             if angle % math.pi == 0:
@@ -70,7 +67,7 @@ class CircularLayout(Layout):
             # shifting coordinates to be positive
             sx = r + maxsize - sx
             sy = r + maxsize - sy
-            sortednodes = self.__sort_nodes_by_neighbourhood(self.diagram.nodes.values())
+            sortednodes = self.__sort_nodes_by_neighbourhood(diagram.nodes.values())
             i = 0
             for node in sortednodes:
                 # calculating xpos
@@ -118,9 +115,9 @@ class CircularLayout(Layout):
 
 @_has_layouts
 class SpringLayout(Layout):
-    layouts = { "Spring layout" : (lambda diagram : SpringLayout(diagram))}
+    layouts = { "Spring layout" : (lambda : SpringLayout())}
 
-    def apply(self, c1=1, c2=1, c3=1, c4=0.1, m=100):
+    def apply(self, diagram, c1=1, c2=1, c3=1, c4=0.1, m=100):
         """
         Layout function using mechanical model of spring embedder.
         c1 is the attraction direct factor
@@ -131,7 +128,7 @@ class SpringLayout(Layout):
         """
         # Moving all nodes in random positions
         maxrand = 100 # range of random numbers
-        for node in self.diagram.nodes.values():
+        for node in diagram.nodes.values():
             node.setPos(random.random() * maxrand,
                         random.random() * maxrand)
             node.update()
@@ -139,15 +136,15 @@ class SpringLayout(Layout):
         for i in range(m):
             nodeslist = [] # sequence of nodes in this iteration
             shifts = [] # sequence of nodes' shifts in this iteration
-            for node in self.diagram.nodes.values():
+            for node in diagram.nodes.values():
                 nodeslist.append(node)
                 shift = []
-                for other in self.diagram.nodes.values():
+                for other in diagram.nodes.values():
                     # Calculating cumulative shift
                     shift = shift + self.__shift(node, other, self.__force(node, other, c1, c2, c3, c4))
                 shifts.append(shift)
             # Moving all nodes according to calculated shifts
-            for node in self.diagram.nodes.values():
+            for node in diagram.nodes.values():
                 node.moveBy(shifts[nodeslist.index(node)][0], shifts[nodeslist.index(node)][1])
         return True
 
@@ -195,30 +192,30 @@ class SpringLayout(Layout):
 
 @_has_layouts
 class GraphvizLayout(Layout):
-    layouts = { "Neato layout" : (lambda diagram : GraphvizLayout(diagram, 'neato', 2.5)),
-            "Dot layout" : (lambda diagram : GraphvizLayout(diagram, 'dot', 1.0/30)),
-            "FDP layout" : (lambda diagram : GraphvizLayout(diagram, 'fdp')),
-            "SFDP layout" : (lambda diagram : GraphvizLayout(diagram, 'sfdp', 4)),
-            "TWOPI layout" : (lambda diagram : GraphvizLayout(diagram, 'twopi')),
-            "Circo layout" : (lambda diagram : GraphvizLayout(diagram, 'circo', 1.0/30))}
+    layouts = { "Neato layout" : (lambda : GraphvizLayout('neato', 2.5)),
+            "Dot layout" : (lambda : GraphvizLayout('dot', 1.0/30)),
+            "FDP layout" : (lambda : GraphvizLayout('fdp')),
+            "SFDP layout" : (lambda : GraphvizLayout('sfdp', 4)),
+            "TWOPI layout" : (lambda : GraphvizLayout('twopi')),
+            "Circo layout" : (lambda : GraphvizLayout('circo', 1.0/30))}
 
-    def __init__(self, diagram, algorithm, scale=2.5):
-        self.alg = algorithm
+    def __init__(self, algorithm, scale=2.5):
         self.scale = scale
-        super(GraphvizLayout, self).__init__(diagram) 
-    def apply(self):
+        self.alg = algorithm
+
+    def apply(self, diagram):
         try:
             import pygraphviz as pgv
         except ImportError:
             return False
         A=pgv.AGraph()
         A.node_attr['shape']='square'
-        for node in self.diagram.nodes.values():
+        for node in diagram.nodes.values():
             w = node.boundingRect().width() 
             h = node.boundingRect().height() 
             A.add_node(node.uml_object.name, height=h, width=w)
 
-        for edge in self.diagram.edges.values():
+        for edge in diagram.edges.values():
             u = edge.source_anchor.slot.uml_object.name
             v = edge.target_anchor.slot.uml_object.name
             A.add_edge(u, v)
@@ -228,7 +225,7 @@ class GraphvizLayout(Layout):
         lowest_y = float("inf")
 
         for n in A.nodes():
-            node = self.diagram.nodes[n.name.encode('ascii','ignore')]
+            node = diagram.nodes[n.name.encode('ascii','ignore')]
             x,y = n.attr['pos'].split(',')
             x=float(x)*self.scale
             y=float(y)*self.scale
@@ -237,7 +234,7 @@ class GraphvizLayout(Layout):
             if y < lowest_y: 
                 lowest_y = y
             node.moveBy(x,y)
-        for n in self.diagram.nodes.values():
+        for n in diagram.nodes.values():
             n.moveBy(-lowest_x, -lowest_y)
         return True
 
