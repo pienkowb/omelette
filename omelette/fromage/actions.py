@@ -2,14 +2,14 @@ from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
 from omelette.compiler import logging
-from omelette.fromage.layouter import Layouter
+from omelette.fromage.layouter import *
 from omelette.fromage.diagram import Diagram
 from PyQt4.QtGui import QImage, QPainter, QBrush, QColor
 from PyQt4.Qt import *
 
 class Actions(object):
 
-    def __init__(self, window, parent=None):
+    def __init__(self, window):
         self.compiler = Compiler(Library.load_libraries())
         self.window = window
 
@@ -21,6 +21,17 @@ class Actions(object):
 
         self.window.actionCircular_Layout.setChecked(True)
         self.is_layout_spring = False
+
+    def __update(self):
+        # edges must be updated after nodes are updated and layouted
+        for edge in self.diagram.edges.values():
+            edge.update()
+
+        # this actually paints things, so must be invoked when everything is
+        # ready
+        for drawable in self.diagram.elements():
+            self.window.scene.addItem(drawable)
+            drawable.resize_scene_rect()
 
     def generate(self):
         logger = logging.getLogger("compiler")
@@ -46,21 +57,8 @@ class Actions(object):
 
         # needed to layout and draw edges
         self.diagram.set_anchors()
-
-        if self.isLayoutSpring():
-            Layouter.layout(self.diagram)
-        else:
-            Layouter.layout(self.diagram,0)
-
-        # edges must be updated after nodes are updated and layouted
-        for edge in self.diagram.edges.values():
-            edge.update()
-
-        # this actually paints things, so must be invoked when everything is
-        # ready
-        for drawable in self.diagram.elements():
-            self.window.scene.addItem(drawable)
-            drawable.resize_scene_rect()
+        LayoutFactory.get("Circular layout").apply(self.diagram)
+        self.__update()
 
     def enable_save(self):
         self.window.actionSave.setEnabled(True)
@@ -145,7 +143,6 @@ class Actions(object):
         sceneRect = sceneRect.adjusted(-esm, -esm, esm, esm)
 
         self.window.scene.setSceneRect(sceneRect)
-
 
     def export(self):
         fn = QtGui.QFileDialog.getSaveFileName(self.window, "Save Image", QtCore.QString(), "Image Files (*.png)");
