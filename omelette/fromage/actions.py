@@ -16,7 +16,7 @@ class Actions(object):
         self.filename = QtCore.QString()
         self.window.actionSave.setDisabled(True)
         self.window.actionSaveAs.setDisabled(True)
-        
+
         self.__export_scene_margins = 50
 
         self.window.actionCircular_Layout.setChecked(True)
@@ -137,13 +137,13 @@ class Actions(object):
 
     def __narrowen_scene(self):
         sceneRect = QRectF(0,0,0,0)
-        
+
         for node in self.diagram.nodes.values():
             sceneRect = sceneRect.united(node.globalFullBoundingRect())
-            
+
         esm = self.__export_scene_margins
         sceneRect = sceneRect.adjusted(-esm, -esm, esm, esm)
-            
+
         self.window.scene.setSceneRect(sceneRect)
 
 
@@ -157,9 +157,9 @@ class Actions(object):
 
         img = QImage(self.window.scene.sceneRect().size().toSize(), QImage.Format_ARGB32)
         painter = QPainter(img)
-        
+
         absoluteRect = QRectF(0, 0, self.window.scene.sceneRect().width(), self.window.scene.sceneRect().height())
-        
+
         painter.fillRect(absoluteRect, QBrush(QColor(255, 255, 255), Qt.SolidPattern))
         painter.resetMatrix()
         self.window.scene.render(painter)
@@ -189,12 +189,18 @@ class Actions(object):
         return self.is_layout_spring
 
     def set_msg_view(self, logger):
+        msg_view = self.window.msg_view
         events = logger.events
+
+        for row in range(msg_view.rowCount()):
+            msg_view.removeRow(row)
+
         for n, e in enumerate(events):
             descr = QtGui.QTableWidgetItem(str(e.msg))
             level = QtGui.QTableWidgetItem(str(e.level))
             line_nr = QtGui.QTableWidgetItem(str(e.line_number))
-            self.window.msg_view.setRowCount(n+1)
-            self.window.msg_view.setItem(n, 0, level)
-            self.window.msg_view.setItem(n, 1, line_nr)
-            self.window.msg_view.setItem(n, 2, descr)
+
+            msg_view.setRowCount(n+1)
+            msg_view.setItem(n, 0, level)
+            msg_view.setItem(n, 1, line_nr)
+            msg_view.setItem(n, 2, descr)
