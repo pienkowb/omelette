@@ -130,7 +130,8 @@ class Library(Code):
 
         for name in os.listdir(lib_directory):
             path = os.path.join(lib_directory, name)
-
+            basename, extension = os.path.splitext(path)
+            if extension != '.uml' : continue
             if not os.path.isdir(path):
                 libraries.append(Library(path))
 

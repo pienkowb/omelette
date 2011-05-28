@@ -160,6 +160,39 @@ class Layouter(object):
         return ((node2.pos().x() - node1.pos().x())/d, (node2.pos().y() - node1.pos().y())/d)
 
 ##########################################################################
+# czit layouter
+##########################################################################
+
+    @staticmethod
+    def __czit_layout(diagram, scale=2.5):
+        try:
+            import pygraphviz as pgv
+        except ImportError:
+            return False
+        A=pgv.AGraph()
+        A.node_attr['shape']='square'
+        for node in diagram.nodes.values():
+            node.update
+            w = node.boundingRect().width() 
+            h = node.boundingRect().height() 
+            A.add_node(node.uml_object.name, height=h, width=w)
+
+        for edge in diagram.edges.values():
+            u = edge.source_anchor.slot.uml_object.name
+            v = edge.target_anchor.slot.uml_object.name
+            A.add_edge(u, v)
+
+        A.layout()
+        for n in A.nodes():
+            node = diagram.nodes[n.name.encode('ascii','ignore')]
+            x,y = n.attr['pos'].split(',')
+            x=float(x)*scale
+            y=float(y)*scale
+            node.moveBy(x,y)
+            node.update()
+        return True
+
+##########################################################################
 # common section
 ##########################################################################
 
@@ -179,7 +212,7 @@ class Layouter(object):
 ##########################################################################
 
     @staticmethod
-    def layout(diagram, mode=0):
+    def layout(diagram, mode=9000):
         """
         General function calling different layout functions
         """
@@ -187,3 +220,6 @@ class Layouter(object):
             Layouter.__circular_layout(diagram)
         if mode == 1:
             Layouter.__spring_layout(diagram)
+        elif not Layouter.__czit_layout(diagram):
+            Layouter.__spring_layout(diagram)
+
