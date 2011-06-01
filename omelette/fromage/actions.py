@@ -196,6 +196,9 @@ class Actions(object):
             descr = QtGui.QTableWidgetItem(str(e.msg))
             level = QtGui.QTableWidgetItem(str(e.level))
             line_nr = QtGui.QTableWidgetItem(str(e.line_number))
+            descr.setFlags(Qt.ItemIsEnabled)
+            level.setFlags(Qt.ItemIsEnabled)
+            line_nr.setFlags(Qt.ItemIsEnabled)
 
             msg_view.setRowCount(n+1)
             msg_view.setItem(n, 0, level)

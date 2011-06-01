@@ -40,7 +40,6 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         self.msg_view.setColumnCount(3)
         self.msg_view.setHorizontalHeaderLabels(["Marker", "Line number", "Message"])
         self.msg_view.horizontalHeader().setStretchLastSection(True)
-        self.msg_view.setFixedHeight(80)
 
         self.vlayout.addWidget(self.msg_view)
         self.hlayout.addWidget(self.splitter)
