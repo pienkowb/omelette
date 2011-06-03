@@ -1,0 +1,82 @@
+class Compiler
+    +libraries : [Library] = []
+    +compile(code) : {name : UMLObject} 
+    +clear() 
+
+class Code
+    +code : string = ""
+    +objects(condition) : [_CodeObject] 
+    +insert_line(number, line) : void
+    +update_line(number, line) : void
+    +remove_line(number) : void
+    _+before(position) : bool
+    _+after(position) : bool
+
+class _CodeObject
+    +insert_line(number, line) : void
+    +update_line(number, line) : void
+    +remove_line(number) : void
+    +transfer_lines(other, number) : void
+    +is_empty : bool
+
+class Library
+    +path : String
+    _+load_libraries() : [Library]
+
+class Lexer
+    +__setitem_(key, value) : void 
+    +__getitem_(key) : object
+    +register_handlers(handlers) : void
+    +unregister_handlers() : void 
+
+class Logger
+    _+getLogger(name) : Logger
+    +info(msg, object) : void
+    +warning(msg, object) : void
+    +error(msg, object) : void
+    +critical(msg, object) : void
+    +get_events(levels) : [Event]
+    +has(levels) : bool
+
+class Event
+    +msg : String
+    +level : String
+
+class Parser
+    +parse(code_objects) : [UMLObject]
+
+class DependencyResolver
+    +resolve() : void
+
+class Validator
+    +validate() : void
+
+class UMLObject
+    +required : {}
+    +allowed : {}
+    +type : String
+    +parent : String
+    +name : String
+    +is_prototype : bool
+    +code_object : _Code_object
+    
+    +__setitem_(key, value) : void 
+    +__getitem_(key) : object
+
+    +add_operation(operation) : void
+    +add_attribute(attribute) : void
+
+    +operations() : [Operation]
+    +attributes() : [Attribute]
+    
+class _Field
+    +is_static : bool
+    +visibility : String
+    +name : String
+    +type : String
+
+class Operation
+    +parameters : [(String, String)]
+
+class Atribute
+    +default_value : String
