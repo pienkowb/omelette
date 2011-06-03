@@ -31,4 +31,9 @@ Wybranie nieznanego dotąd języka miało sprawić, że projekt będzie bardziej
 \textbf{Pyparsing} to jedna z bibliotek, które skłoniły nas do wybrania języka \textbf{Python} do realizacji tego projektu.
 
 Biblioteka pozwala w prosty sposób zbudować rekursywny parser zstępujący.
+Gramatyka, która ma być parsowana, określana jest za pomocą języka \textbf{Python} w plikach źródłowych projektu (W naszym przypadku w pliku \texttt{lexer.py}).
+Pyparsing jest używany w takich projektach jak Django, pydot czy Graphite.
 
+Parsowaną gramatykę opisuje się tworząc odpowiednie obiekty.
+Obiekty te mogą reprezentować symbole terminalne (wyrażenia regularne, zestawy znaków, pojedyńcze znaki lub ich ciągi) lub ich produkcje.
+Każdemu obiektowi można przypisać akcję, która zostanie wykonana, gdy dany symbol zostanie wczytany.

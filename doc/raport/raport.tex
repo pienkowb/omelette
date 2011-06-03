@@ -13,17 +13,26 @@
 \graphicspath{{./images/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
-%\lstset{ %
-%basicstyle=\footnotesize,       % the size of the fonts that are used for the code
-%numbers=left,                   % where to put the line\dywiz numbers
-%numberstyle=\footnotesize,      % the size of the fonts that are used for the line\dywiz numbers
-%stepnumber=2,                   % the step between two line\dywiz numbers. If it's 1, each line 
-%% will be numbered
-%numbersep=5pt,                  % how far the line\dywiz numbers are from the code
-%frame=single,                   % adds a~frame around the code
-%}
+\lstset{ %
+basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+numbers=left,                   % where to put the line\dywiz numbers
+numberstyle=\footnotesize,      % the size of the fonts that are used for the line\dywiz numbers
+stepnumber=2,                   % the step between two line\dywiz numbers. If it's 1, each line 
+% will be numbered
+numbersep=5pt,                  % how far the line\dywiz numbers are from the code
+frame=single,                   % adds a~frame around the code
+}
 
+% Tego używamy do odnoszenia się do projektu
 \newcommand{\omlet}{\textbf{Omelette}}
+
+% Nazwy programów, klas, bibliotek: \textbf
+% Nazwy plików, modułów: \textt
+% Inne nazwy własne, np. nazwy organizacji: \emph
+% listingi:
+
+%   \lstinputlisting[language=Python,caption={caption}]{source_filename.py}
+
 
 \begin{document}
 \sloppy
@@ -43,6 +52,7 @@
 \section{co kto zrobił?}
 \subsection{Barnaba Turek}
 \input{barnaba.tex}
+\lstinputlisting[language=Python,caption={caption}]{a.py}
 
 \section{Opis architektury aplikacji}
 \subsection{Opis i~uzasadnienie technologii}
