@@ -193,22 +193,22 @@ class SpringLayout(Layout):
 
 @_has_layouts
 class GraphvizLayout(Layout):
-    layouts = { "Neato layout" : (lambda : GraphvizLayout('neato', 2.5)),
+    try: 
+        import pygraphviz as pgv
+        layouts = { "Neato layout" : (lambda : GraphvizLayout('neato', 2.5)),
             "Dot layout" : (lambda : GraphvizLayout('dot', 1.0/30)),
             "FDP layout" : (lambda : GraphvizLayout('fdp')),
             "SFDP layout" : (lambda : GraphvizLayout('sfdp', 4)),
             "TWOPI layout" : (lambda : GraphvizLayout('twopi')),
             "Circo layout" : (lambda : GraphvizLayout('circo', 1.0/30))}
+    except ImportError:
+        layouts = {}
 
     def __init__(self, algorithm, scale=2.5):
         self.scale = scale
         self.alg = algorithm
 
     def apply(self, diagram):
-        try:
-            import pygraphviz as pgv
-        except ImportError:
-            return False
         A=pgv.AGraph()
         A.node_attr['shape']='square'
         for node in diagram.nodes.values():
