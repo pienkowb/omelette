@@ -277,7 +277,7 @@
   <action name="actionExport">
    <property name="icon">
     <iconset resource="icons.qrc">
-     <normaloff>:/export.png</normaloff>:/export.png</iconset>
+     <normaloff>:/file_export.png</normaloff>:/file_export.png</iconset>
    </property>
    <property name="text">
     <string>Export</string>

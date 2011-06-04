@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'resources/fromage.ui'
 #
-# Created: Sat Jun 04 11:31:24 2011
+# Created: Sat Jun 04 22:27:07 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -114,7 +114,7 @@ class Ui_MainWindow(object):
         self.actionGenerate.setObjectName(_fromUtf8("actionGenerate"))
         self.actionExport = QtGui.QAction(MainWindow)
         icon10 = QtGui.QIcon()
-        icon10.addPixmap(QtGui.QPixmap(_fromUtf8(":/export.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
+        icon10.addPixmap(QtGui.QPixmap(_fromUtf8(":/file_export.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         self.actionExport.setIcon(icon10)
         self.actionExport.setObjectName(_fromUtf8("actionExport"))
         self.actionCircular_Layout = QtGui.QAction(MainWindow)

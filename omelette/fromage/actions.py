@@ -1,3 +1,4 @@
+import os.path
 from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
@@ -185,11 +186,19 @@ class Actions(object):
 
         for n, e in enumerate(events):
             descr = QtGui.QTableWidgetItem(str(e.msg))
-            level = QtGui.QTableWidgetItem(str(e.level))
+            level = QtGui.QTableWidgetItem()#str(e.level))
             line_nr = QtGui.QTableWidgetItem(str(e.line_number))
-            descr.setFlags(Qt.ItemIsEnabled)
-            level.setFlags(Qt.ItemIsEnabled)
-            line_nr.setFlags(Qt.ItemIsEnabled)
+
+            resources_path = os.path.normcase("../../omelette/fromage/resources/")
+
+            if e.level == "INFO":
+                level.setIcon(QIcon(QPixmap(resources_path + "info.png")))
+            elif e.level == "WARNING":
+                level.setIcon(QIcon(QPixmap(resources_path + "warning.png")))
+            elif e.level == "ERROR":
+                level.setIcon(QIcon(QPixmap(resources_path + "error.png")))
+            elif e.level == "CRITICAL":
+                level.setIcon(QIcon(QPixmap(resources_path + "critical.png")))
 
             msg_view.setRowCount(n+1)
             msg_view.setItem(n, 0, level)
