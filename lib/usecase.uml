@@ -1,6 +1,5 @@
 prototype base actor
     allow name STRING
 
-
 prototype base usecase
     allow name STRING

@@ -1,0 +1,432 @@
+class a
+relation
+source-object : a
+target-object : cd
+class b
+relation
+source-object : b
+target-object : db
+class c
+relation
+source-object : c
+target-object : ag
+class d
+relation
+source-object : d
+target-object : ba
+class e
+relation
+source-object : e
+target-object : ax
+class f
+relation
+source-object : f
+target-object : m
+class g
+relation
+source-object : g
+target-object : ba
+class h
+relation
+source-object : h
+target-object : cs
+class i
+relation
+source-object : i
+target-object : cq
+class j
+relation
+source-object : j
+target-object : cx
+class k
+relation
+source-object : k
+target-object : bi
+class l
+relation
+source-object : l
+target-object : ah
+class m
+relation
+source-object : m
+target-object : cj
+class n
+relation
+source-object : n
+target-object : ay
+class o
+relation
+source-object : o
+target-object : bx
+class p
+relation
+source-object : p
+target-object : af
+class q
+relation
+source-object : q
+target-object : be
+class r
+relation
+source-object : r
+target-object : g
+class s
+relation
+source-object : s
+target-object : ca
+class t
+relation
+source-object : t
+target-object : bj
+class u
+relation
+source-object : u
+target-object : ce
+class v
+relation
+source-object : v
+target-object : n
+class w
+relation
+source-object : w
+target-object : am
+class x
+relation
+source-object : x
+target-object : cj
+class y
+relation
+source-object : y
+target-object : ak
+class z
+relation
+source-object : z
+target-object : bk
+class aa
+relation
+source-object : aa
+target-object : ag
+class ab
+relation
+source-object : ab
+target-object : ay
+class ac
+relation
+source-object : ac
+target-object : dc
+class ad
+relation
+source-object : ad
+target-object : bm
+class ae
+relation
+source-object : ae
+target-object : be
+class af
+relation
+source-object : af
+target-object : r
+class ag
+relation
+source-object : ag
+target-object : f
+class ah
+relation
+source-object : ah
+target-object : cy
+class ai
+relation
+source-object : ai
+target-object : ak
+class aj
+relation
+source-object : aj
+target-object : aa
+class ak
+relation
+source-object : ak
+target-object : v
+class al
+relation
+source-object : al
+target-object : s
+class am
+relation
+source-object : am
+target-object : cj
+class an
+relation
+source-object : an
+target-object : cp
+class ao
+relation
+source-object : ao
+target-object : f
+class ap
+relation
+source-object : ap
+target-object : k
+class aq
+relation
+source-object : aq
+target-object : cu
+class ar
+relation
+source-object : ar
+target-object : cz
+class as
+relation
+source-object : as
+target-object : cr
+class at
+relation
+source-object : at
+target-object : ba
+class au
+relation
+source-object : au
+target-object : x
+class av
+relation
+source-object : av
+target-object : bf
+class aw
+relation
+source-object : aw
+target-object : ax
+class ax
+relation
+source-object : ax
+target-object : bn
+class ay
+relation
+source-object : ay
+target-object : af
+class az
+relation
+source-object : az
+target-object : be
+class ba
+relation
+source-object : ba
+target-object : aq
+class bb
+relation
+source-object : bb
+target-object : da
+class bc
+relation
+source-object : bc
+target-object : i
+class bd
+relation
+source-object : bd
+target-object : ce
+class be
+relation
+source-object : be
+target-object : ci
+class bf
+relation
+source-object : bf
+target-object : al
+class bg
+relation
+source-object : bg
+target-object : co
+class bh
+relation
+source-object : bh
+target-object : bt
+class bi
+relation
+source-object : bi
+target-object : bo
+class bj
+relation
+source-object : bj
+target-object : bg
+class bk
+relation
+source-object : bk
+target-object : bk
+class bl
+relation
+source-object : bl
+target-object : g
+class bm
+relation
+source-object : bm
+target-object : ad
+class bn
+relation
+source-object : bn
+target-object : cb
+class bo
+relation
+source-object : bo
+target-object : cl
+class bp
+relation
+source-object : bp
+target-object : ct
+class bq
+relation
+source-object : bq
+target-object : da
+class br
+relation
+source-object : br
+target-object : cw
+class bs
+relation
+source-object : bs
+target-object : ai
+class bt
+relation
+source-object : bt
+target-object : ay
+class bu
+relation
+source-object : bu
+target-object : bv
+class bv
+relation
+source-object : bv
+target-object : n
+class bw
+relation
+source-object : bw
+target-object : bo
+class bx
+relation
+source-object : bx
+target-object : ab
+class by
+relation
+source-object : by
+target-object : az
+class bz
+relation
+source-object : bz
+target-object : bq
+class ca
+relation
+source-object : ca
+target-object : ak
+class cb
+relation
+source-object : cb
+target-object : h
+class cc
+relation
+source-object : cc
+target-object : at
+class cd
+relation
+source-object : cd
+target-object : k
+class ce
+relation
+source-object : ce
+target-object : al
+class cf
+relation
+source-object : cf
+target-object : bc
+class cg
+relation
+source-object : cg
+target-object : aq
+class ch
+relation
+source-object : ch
+target-object : p
+class ci
+relation
+source-object : ci
+target-object : n
+class cj
+relation
+source-object : cj
+target-object : cw
+class ck
+relation
+source-object : ck
+target-object : bu
+class cl
+relation
+source-object : cl
+target-object : az
+class cm
+relation
+source-object : cm
+target-object : z
+class cn
+relation
+source-object : cn
+target-object : bj
+class co
+relation
+source-object : co
+target-object : db
+class cp
+relation
+source-object : cp
+target-object : db
+class cq
+relation
+source-object : cq
+target-object : br
+class cr
+relation
+source-object : cr
+target-object : ct
+class cs
+relation
+source-object : cs
+target-object : p
+class ct
+relation
+source-object : ct
+target-object : bn
+class cu
+relation
+source-object : cu
+target-object : t
+class cv
+relation
+source-object : cv
+target-object : at
+class cw
+relation
+source-object : cw
+target-object : w
+class cx
+relation
+source-object : cx
+target-object : cy
+class cy
+relation
+source-object : cy
+target-object : cn
+class cz
+relation
+source-object : cz
+target-object : bo
+class da
+relation
+source-object : da
+target-object : b
+class db
+relation
+source-object : db
+target-object : m
+class dc
+relation
+source-object : dc
+target-object : bb
+class dd
+relation
+source-object : dd
+target-object : u
