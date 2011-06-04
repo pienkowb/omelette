@@ -2,7 +2,11 @@
 from PyQt4.Qsci import QsciLexerPython, QsciScintilla
 from PyQt4.QtGui import QColor, QFont, QFontMetrics
 from PyQt4.QtCore import QObject, SIGNAL
+<<<<<<< HEAD
 #from omelette.fromage.qsyntax_lexer import QSyntaxLexer
+=======
+from omelette.fromage.qsyntax_lexer import QSyntaxLexer
+>>>>>>> 518fa8146eef74607eddf3d6e431c69be2755d25
 
 _sample = """
 #Sample Omelette source code with kvp
@@ -82,7 +86,7 @@ class QSci(QsciScintilla):
         self.setEdgeColor(QColor("#FF0000"))
 
         ##choosing a lexer
-        lexer = QsciLexerPython(self)
+        lexer = QLexerPython(self)
         lexer.setDefaultFont(font)
         self.setLexer(lexer)
         #self.setText(_sample)

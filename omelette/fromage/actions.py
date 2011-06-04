@@ -186,7 +186,7 @@ class Actions(object):
 
         for n, e in enumerate(events):
             descr = QtGui.QTableWidgetItem(str(e.msg))
-            level = QtGui.QTableWidgetItem()#str(e.level))
+            level = QtGui.QTableWidgetItem()
             line_nr = QtGui.QTableWidgetItem(str(e.line_number))
 
             resources_path = os.path.normcase("../../omelette/fromage/resources/")
