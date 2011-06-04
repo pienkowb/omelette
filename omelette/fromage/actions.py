@@ -135,7 +135,7 @@ class Actions(object):
     def redo(self):
         self.window.qsci.redo()
 
-    def __narrowen_scene(self):
+    def __adjust_scene_rect(self):
         sceneRect = QRectF(0,0,0,0)
 
         for node in self.diagram.nodes.values():
@@ -153,7 +153,7 @@ class Actions(object):
             self.window.statusbar.showMessage('Saving aborted', 2000)
             return
 
-        self.__narrowen_scene()
+        self.__adjust_scene_rect()
 
         img = QImage(self.window.scene.sceneRect().size().toSize(), QImage.Format_ARGB32)
         painter = QPainter(img)
