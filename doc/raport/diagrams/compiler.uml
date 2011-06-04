@@ -6,28 +6,28 @@ class Compiler
 class Code
     +code 
     +objects(condition) 
-    +insertline(number, line) 
-    +updateline(number, line) 
-    +removeline(number) 
+    +insert_line(number, line) 
+    +update_line(number, line) 
+    +remove_line(number) 
     +before(position) 
     +after(position) 
 
 class CodeObject
-    +insertline(number, line) 
-    +updateline(number, line) 
-    +removeline(number) 
-    +transferlines(other, number) 
-    +isempty 
+    +insert_line(number, line) 
+    +update_line(number, line) 
+    +remove_line(number) 
+    +transfer_lines(other, number) 
+    +is_empty()
 
 class Library
     +path 
-    +loadlibraries() 
+    +load_libraries() 
 
 class Lexer
     +setitem(key, value) 
     +getitem(key) 
-    +registerhandlers(handlers) 
-    +unregisterhandlers() 
+    +register_handlers(handlers) 
+    +unregister_handlers() 
 
 class Logger
     +getLogger(name) 
@@ -35,7 +35,7 @@ class Logger
     +warning(msg, object) 
     +error(msg, object) 
     +critical(msg, object) 
-    +getevents(levels) 
+    +get_events(levels) 
     +has(levels) 
 
 class Event
@@ -57,20 +57,20 @@ class UMLObject
     +type 
     +parent 
     +name 
-    +isprototype 
-    +codeobject 
+    +is_prototype 
+    +code_object 
     
     +setitem(key, value) 
     +getitem(key) 
 
-    +addoperation(operation) 
-    +addattribute(attribute) 
+    +add_operation(operation) 
+    +add_attribute(attribute) 
 
     +operations() 
     +attributes() 
     
 class Field
-    +isstatic 
+    +is_static 
     +visibility 
     +name 
     +type 
