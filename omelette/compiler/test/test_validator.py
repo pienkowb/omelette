@@ -6,13 +6,17 @@ from omelette.compiler import logging
 class ValidatorTest(unittest.TestCase):
 
     def setUp(self):
-        self.uml_object = UMLObject()
+        self.uml_object = UMLObject(name="association")
         self.uml_object.required = {"source-object": "OBJECT"}
         self.uml_object.allowed = {
             "arrow": "STRING",
             "direction": ["none", "source", "target", "both"],
             "source-role": "STRING",
             "source-count": "MULTIPLICITY"}
+
+        self.uml_objects = {
+            "association": self.uml_object,
+            "Student": UMLObject(name="Student")}
 
         self.logger = logging.getLogger("compiler")
         self.logger.flush()
@@ -25,7 +29,7 @@ class ValidatorTest(unittest.TestCase):
             "source-role": ("learns", "STRING"),
             "source-count": ("1", "MULTIPLICITY")}
 
-        Validator(self.uml_object).validate()
+        Validator(self.uml_objects).validate()
         self.assertTrue(self.logger.is_empty())
 
     def test_validate_not_allowed(self):
@@ -33,7 +37,7 @@ class ValidatorTest(unittest.TestCase):
             "stereotype": ("not_allowed", "STRING"),
             "source-object": ("Student", "OBJECT")}
 
-        Validator(self.uml_object).validate()
+        Validator(self.uml_objects).validate()
         self.assertFalse(self.logger.is_empty())
 
     def test_validate_no_required(self):
@@ -41,7 +45,7 @@ class ValidatorTest(unittest.TestCase):
             "arrow": ("association", "STRING"),
             "direction": ("none", "OBJECT")}
 
-        Validator(self.uml_object).validate()
+        Validator(self.uml_objects).validate()
         self.assertFalse(self.logger.is_empty())
 
 

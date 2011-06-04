@@ -32,8 +32,7 @@ class Compiler(object):
             if uml_object.is_prototype:
                 del uml_objects[name]
 
-        for uml_object in uml_objects.values():
-            Validator(uml_object).validate()
+        Validator(uml_objects).validate()
 
         return uml_objects
 

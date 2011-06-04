@@ -57,20 +57,18 @@ class Event:
     def __init__(self, msg, level, object):
         self.msg = msg
         self.level = level
-        if not object is None:
-            self.object = object.name
-            if not object.code_object is None:
-                self.line_number = object.code_object.position
-        else:
-            self.line_number = -1
+        self.line_number = 0
 
+        if object is not None:
+            self.object = object.name
+            if object.code_object is not None:
+                self.line_number = object.code_object.position + 1
 
     def __str__(self):
         value = self.level
-        if not self.line_number is None:
+        if self.line_number is not None:
             value += ":" + str(self.line_number)
-        elif not self.object is None:
+        elif self.object is not None:
             value += " " + self.object.name
-        value += ": " + self.msg 
+        value += ": " + self.msg
         return value
-

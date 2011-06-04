@@ -2,25 +2,36 @@ from PyQt4 import QtGui, QtCore
 from omelette.compiler.code import Code, Library
 from omelette.compiler.compiler import Compiler
 from omelette.compiler import logging
-from omelette.fromage.layouter import Layouter
+from omelette.fromage.layouter import *
 from omelette.fromage.diagram import Diagram
 from PyQt4.QtGui import QImage, QPainter, QBrush, QColor
 from PyQt4.Qt import *
 
 class Actions(object):
 
-    def __init__(self, window, parent=None):
+    def __init__(self, window):
         self.compiler = Compiler(Library.load_libraries())
         self.window = window
 
         self.filename = QtCore.QString()
         self.window.actionSave.setDisabled(True)
         self.window.actionSaveAs.setDisabled(True)
-        
+
         self.__export_scene_margins = 50
 
         self.window.actionCircular_Layout.setChecked(True)
         self.is_layout_spring = False
+
+    def __update(self):
+        # edges must be updated after nodes are updated and layouted
+        for edge in self.diagram.edges.values():
+            edge.update()
+
+        # this actually paints things, so must be invoked when everything is
+        # ready
+        for drawable in self.diagram.elements():
+            self.window.scene.addItem(drawable)
+            drawable.resize_scene_rect()
 
     def generate(self):
         logger = logging.getLogger("compiler")
@@ -46,21 +57,8 @@ class Actions(object):
 
         # needed to layout and draw edges
         self.diagram.set_anchors()
-
-        if self.isLayoutSpring():
-            Layouter.layout(self.diagram)
-        else:
-            Layouter.layout(self.diagram,0)
-
-        # edges must be updated after nodes are updated and layouted
-        for edge in self.diagram.edges.values():
-            edge.update()
-
-        # this actually paints things, so must be invoked when everything is
-        # ready
-        for drawable in self.diagram.elements():
-            self.window.scene.addItem(drawable)
-            drawable.resize_scene_rect()
+        LayoutFactory.get("Circular layout").apply(self.diagram)
+        self.__update()
 
     def enable_save(self):
         self.window.actionSave.setEnabled(True)
@@ -137,15 +135,14 @@ class Actions(object):
 
     def __narrowen_scene(self):
         sceneRect = QRectF(0,0,0,0)
-        
+
         for node in self.diagram.nodes.values():
             sceneRect = sceneRect.united(node.globalFullBoundingRect())
-            
+
         esm = self.__export_scene_margins
         sceneRect = sceneRect.adjusted(-esm, -esm, esm, esm)
-            
-        self.window.scene.setSceneRect(sceneRect)
 
+        self.window.scene.setSceneRect(sceneRect)
 
     def export(self):
         fn = QtGui.QFileDialog.getSaveFileName(self.window, "Save Image", QtCore.QString(), "Image Files (*.png)");
@@ -157,9 +154,9 @@ class Actions(object):
 
         img = QImage(self.window.scene.sceneRect().size().toSize(), QImage.Format_ARGB32)
         painter = QPainter(img)
-        
+
         absoluteRect = QRectF(0, 0, self.window.scene.sceneRect().width(), self.window.scene.sceneRect().height())
-        
+
         painter.fillRect(absoluteRect, QBrush(QColor(255, 255, 255), Qt.SolidPattern))
         painter.resetMatrix()
         self.window.scene.render(painter)
@@ -189,12 +186,18 @@ class Actions(object):
         return self.is_layout_spring
 
     def set_msg_view(self, logger):
+        msg_view = self.window.msg_view
         events = logger.events
+
+        for row in range(msg_view.rowCount()):
+            msg_view.removeRow(row)
+
         for n, e in enumerate(events):
             descr = QtGui.QTableWidgetItem(str(e.msg))
             level = QtGui.QTableWidgetItem(str(e.level))
             line_nr = QtGui.QTableWidgetItem(str(e.line_number))
-            self.window.msg_view.setRowCount(n+1)
-            self.window.msg_view.setItem(n, 0, level)
-            self.window.msg_view.setItem(n, 1, line_nr)
-            self.window.msg_view.setItem(n, 2, descr)
+
+            msg_view.setRowCount(n+1)
+            msg_view.setItem(n, 0, level)
+            msg_view.setItem(n, 1, line_nr)
+            msg_view.setItem(n, 2, descr)
