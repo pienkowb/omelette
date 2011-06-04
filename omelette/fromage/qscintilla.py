@@ -2,6 +2,7 @@
 from PyQt4.Qsci import QsciLexerPython, QsciScintilla
 from PyQt4.QtGui import QColor, QFont, QFontMetrics
 from PyQt4.QtCore import QObject, SIGNAL
+from omelette.fromage.qsyntax_lexer import QSyntaxLexer
 
 _sample = """
 #Sample Omelette source code with kvp
@@ -21,35 +22,7 @@ association BaseAssociation
 class QSci(QsciScintilla):
     def __init__(self, parent):
         QsciScintilla.__init__(self,parent)
-#        self.nrOfLines = 0
-#        self.line_nr = 0
-#        self.pos = 0
         self.set_up()
-        
-#        QObject.connect(self, SIGNAL("cursorPositionChanged(int, int)"), self.set_line_nr)
-#        QObject.connect(self, SIGNAL("linesChanged()"), self.check_lines_count)
-#        QObject.connect(self, SIGNAL("textChanged()"), self.get_updated_line)
-#        QObject.connect(self, SIGNAL("copyAvailable()"), None)
-#        QObject.connect(self, SIGNAL("selectionChanged()"), None)
-
-#    def set_line_nr(self, line_nr, pos):
-#        ##Scintilla numerates lines from 0
-#        self.line_nr = line_nr + 1
-#        #print self.line_nr, pos+1
-
-#    def get_updated_line(self):
-#        print self.line_nr, self.text(self.line_nr-1)
-#        #self.parser.update(self.line_nr, self.text(self.line_nr-1))
-#
-#    def check_lines_count(self):
-#        if(self.lines() > self.nrOfLines):
-#            self.nrOfLines = self.lines()
-#            #self.parser.insert(self.line_nr+1, self.text(self.line_nr))
-#            print self.line_nr+1, self.text(self.line_nr)
-#        else:
-#            self.nrOfLines = self.lines()
-
-
 
     def set_up(self):
         """Widget configuration"""
@@ -109,10 +82,9 @@ class QSci(QsciScintilla):
         self.setEdgeColor(QColor("#FF0000"))
 
         ##choosing a lexer
-        lexer = QsciLexerPython(self)
+        lexer = QSyntaxLexer(self)
         lexer.setDefaultFont(font)
         self.setLexer(lexer)
         #self.setText(_sample)
 
 
-        

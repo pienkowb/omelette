@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'resources/fromage.ui'
 #
-# Created: Fri May 20 21:26:14 2011
+# Created: Sat Jun 04 11:31:24 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,7 +55,7 @@ class Ui_MainWindow(object):
         sizePolicy.setHeightForWidth(self.dock_widget.sizePolicy().hasHeightForWidth())
         self.dock_widget.setSizePolicy(sizePolicy)
         self.dock_widget.setFloating(False)
-        self.dock_widget.setFeatures(QtGui.QDockWidget.DockWidgetFloatable|QtGui.QDockWidget.DockWidgetMovable)
+        self.dock_widget.setFeatures(QtGui.QDockWidget.NoDockWidgetFeatures)
         self.dock_widget.setObjectName(_fromUtf8("dock_widget"))
         self.dockContents = QtGui.QWidget()
         self.dockContents.setObjectName(_fromUtf8("dockContents"))
@@ -123,6 +123,8 @@ class Ui_MainWindow(object):
         self.actionSpring_Layout = QtGui.QAction(MainWindow)
         self.actionSpring_Layout.setCheckable(True)
         self.actionSpring_Layout.setObjectName(_fromUtf8("actionSpring_Layout"))
+        self.actionAsdf = QtGui.QAction(MainWindow)
+        self.actionAsdf.setObjectName(_fromUtf8("actionAsdf"))
         self.toolBar.addAction(self.actionNew)
         self.toolBar.addAction(self.actionOpen)
         self.toolBar.addAction(self.actionSave)
@@ -152,9 +154,6 @@ class Ui_MainWindow(object):
         self.menuEdit.addAction(self.actionUndo)
         self.menuEdit.addAction(self.actionRedo)
         self.menuRun.addAction(self.actionGenerate)
-        self.menuLayout.addAction(self.actionCircular_Layout)
-        self.menuLayout.addSeparator()
-        self.menuLayout.addAction(self.actionSpring_Layout)
         self.menuBar.addAction(self.menuFile.menuAction())
         self.menuBar.addAction(self.menuEdit.menuAction())
         self.menuBar.addAction(self.menuRun.menuAction())
@@ -203,5 +202,6 @@ class Ui_MainWindow(object):
         self.actionExport.setShortcut(QtGui.QApplication.translate("MainWindow", "Ctrl+E", None, QtGui.QApplication.UnicodeUTF8))
         self.actionCircular_Layout.setText(QtGui.QApplication.translate("MainWindow", "Circular Layout", None, QtGui.QApplication.UnicodeUTF8))
         self.actionSpring_Layout.setText(QtGui.QApplication.translate("MainWindow", "Spring Layout", None, QtGui.QApplication.UnicodeUTF8))
+        self.actionAsdf.setText(QtGui.QApplication.translate("MainWindow", "asdf", None, QtGui.QApplication.UnicodeUTF8))
 
 import icons

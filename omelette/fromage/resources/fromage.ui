@@ -103,9 +103,6 @@
     <property name="title">
      <string>Layout</string>
     </property>
-    <addaction name="actionCircular_Layout"/>
-    <addaction name="separator"/>
-    <addaction name="actionSpring_Layout"/>
    </widget>
    <addaction name="menuFile"/>
    <addaction name="menuEdit"/>
@@ -123,7 +120,7 @@
     <bool>false</bool>
    </property>
    <property name="features">
-    <set>QDockWidget::DockWidgetFloatable|QDockWidget::DockWidgetMovable</set>
+    <set>QDockWidget::NoDockWidgetFeatures</set>
    </property>
    <property name="windowTitle">
     <string>Messages</string>
@@ -306,6 +303,11 @@
    </property>
    <property name="text">
     <string>Spring Layout</string>
+   </property>
+  </action>
+  <action name="actionAsdf">
+   <property name="text">
+    <string>asdf</string>
    </property>
   </action>
  </widget>

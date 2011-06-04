@@ -19,8 +19,7 @@ class Actions(object):
 
         self.__export_scene_margins = 50
 
-        self.window.actionCircular_Layout.setChecked(True)
-        self.is_layout_spring = False
+        self.active_layout_action = QtGui.QAction(QObject())
 
     def __update(self):
         # edges must be updated after nodes are updated and layouted
@@ -57,8 +56,17 @@ class Actions(object):
 
         # needed to layout and draw edges
         self.diagram.set_anchors()
-        LayoutFactory.get("Circular layout").apply(self.diagram)
+        LayoutFactory.get(str(self.active_layout_action.text())).apply(self.diagram)
         self.__update()
+
+    def get_layout_name(self, layout_action):
+        self.active_layout_action = layout_action
+
+    def check_layout_item(self, layout_action):
+        layouts = self.window.menuLayout.actions()
+        layouts.remove(layout_action)
+        for layout in layouts:
+            layout.setChecked(False)
 
     def enable_save(self):
         self.window.actionSave.setEnabled(True)
@@ -168,23 +176,6 @@ class Actions(object):
 
         self.window.statusbar.showMessage('Image %s saved' % (self.filename), 2000)
 
-    def circular_layout(self):
-        if self.window.actionSpring_Layout.isChecked:
-            self.window.actionSpring_Layout.setChecked(False)
-
-        if self.window.actionCircular_Layout.isChecked:
-            self.is_layout_spring = False
-
-    def spring_layout(self):
-        if self.window.actionCircular_Layout.isChecked:
-            self.window.actionCircular_Layout.setChecked(False)
-
-        if self.window.actionSpring_Layout.isChecked:
-            self.is_layout_spring = True
-
-    def isLayoutSpring(self):
-        return self.is_layout_spring
-
     def set_msg_view(self, logger):
         msg_view = self.window.msg_view
         events = logger.events
@@ -204,3 +195,7 @@ class Actions(object):
             msg_view.setItem(n, 0, level)
             msg_view.setItem(n, 1, line_nr)
             msg_view.setItem(n, 2, descr)
+
+    def jump_to_line(self, row, column):
+        line_nr = self.window.msg_view.item(row, 1).text()
+        self.window.qsci.setCursorPosition(int(line_nr), 1)
