@@ -15,7 +15,7 @@ class Validator(object):
 
     def __validate_type(self, name, types):
         value, type = self.__uml_object.properties[name]
-        message = "invalid type of '%s' property, expected %s"
+        message = "invalid type of property: %s (expected %s)"
 
         if not isinstance(types[name], list):
             if type != types[name]:
@@ -37,7 +37,7 @@ class Validator(object):
         elif name in allowed:
             self.__validate_type(name, allowed)
         else:
-            self.__log_error("property '%s' not allowed" % name)
+            self.__log_error("not allowed property: " + name)
 
     def validate(self):
         for uml_object in self.__uml_objects.values():
@@ -48,4 +48,4 @@ class Validator(object):
                 self.__validate_property(name)
 
             for name in self.__required_left:
-                self.__log_error("required property '%s' not defined" % name)
+                self.__log_error("not defined property: " + name)
