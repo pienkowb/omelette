@@ -78,24 +78,24 @@ class Field
 class Operation
     +parameters 
 
-class Atribute
-    +defaultvalue 
+class Attribute
+    +default_value 
 
 prototype aggregation umlo-aggregation
-    source-object : UMLObject
+    target-object : UMLObject
 
 generalization 
     source-object : Library
     target-object : Code
 
 aggregation
-    source-object : CodeObject
-    target-object : Code
+    source-object : Code
+    target-object : CodeObject
     target-count  : 1..*
 
 composition 
-    source-object : Lexer
-    target-object : Code
+    source-object : Code
+    target-object : Lexer
 
 composition 
     source-object : Compiler
@@ -103,7 +103,7 @@ composition
 
 composition 
     source-object : Compiler
-    target-object : Resolver
+    target-object : DependencyResolver
     
 composition 
     source-object : Compiler
@@ -111,15 +111,15 @@ composition
     target-count  : 1..*
 
 umlo-aggregation 
-    target-object : Compiler
+    source-object : Compiler
 
 aggregation 
-    source-object : Event
-    target-object : Logger
+    source-object : Logger
+    target-object : Event
 
 composition 
-    source-object : UMLObject
-    target-object : Event
+    source-object : Event
+    target-object : UMLObject
     target-count  : 0..1
 
 composition 
@@ -127,26 +127,34 @@ composition
     target-object : Lexer
 
 umlo-aggregation 
-    target-object : Parser
+    source-object : Parser
 
 umlo-aggregation 
-    target-object : Resolver
+    source-object : DependencyResolver
 
 aggregation 
-    source-object : Field
-    target-object : UMLObject
-
-generalization 
-    source-object : UMLOperation
+    source-object : UMLObject
     target-object : Field
 
 generalization 
-    source-object : UMLAttribute
+    source-object : Operation
+    target-object : Field
+
+generalization 
+    source-object : Attribute
     target-object : Field
 
 composition 
-    source-object : CodeObject
-    target-object : UMLObject
+    source-object : UMLObject
+    target-object : CodeObject
 
 umlo-aggregation 
-    target-object : Validator
+    source-object : Validator
+
+association
+    source-object : Compiler
+    target-object  : Validator
+
+association
+    source-object : Compiler
+    target-object  : Logger    
