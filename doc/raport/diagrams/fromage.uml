@@ -1,0 +1,141 @@
+class UMLObject
+    stereotype : "compiler"
+    +required 
+    +allowed 
+    +type 
+    +parent 
+    +name 
+    +is_prototype 
+    +code_object 
+    
+    +setitem(key, value) 
+    +getitem(key) 
+
+    +add_operation(operation) 
+    +add_attribute(attribute) 
+
+    +operations() 
+    +attributes() 
+
+class Compiler
+    stereotype : "compiler"
+    +libraries 
+    +compile(code) 
+    +clear() 
+
+class Logger
+    stereotype : "compiler"
+    +getLogger(name) 
+    +info(msg, object) 
+    +warning(msg, object) 
+    +error(msg, object) 
+    +critical(msg, object) 
+    +get_events(levels) 
+    +has(levels) 
+
+class QFromage
+
+class Actions
+    +generate()
+    +enable_save()
+    +new_file()
+    +open_file()
+    +save_file()
+    +save_file_as()
+    +cut()
+    +copy()
+    +paste()
+    +undo()
+    +redo()
+    +export()
+    +set_msg_view()
+
+class Drawable
+    +crop_line(line, line_point)
+    +get_neighbours()
+    +globalBoundingRect()
+    +globalFullBoundingRect()
+    +paint(painter, style, widget)
+    +update()
+    +find_anchor()
+    +itemChange(change, value)
+
+class Anchor
+    +connector : DrawableEdge
+    +slot : Drawable
+
+class DrawableFactory
+    +modules_path
+    +create(uml_object) : Drawable
+
+class Diagram
+    +add(uml_object)
+    +elements()
+    +set_anchors()
+    +clear()
+
+class Layout
+    +apply(diagram)
+    +layouts
+
+class LayoutFactory
+    _+register(layouts)
+    _+layouts()
+    _+get(layout)
+
+class CircularLayout
+
+class SpringLayout
+
+class GraphvizLayout
+
+generalization layout
+    source-object : CircularLayout
+    target-object : Layout
+
+layout
+    source-object : SpringLayout
+
+layout
+    source-object : GraphvizLayout
+
+association 
+    source-object : QFromage
+    target-object : Actions
+
+association action
+    source-object : Actions 
+    target-object : Logger 
+
+composition 
+    source-object : Actions 
+    target-object : Compiler
+
+action
+    target-object : LayoutFactory
+
+association
+    source-object : LayoutFactory
+    target-object : Layout
+
+composition 
+    source-object : Actions
+    target-object : Diagram
+
+aggregation 
+    source-object : Diagram
+    target-object : Drawable
+
+composition 
+    source-object : Drawable
+    target-object : UMLObject
+
+aggregation 
+    source-object : Drawable
+    target-object : Anchor
+
+composition 
+    source-object : Diagram
+    target-object : DrawableFactory
+
+
