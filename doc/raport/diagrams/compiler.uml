@@ -1,82 +1,152 @@
 class Compiler
-    +libraries : [Library] = []
-    +compile(code) : {name : UMLObject} 
+    +libraries 
+    +compile(code) 
     +clear() 
 
 class Code
-    +code : string = ""
-    +objects(condition) : [_CodeObject] 
-    +insert_line(number, line) : void
-    +update_line(number, line) : void
-    +remove_line(number) : void
-    _+before(position) : bool
-    _+after(position) : bool
+    +code 
+    +objects(condition) 
+    +insertline(number, line) 
+    +updateline(number, line) 
+    +removeline(number) 
+    +before(position) 
+    +after(position) 
 
-class _CodeObject
-    +insert_line(number, line) : void
-    +update_line(number, line) : void
-    +remove_line(number) : void
-    +transfer_lines(other, number) : void
-    +is_empty : bool
+class CodeObject
+    +insertline(number, line) 
+    +updateline(number, line) 
+    +removeline(number) 
+    +transferlines(other, number) 
+    +isempty 
 
 class Library
-    +path : String
-    _+load_libraries() : [Library]
+    +path 
+    +loadlibraries() 
 
 class Lexer
-    +__setitem_(key, value) : void 
-    +__getitem_(key) : object
-    +register_handlers(handlers) : void
-    +unregister_handlers() : void 
+    +setitem(key, value) 
+    +getitem(key) 
+    +registerhandlers(handlers) 
+    +unregisterhandlers() 
 
 class Logger
-    _+getLogger(name) : Logger
-    +info(msg, object) : void
-    +warning(msg, object) : void
-    +error(msg, object) : void
-    +critical(msg, object) : void
-    +get_events(levels) : [Event]
-    +has(levels) : bool
+    +getLogger(name) 
+    +info(msg, object) 
+    +warning(msg, object) 
+    +error(msg, object) 
+    +critical(msg, object) 
+    +getevents(levels) 
+    +has(levels) 
 
 class Event
-    +msg : String
-    +level : String
+    +msg 
+    +level 
 
 class Parser
-    +parse(code_objects) : [UMLObject]
+    +parse(code_objects) 
 
 class DependencyResolver
-    +resolve() : void
+    +resolve() 
 
 class Validator
-    +validate() : void
+    +validate() 
 
 class UMLObject
-    +required : {}
-    +allowed : {}
-    +type : String
-    +parent : String
-    +name : String
-    +is_prototype : bool
-    +code_object : _Code_object
+    +required 
+    +allowed 
+    +type 
+    +parent 
+    +name 
+    +isprototype 
+    +codeobject 
     
-    +__setitem_(key, value) : void 
-    +__getitem_(key) : object
+    +setitem(key, value) 
+    +getitem(key) 
 
-    +add_operation(operation) : void
-    +add_attribute(attribute) : void
+    +addoperation(operation) 
+    +addattribute(attribute) 
 
-    +operations() : [Operation]
-    +attributes() : [Attribute]
+    +operations() 
+    +attributes() 
     
-class _Field
-    +is_static : bool
-    +visibility : String
-    +name : String
-    +type : String
+class Field
+    +isstatic 
+    +visibility 
+    +name 
+    +type 
 
 class Operation
-    +parameters : [(String, String)]
+    +parameters 
 
 class Atribute
-    +default_value : String
+    +defaultvalue 
+
+prototype aggregation umlo-aggregation
+    source-object : UMLObject
+
+generalization 
+    source-object : Library
+    target-object : Code
+
+aggregation
+    source-object : CodeObject
+    target-object : Code
+    target-count  : 1..*
+
+composition 
+    source-object : Lexer
+    target-object : Code
+
+composition 
+    source-object : Compiler
+    target-object : Parser
+
+composition 
+    source-object : Compiler
+    target-object : Resolver
+    
+composition 
+    source-object : Compiler
+    target-object : Library
+    target-count  : 1..*
+
+umlo-aggregation 
+    target-object : Compiler
+
+aggregation 
+    source-object : Event
+    target-object : Logger
+
+composition 
+    source-object : UMLObject
+    target-object : Event
+    target-count  : 0..1
+
+composition 
+    source-object : Parser
+    target-object : Lexer
+
+umlo-aggregation 
+    target-object : Parser
+
+umlo-aggregation 
+    target-object : Resolver
+
+aggregation 
+    source-object : Field
+    target-object : UMLObject
+
+generalization 
+    source-object : UMLOperation
+    target-object : Field
+
+generalization 
+    source-object : UMLAttribute
+    target-object : Field
+
+composition 
+    source-object : CodeObject
+    target-object : UMLObject
+
+umlo-aggregation 
+    target-object : Validator
