@@ -1,0 +1,31 @@
+\subsection{Okno programu}
+Po uruchomieniu programu powinniśmy zobaczyć okno główne składające się z trzech paneli:
+
+\begin{itemize}
+	\item Edytor - panel służący do edycji aktualnie otwartego dokumentu.
+	\item Podgląd - panel podglądu diagramu
+	\item Lista błędów - sygnalizująca błędy w dokumencie
+\end{itemize}
+
+\subsection{Pasek menu oraz pasek narzędzi}
+Opcje programu można wywoływać poprzez ikony na pasku narzędzi lub poprzez pasek menu.
+
+Kolejno na pasku narzędzi znajdują się:
+\begin{itemize}
+	\item ,,New'' - otwiera nowy (pusty) dokument
+	\item ,,Open document'' - otwiera istniejący dokument
+	\item ,,Save'' - zapisuje aktualnie otwarty dokument
+	\item ,,Save as'' - umożliwia zapisanie aktualnie otwartego dokumentu z wyborem nowej nazwy
+	\item ,,Cut'' - funkcja ,,wytnij''
+	\item ,,Copy'' - funkcja ,,kopiuj''
+	\item ,,Paste'' - funkcja ,,wklej''
+	\item ,,Undo'', ,,Redo'' - ,,cofnij'', ,,potwórz''
+	\item ,,Generate'' - generuje diagram i wyświetla go w panelu podglądu
+	\item ,,Export'' - zapisuje diagram widoczny w panelu podglądu do pliku obrazka
+\end{itemize}
+
+Dodatkowo na pasku menu znajduje się kategoria ,,Layout''. Menu ,,Layout'' służy do wyboru algorytmu rozkładania diagramów przy generacji. Do wyboru są różne algorytmy, zaleznie od platformy (a mianowicie obecności biblioteki \textbf{graphviz}).
+
+\subsection{Praca z programem}
+
+Zazwyczaj praca z programem rozpoczyna odczytania istniejącego dokumentu lub rozpoczęcia pracy nad nowym dokumentem - w drugim przypadku można zacząć pracować na pustym dokumencie który jest dostępny odrazu po otwarciu aplikacji. Użytkownik powinien najpierw zamodelować diagram opisująć jego strukturę, zgodnie z regułami języka, w panelu edycji diagramu. Następnie kliknięcie uzycie funkcji Generuj spowoduje wygenerowanie diagramu oraz wyświetlenie go w oknie podglądu. Nie stanie się tak w przypadku błędów krytycznych. Wszystkie błędy oraz ostrzeżenia sygnalizowane są w panelu błędów. Po wprowadzeniu poprawek do diagramu, można znowu kliknąć Generuj. W panelu podglądu powinniśmy wtedy zobaczyć uaktualniony diagram. W panelu podglądu możemy również przemieszczać elementy diagramu, wykonując gest ,,przeciągnij i upuść'' za pomocą myszy. Jeśli jesteśmy zadowoleni z diagramu, możemy użyć funkcji Eksportuj, która zapisze diagram do obrazka.
