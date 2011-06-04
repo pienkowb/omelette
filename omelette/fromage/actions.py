@@ -44,7 +44,7 @@ class Actions(object):
         code = Code(str(self.window.qsci.text()))
         uml_objects = self.compiler.compile(code)
         self.set_msg_view(logger)
-
+        
         if logger.has("ERROR CRITICAL"):
             return
 

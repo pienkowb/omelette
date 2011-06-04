@@ -11,7 +11,7 @@ class DrawableUseCase(DrawableNode, QGraphicsItem):
         super(DrawableUseCase, self).__init__(uml_object)
         QGraphicsItem.__init__(self)
         self.__boundingRect = QRectF(0, 0, 100, 100)
-        self.__font = QFont('Comic Sans MS', 10)
+        self.__font = Drawable.get_font()
 
         self.setFlag(QGraphicsItem.ItemIsMovable, 1)
         self.setFlag(QGraphicsItem.ItemIsSelectable, 1)

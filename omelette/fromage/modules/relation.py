@@ -112,7 +112,7 @@ class DrawableRelation(DrawableEdge, QGraphicsLineItem):
         QGraphicsLineItem.__init__(self)
         
         self.__boundingRect = QRectF(0, 0, 300, 300)
-        self.__font = QFont('Comic Sans MS', 10)
+        self.__font = Drawable.get_font()
         self.__fontMetrics = QFontMetrics(self.__font)
         
         self.__line_type = Qt.SolidLine

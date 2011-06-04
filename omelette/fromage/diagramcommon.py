@@ -2,11 +2,13 @@ from PyQt4.QtGui import *
 from PyQt4.QtCore import QRectF, QPointF
 from PyQt4.Qt import *
 
+from omelette.fromage.common import Drawable
+
 class DrawableText(QGraphicsItem):
     def __init__(self, parentItem):
         QGraphicsItem.__init__(self)
         self.setParentItem(parentItem)
-        self.__font = QFont('Comic Sans MS', 10)
+        self.__font = Drawable.get_font()
         self.__text = ""
         self.__origin_pos = None
         self.reset_vector = QPointF(0,0)
