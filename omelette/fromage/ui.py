@@ -2,11 +2,7 @@
 
 # Form implementation generated from reading ui file 'resources/fromage.ui'
 #
-<<<<<<< HEAD
-# Created: Sat Jun 04 22:27:07 2011
-=======
-# Created: Sat Jun 04 11:31:24 2011
->>>>>>> 518fa8146eef74607eddf3d6e431c69be2755d25
+# Created: Sat Jun 04 23:51:58 2011
 #      by: PyQt4 UI code generator 4.8.3
 #
 # WARNING! All changes made in this file will be lost!
