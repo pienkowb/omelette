@@ -33,7 +33,7 @@ class LayoutFactory(object):
 
     @staticmethod
     def layouts():
-        return LayoutFactory.layouts.keys()
+        return LayoutFactory.__layouts.keys()
 
     @staticmethod
     def get(layout):
