@@ -8,9 +8,11 @@ sys.path.append(modules_directory)
 
 from PyQt4 import QtGui, QtCore
 from omelette.fromage.ui import Ui_MainWindow
+#from omelette.fromage.fromage_editor import FromageEditor
 from omelette.fromage.qscintilla import QSci
 from omelette.fromage.actions import Actions
 from omelette.fromage.scalable_view import ScalableView
+from omelette.fromage.layouter import *
 
 class QFromage(QtGui.QMainWindow, Ui_MainWindow):
 
@@ -30,6 +32,7 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         self.splitter.setOrientation(QtCore.Qt.Horizontal)
 
         self.qsci = QSci(self.splitter)
+        #self.qsci = FromageEditor(self.splitter)
         self.scene = QtGui.QGraphicsScene(self.splitter)
         self.scalable_view = ScalableView(self.splitter)
         self.scalable_view.setScene(self.scene)
@@ -43,6 +46,15 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
 
         self.vlayout.addWidget(self.msg_view)
         self.hlayout.addWidget(self.splitter)
+
+        layouts_names = LayoutFactory.layouts()
+
+        for name in layouts_names:
+            self.layout = QtGui.QAction(self)
+            self.layout.setObjectName(QtCore.QString.fromUtf8(name))
+            self.layout.setCheckable(True)
+            self.layout.setText(name)
+            self.menuLayout.addAction(self.layout)
 
         self.actions = Actions(self)
 
@@ -58,8 +70,9 @@ class QFromage(QtGui.QMainWindow, Ui_MainWindow):
         QtCore.QObject.connect(self.actionRedo, QtCore.SIGNAL("triggered()"), self.actions.redo)
         QtCore.QObject.connect(self.qsci, QtCore.SIGNAL("textChanged()"), self.actions.enable_save)
         QtCore.QObject.connect(self.actionExport, QtCore.SIGNAL("triggered()"), self.actions.export)
-        QtCore.QObject.connect(self.actionCircular_Layout, QtCore.SIGNAL("triggered()"), self.actions.circular_layout)
-        QtCore.QObject.connect(self.actionSpring_Layout, QtCore.SIGNAL("triggered()"), self.actions.spring_layout)
+        QtCore.QObject.connect(self.menuLayout, QtCore.SIGNAL("triggered(QAction*)"), self.actions.get_layout_name)
+        QtCore.QObject.connect(self.menuLayout, QtCore.SIGNAL("triggered(QAction*)"), self.actions.check_layout_item)
+        QtCore.QObject.connect(self.msg_view, QtCore.SIGNAL("cellDoubleClicked(int,int)"), self.actions.jump_to_line)
 
 
 if __name__ == "__main__":

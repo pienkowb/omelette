@@ -33,12 +33,12 @@ class LayoutFactory(object):
 
     @staticmethod
     def layouts():
-        return LayoutFactory.layouts.keys()
+        return LayoutFactory.__layouts.keys()
 
     @staticmethod
     def get(layout):
         return LayoutFactory.__layouts[layout]()
-            
+
 
 @_has_layouts
 class CircularLayout(Layout):
@@ -212,8 +212,8 @@ class GraphvizLayout(Layout):
         A=pgv.AGraph()
         A.node_attr['shape']='square'
         for node in diagram.nodes.values():
-            w = node.boundingRect().width() 
-            h = node.boundingRect().height() 
+            w = node.boundingRect().width()
+            h = node.boundingRect().height()
             A.add_node(node.uml_object.name, height=h, width=w)
 
         for edge in diagram.edges.values():
@@ -230,9 +230,9 @@ class GraphvizLayout(Layout):
             x,y = n.attr['pos'].split(',')
             x=float(x)*self.scale
             y=float(y)*self.scale
-            if x < lowest_x: 
+            if x < lowest_x:
                 lowest_x = x
-            if y < lowest_y: 
+            if y < lowest_y:
                 lowest_y = y
             node.moveBy(x,y)
         for n in diagram.nodes.values():
