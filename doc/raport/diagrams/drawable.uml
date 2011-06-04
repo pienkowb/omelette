@@ -1,0 +1,95 @@
+class Drawable
+    +crop_line(line, line_point)
+    +get_neighbours()
+    +globalBoundingRect()
+    +globalFullBoundingRect()
+    +paint(painter, style, widget)
+    +update()
+    +find_anchor()
+    +itemChange(change, value)
+
+class DrawableText
+    +boundingRect() : QRectF
+    +paint(painter, style, widget)
+    +itemChange()
+    +resetPos()
+    +mouseDoubleClickEvent(event)
+    _+create_drawable_text(parent) : DrawableText
+
+class DrawableEdge
+    +source_anchor : Anchor
+    +target_anchor : Anchor
+
+class DrawableNode
+
+class DrawableActor
+
+class DrawableClass
+
+class DrawableNote
+
+class DrawableIcon
+
+class DrawableRelation
+    _+str2arrow(name)
+    _+str2linetype(name)
+    +real_line()
+
+class ArrowHead
+    +angle
+    +length
+    +filled
+    +draw()
+
+class ArrowHeadStandard
+class ArrowHeadAss
+class ArrowHeadComp
+class ArrowHeadGen
+
+aggregation 
+    source-object : Drawable
+    target-object : DrawableText
+
+generalization drawable
+    source-object : DrawableEdge
+    target-object : Drawable
+
+drawable
+    source-object : DrawableNode
+
+generalization dnode
+    source-object : DrawableActor
+    target-object : DrawableNode
+
+dnode
+    source-object : DrawableNote
+
+dnode
+    source-object : DrawableIcon
+
+dnode
+    source-object : DrawableClass
+
+generalization ah
+    source-object : ArrowHeadStandard
+    target-object : ArrowHead
+
+
+ah
+    source-object : ArrowHeadAss
+
+ah
+    source-object : ArrowHeadComp 
+
+ah
+    source-object : ArrowHeadGen
+
+generalization 
+    source-object : DrawableRelation
+    target-object : DrawableEdge
+
+aggregation 
+    source-object : DrawableRelation
+    target-object : ArrowHead
+
+
