@@ -1,0 +1,51 @@
+% subsection
+
+Kompilacja diagramów w programie \omlet składa się z następującego zestawu czynności:
+
+\begin{itemize*}
+  \item{Wczytanie kodu i jego wstępny podział na obiekty}
+  \item{Sparsowanie kodu}
+  \item{Uzupełnienie obiektów danymi z ich prototypów}
+  \item{Odrzucenie prototypów}
+  \item{walidacja skompilowanych obiektów}
+\end{itemize*}
+
+\subsubsection{Wczytanie kodu}
+Za ten etap odpowiedzialna jest klasa \texttt{Code}.
+Klasa przyjmuje napis, zawierający plik źródłowy.
+Za pomocą klasy \texttt{Lexer} sprawdzane są kolejne linie.
+Jeżeli linia jest definicją obiektu, tworzony jest nowy obiekt typu \texttt{\_CodeObject}, zawierający linie należące do obiektu następującego po znalezionym nagłówku.
+Poza samymi liniami \texttt{\_CodeObject} przechowuje także informacje pozwalające określić numery linii w źródle.
+
+Ponieważ pierwszy wiersz źródła nie musi być nagłówkiem obiektu, tworzony jest specjalny obiekt zerowy, przechowujące wszystkie linie przed pierwszym obiektem.
+
+\subsubsection{Parsowanie kodu}
+Obiekt klasy \texttt{Code}, zawierający obiekty \texttt{\_CodeObject} jest następnie przesyłany do klasy \texttt{Parser}.
+Klasa ta zawiera funkcje budujące obiekty klasy \texttt{UMLObject}, na podstawie rozpoznanych symboli.
+Obiekt klasy \texttt{Parser} Tworzy obiekt klasy \texttt{Lexer}, w którym zdefiniowana jest gramatyka.
+
+Następnie metody klasy \texttt{Parser}, służące do budowania obiektów \texttt{UMLObject} są dodawane jako obiekty obsługujące symbole gramatyki.
+Ostatecznie metoda \texttt{parse\_string} klasy \texttt{Lexer} zostaje wywołana i zostają utworzone obiekty \texttt{UMLObject} odpowiadające plikowi źródłowemu.
+
+\subsubsection{Uzupełnienie obiektów}
+Za uzupełnienie obiektów odpowiada obiekt klasy \texttt{DependencyResolver}.
+Obiekt ten otrzymuje wszystkie obiekty \texttt{UMLObject}, które zostały stworzone w poprzednich krokach (oraz obiekty biblioteczne, tworzone przy inicjalizacji kompilatora).
+
+Na początku obiekt sprawdza, czy nie występują cykliczne zależności pomiędzy obiektami (t.j. czy dwa lub więcej obiektów nie jest wzajemnie swoimi prototypami).
+
+Następnie dla każdego obiektu znajdowany jest obiekt, będący jego prototypem i właściwości tego obiektu są dopisywane do aktualnego obiekt (pod warunkiem, że obiekt sam takich właściwości nie określa).
+
+Po dojściu do obiektu, którego prototypem jest \texttt{base}, uzupełnianie danej gałęzi obiektów zostaje zakończone.
+
+\subsubsection{Odrzucanie prototypów}
+Prototypy muszą być odrzucone z puli obiektów z dwóch powodów:
+\begin{itemize*}
+  \item{Nie powinny być rysowane na diagramie}
+  \item{Nie muszą być spójne} (spełniać wszystkich wymagań określonych przez ich prototypy). Pozostawienie ich przed następnym krokiem spowodowałoby niepotrzebne błędy.
+\end{itemize*}
+
+\subsubsection{Walidacja obiektów}
+Obiekt klasy \texttt{Validator} sprawdza zgodność z danymi walidacji określonymi przez jego prototypy.
+
+Normalnie sprawdzane jest istnienie, bądź nie istnienie konkretnej właściwości obiektu, oraz ew. zgodność typu tej właściwości.
+Jeżeli prototypy określają wymagane wartości o typie \texttt{Object}, to sprawdzane jest także, czy wskazane przez te wartości obiekty istnieją.
