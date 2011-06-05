@@ -1,1 +1,6 @@
 *.pyc
+*.pdf
+*.aux
+*.log
+*.out
+.gitignore
