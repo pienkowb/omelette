@@ -62,9 +62,9 @@ def main(argv):
             output = a
         elif o in ("-l", "--layout"):
             if(a in LayoutFactory.layouts()):
-                LayoutFactory.get(a)
+                layouter = LayoutFactory.get(a)
             elif(a + " layout" in LayoutFactory.layouts()):
-                LayoutFactory.get(a + " layout")
+                layouter = LayoutFactory.get(a + " layout")
             else:
                 print "Unknown layout '", a, "', using Circular layout."
         elif o in ("-m", "--margin"):
