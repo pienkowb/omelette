@@ -16,6 +16,8 @@ prototype base relation
     require target-object OBJECT
     allow target-count MULTIPLICITY
     allow target-role STRING
+    
+    allow linetype STRING
 
 prototype relation generalization
     arrow: "generalization"
