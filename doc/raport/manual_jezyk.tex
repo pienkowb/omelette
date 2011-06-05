@@ -1,4 +1,4 @@
-\subsection{Opis języka}
+\subsection{Przykłady uzycia języka}
 
 Aplikacja potrafi wygenerować podstawowe elementy diagramu klas oraz diagramu przypadków użycia zdefiniowane w standardzie UML 2.0.
 
@@ -13,7 +13,7 @@ class Klasa
     -pole : typ = "wartosc"
     _+statyczna_metoda()
 \end{lstlisting}
-\includegraphics[width=\textwidth]{klasa}
+\includegraphics{klasa}
 Utworzony został obiekt o identyfikatorze \textbf{Klasa}. Na diagramie będzie to nazwą klasy. Można również nadać inną nazwę korzystając z klucza \textbf{name}(którego nie ma w przykładzie). Klucz \textbf{stereotype} pełni rolę stereotypów w języku UML. Przykładowa klasa posiada metodę(wraz ze statyczną) oraz pole. Na uwagę zasługuje okreslenie widocznosci metod i pól: +, -, ~, \#. Statyczne metody lub pola oznacza się poprzez \_.
 Mając już zdefiniowaną klasę \textbf{Klasa} można utworzyć na jej podstawie następny obiekt, kopiując wszystkie ustawione wartosci kluczy z \textbf{Klasa}: \textbf{Klasa} NewObject.
 
@@ -33,7 +33,7 @@ relation
 actor Aktor
 usecase uc
 \end{lstlisting}
-\includegraphics[width=\textwidth]{relacja}
+\includegraphics{relacja}
 Relację jak wyżej można zdefiniować bez nazwy, jeżeli nie ma potrzeby wykorzystywać do tworzenia nowych obiektów pochodnych od relacji. Klucz \textbf{source-object} wskazuje obiekt na diagramie od którego relacja wychodzi, natomiast \textbf{target-object} wskazuje obiekt docelowy dla końca relacji. Klucze \textbf{source-role} oraz \textbf{target-role} odpowiadają za nadanie obiektowi źródłowemu i docelowemu ról zgodnie z notacją UML. Oczywiscie nazwa relacji na diagramie poprzez \textbf{name}. Ponadto relacja może zawierać klucze: \textbf{arror} odpowiadający za okreslenie rodzaju strzałki relacji oraz \textbf{direction}, który odpowiada za miejsce umieszczenia tej strzałki.
 
 \subsubsection{Asocjacja}
@@ -51,7 +51,7 @@ generalization
 actor Aktor
 class Klasa
 \end{lstlisting}
-\includegraphics[width=\textwidth]{generalizacja}
+\includegraphics{generalizacja}
 
 \subsubsection{Agregacja}
 
@@ -64,7 +64,7 @@ aggregation
 class InnaKlasa
 class Klasa
 \end{lstlisting}
-\includegraphics[width=\textwidth]{agregacja}
+\includegraphics{agregacja}
 
 \subsubsection{Kompozycja}
 
@@ -77,7 +77,7 @@ composition
 actor Aktor
 note Notatka
 \end{lstlisting}
-\includegraphics[width=\textwidth]{kompozycja}
+\includegraphics{kompozycja}
 
 \subsubsection{Notatka}
 
@@ -86,7 +86,7 @@ Notatka może posiadać tylko tekst. Nie ma zdefiniowanych innych kluczy oprócz
 note 
     text : "Notatka Notatka Notatka Notatka Notatka Notatka Notatka Notatka"
 \end{lstlisting}
-\includegraphics[width=\textwidth]{notatka}
+\includegraphics{notatka}
 
 \subsubsection{Aktor i przypadek użycia}
 
@@ -97,4 +97,4 @@ actor Aktor
 usecase uc
     name : "Przypadek uzycia"
 \end{lstlisting}
-\includegraphics[width=\textwidth]{aktor_uc}
+\includegraphics{aktor_uc}
