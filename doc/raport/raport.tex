@@ -24,7 +24,7 @@ frame=single,                   % adds a~frame around the code
 }
 
 % Tego używamy do odnoszenia się do projektu
-\newcommand{\omlet}{\textbf{Omelette}}
+\newcommand{\omlet}{\textbf{Omelette} }
 
 % Nazwy programów, klas, bibliotek: \textbf
 % Nazwy plików, modułów: \textt
@@ -49,20 +49,20 @@ frame=single,                   % adds a~frame around the code
 }
 \maketitle
 
-\section{co kto zrobił?}
-\subsection{Barnaba Turek}
+\part{co kto zrobił?}
+\section{Barnaba Turek}
 \input{barnaba.tex}
 \subsection{Michał Zochniak}
 \input{zapu.tex}
 
-\section{Opis architektury aplikacji}
-\subsection{Opis i~uzasadnienie technologii}
-\input{technologie.tex}
-
-\subsection{Diagramy Klas}
-\input{klasy.tex}
-
-\section{Instrukcja użytkownika}
-\input{manual.tex}
-
+\part{Opis architektury aplikacji}
+  \section{Opis i~uzasadnienie technologii}
+    \input{technologie.tex}
+  \section{Diagramy Klas}
+    \input{klasy.tex}
+  \section{Działanie programu}
+    \subsection{Kompilacja}
+      \input{kompilacja.tex}
+\part{Instrukcja użytkownika}
+	\input{manual.tex}
 \end{document}
