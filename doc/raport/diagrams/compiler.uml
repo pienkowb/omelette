@@ -1,0 +1,160 @@
+class Compiler
+    +libraries 
+    +compile(code) 
+    +clear() 
+
+class Code
+    +code 
+    +objects(condition) 
+    +insert_line(number, line) 
+    +update_line(number, line) 
+    +remove_line(number) 
+    +before(position) 
+    +after(position) 
+
+class CodeObject
+    +insert_line(number, line) 
+    +update_line(number, line) 
+    +remove_line(number) 
+    +transfer_lines(other, number) 
+    +is_empty()
+
+class Library
+    +path 
+    +load_libraries() 
+
+class Lexer
+    +setitem(key, value) 
+    +getitem(key) 
+    +register_handlers(handlers) 
+    +unregister_handlers() 
+
+class Logger
+    +getLogger(name) 
+    +info(msg, object) 
+    +warning(msg, object) 
+    +error(msg, object) 
+    +critical(msg, object) 
+    +get_events(levels) 
+    +has(levels) 
+
+class Event
+    +msg 
+    +level 
+
+class Parser
+    +parse(code_objects) 
+
+class DependencyResolver
+    +resolve() 
+
+class Validator
+    +validate() 
+
+class UMLObject
+    +required 
+    +allowed 
+    +type 
+    +parent 
+    +name 
+    +is_prototype 
+    +code_object 
+    
+    +setitem(key, value) 
+    +getitem(key) 
+
+    +add_operation(operation) 
+    +add_attribute(attribute) 
+
+    +operations() 
+    +attributes() 
+    
+class Field
+    +is_static 
+    +visibility 
+    +name 
+    +type 
+
+class Operation
+    +parameters 
+
+class Attribute
+    +default_value 
+
+prototype aggregation umlo-aggregation
+    target-object : UMLObject
+
+generalization 
+    source-object : Library
+    target-object : Code
+
+aggregation
+    source-object : Code
+    target-object : CodeObject
+    target-count  : 1..*
+
+composition 
+    source-object : Code
+    target-object : Lexer
+
+composition 
+    source-object : Compiler
+    target-object : Parser
+
+composition 
+    source-object : Compiler
+    target-object : DependencyResolver
+    
+composition 
+    source-object : Compiler
+    target-object : Library
+    target-count  : 1..*
+
+umlo-aggregation 
+    source-object : Compiler
+
+aggregation 
+    source-object : Logger
+    target-object : Event
+
+composition 
+    source-object : Event
+    target-object : UMLObject
+    target-count  : 0..1
+
+composition 
+    source-object : Parser
+    target-object : Lexer
+
+umlo-aggregation 
+    source-object : Parser
+
+umlo-aggregation 
+    source-object : DependencyResolver
+
+aggregation 
+    source-object : UMLObject
+    target-object : Field
+
+generalization 
+    source-object : Operation
+    target-object : Field
+
+generalization 
+    source-object : Attribute
+    target-object : Field
+
+composition 
+    source-object : UMLObject
+    target-object : CodeObject
+
+umlo-aggregation 
+    source-object : Validator
+
+association
+    source-object : Compiler
+    target-object  : Validator
+
+association
+    source-object : Compiler
+    target-object  : Logger    

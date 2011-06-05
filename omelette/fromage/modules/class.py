@@ -9,7 +9,7 @@ class DrawableClass(DrawableNode, QGraphicsItem):
         super(DrawableClass, self).__init__(uml_object)
         QGraphicsItem.__init__(self)
         self.__bounding_rect = QRectF(0, 0, 100, 100)
-        self.__font = QFont('Comic Sans MS', 10)
+        self.__font = Drawable.get_font()
         self.__section_margin = 5
         self.__text_margin = 3
         self.__min_width = 100 

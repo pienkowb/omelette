@@ -1,5 +1,5 @@
 from PyQt4.QtCore import QRectF
-from PyQt4.QtGui import QGraphicsItem
+from PyQt4.QtGui import QGraphicsItem, QFont
 
 class Drawable(object):
     """
@@ -60,6 +60,11 @@ class Drawable(object):
         self.scene().setSceneRect(rect.united(self.globalBoundingRect()))
 
     neighbours = property(get_neighbours)
+    
+    # Why not.
+    @staticmethod
+    def get_font():
+        return QFont('Helvetica', 10)
 
 class DrawableEdge(Drawable):
     """Base class for edgy things (e.g. lines, relations)."""
