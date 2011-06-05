@@ -1,3 +1,152 @@
+\section{Instrukcja użycia jezyka}
+
+Głownym elementem języka jest \textbf{obiekt}. Obiekty mogą posiadać nazwę. Właściwości obiektu definiuje się za pomocą \textbf{par klucz-wartość}. Ważną właściwoscią obiektu jest nazwa obiektu bazowego, tj. obiektu który jest prototypem dla danego obiektu.
+
+\begin{lstlisting}
+class Klasa
+	name: "Moja Klasa"
+	stereotype: "Fajna"
+\end{lstlisting}
+
+Przykładem jest obiekt o nazwie ,,Klasa''. Jego prototypem jest obiekt o nazwie ,,class'', zdefiniowany w \textbf{bibliotece standardowej}. ,,Klasa'' posiada dwie pary klucz-wartość: ,,name'' oraz ,,stereotype''.
+
+\subsection{Prototypy}
+
+W powyższym przykładzie pokazaliśmy obiekt bazujący na obiekcie ,,class''. ,,class'' jest tzw. prototypem, zdefiniowanym następująco:
+
+\begin{lstlisting}
+prototype base class
+    allow name STRING
+    allow stereotype STRING
+\end{lstlisting}
+
+Słowo kluczowe \textbf{prototype} sprawi, że obiekt będzie ignorowany przez moduł rysujący diagram. Stanie się ,,niewidocznym obiektem'' używanym jako obiekt bazowy. \textbf{base} mówi, że obiekt nie bazuje na żadnym innym obiekcie. Deklaracje \textbf{allow} definiują ograniczenia nałożone na obiekty bazujące na tym prototypie. Sprawiają, ze bazując na ,,class'' będzie można ustawiać tylko klucze ,,name'' oraz ,,stereotype'' które mogą być typu \textbf{STRING} czyli ciąg znaków.
+
+\subsubsection{Ograniczenia prototypów}
+
+\emph{Uwaga - dalsza wiedza o prototypach nie jest potrzebna do wygodnego użytkowania programu.}
+
+Oprócz \textbf{allow} można uzywać równiez \textbf{require}. \textbf{Require} sprawi, że użytkownik będzie zmuszony ustawić podany klucz, inaczej kompilacja diagramu nie powiedzie się.
+
+Przykład \textbf{require}:
+\begin{lstlisting}
+prototype base relation
+    require source-object OBJECT
+    require target-object OBJECT
+\end{lstlisting}
+
+Poznaliśmy właśnie kolejny rodzaj wartości jaką można ustawić klucz - \textbf{OBJECT}. Wartość oczekiwana w tym wypadku to nazwa zdefiniowanego wcześniej obiektu, np. (ale niekoniecznie) prototypu.
+
+Dozwolone ograniczenia na wartości to:
+\begin{itemize}
+	\item STRING - ciąg znaków
+	\item OBJECT - nazwa zdefiniowanego obiektu
+	\item MULTIPLICITY - UMLowa krotność, czyli liczba lub zakres, dozwolony znak *
+	\item Lista wartości - lista dozwolonych identyfikatorów podawana w formacie: [a, b, c].
+\end{itemize}
+
+\subsubsection{,,Metody'' oraz ,,Atrybuty'' dla klas UML}
+
+Język \omlet umożliwia definiowanie klas oraz atrybutów notacji UML. Wg przykładu:
+\begin{lstlisting}
+	+metoda(argument) : typ
+    -atrybut : typ = "wartosc"
+    _+statyczna_metoda()
+\end{lstlisting}
+
+\textbf{+} lub \textbf{-} przed nazwą metody/atrybutu oznacza widoczność (\emph{public} lub \emph{private}). \textbf{\_} przed widocznością pozwala zaznacza, że metoda jest statyczna. Po \textbf{:} można zdefiniować typ oraz, dla atrybutów, domyślną wartość.
+
+\subsection{Dziedziczenie}
+
+Tworząc obiekt bazujący na innym obiekcie (prototypie), obiekt przejmuje wszystkie ustawione klucze. Spójrzmy na przykład prototypu z ustawionymi kluczami:
+
+\begin{lstlisting}
+prototype relation generalization
+    arrow: "generalization"
+    direction: target
+\end{lstlisting}
+
+Teraz definiując obiekt bazujący na prototypie ,,generalization'', automatycznie przejmujemy wartości dla kluczy ,,arrow'' oraz ,,direction''. Znacznie ułatwia to tworzenie samych diagramów.
+
+\subsection{Typy wbudowane}
+
+Typem wbudowanym nazywamy obiekty które są interpretowane przez \omlet \footnote{A mianowicie moduł \textbf{DrawableFactory}} i potrafią być reprezentowane przez fizyczny \footnote{instancja pochodnych klasy Drawable} obiekt na diagramie. Dostępne typy wbudowane to:
+
+\begin{itemize}
+	\item actor
+	\item class
+	\item usecase
+	\item note
+	\item relation
+\end{itemize}
+
+Każdy z typów wbudowanych rysuje elementy diagramu używając zdefiniowanych kluczy. Biblioteka standardowa używa ograniczeń allow/require na kluczach uzywanych przez typy wbudowane w celu umożliwienia kompilatorowi sygnalizowania błędów.
+
+\subsection{Prototypy dostępne w bibliotece standardowej}
+
+Biblioteka standardowa udostępnia następujące prototypy używane do pisania diagramów. Obiekty bazowe odpowiadają wbudowanym typom, tzn. każdy obiekt bazowy ma swoją reprezentację na diagramach.
+
+% SORRY ZA ITEMIZE MESS, NIE CHCIALO MI SIE ROBIC ADDCOMMAND BO NIE UMIEM DOBRZE :< MAM MAKRA W EDYTORZE.
+\subsubsection{Actor}
+Reprezentuje aktora UML.
+
+Ograniczenia:
+\begin{itemize}
+	\item \textbf{name} (\emph{STRING}) Nazwa aktora. Wyświetlana pod symbolem aktora.
+\end{itemize}
+	
+\subsubsection{Class}
+Reprezentuje klasę UML.
+
+Ograniczenia:
+\begin{itemize}
+	\item \textbf{name} (\emph{STRING}) Nazwa klasy.
+	\item \textbf{stereotype} (\emph{STRING}) Stereotyp.
+\end{itemize}
+
+Typ wbudowany \textbf{class} zwraca uwagę na zdefiniowane \emph{metody i atrybuty UML}.
+
+\subsubsection{Usecase}
+Reprezentuje Use Case UML.
+
+Ograniczenia:
+\begin{itemize}
+	\item \textbf{name} (\emph{STRING}) Nazwa przypadku użycia.
+\end{itemize}
+
+\subsubsection{Note}
+Reprezentuje notatkę.
+
+Ograniczenia:
+\begin{itemize}
+	\item \textbf{text} (\emph{STRING}) Tekst notatki
+\end{itemize}
+	
+\subsubsection{Relation}
+Relacja służąca do łączenia obiektów.
+
+Ograniczenia:
+\begin{itemize}
+	\item \textbf{name} (\emph{STRING}) Nazwa relacji. Wyświetlana na środku odcinka łączącego obiekty.
+	\item \textbf{arrow} Rodzaj strzałki. Dostępne strzałki to: ,,association'' ,,composition'' ,,aggregation'' ,,generalization''.
+	\item \textbf{linetype} Rodzaj linii. Dostępne: ,,solid'', ,,dash'', ,,dot'', ,,dashdot''.
+\end{itemize}
+
+Dodatkowo \textbf{wymagane} (require) są: \textbf{target-object} oraz \textbf{source-object}, definiujące obiekty połączone relacją.
+
+Definiować można również: \textbf{target-count} oraz \textbf{source-count} jako \emph{MULTIPLICITY} - są to krotności UML; \textbf{target-role} oraz \textbf{source-role} jako \emph{STRING} - są to role UML.
+
+Kierunek relacji można zdefiniować na dwa sposoby: Ustawić \textbf{target-arrow} lub \textbf{source-arrow} na wybraną strzałkę (tak jak w kluczu \textbf{arrow}) lub użyć kluczy \textbf{arrow} (definiujący rodzaj strzałki) oraz \textbf{direction} przyjmujący [none, source, target, both], definiujący położenie strzałki.
+
+Dodatkowo, zdefiniowane są następujące prototypy, bazujące na \textbf{relation}. Odpowiadają one danym relacją w notacji UML.
+\begin{itemize}
+	\item generalization
+	\item association
+	\item aggregation
+	\item composition
+\end{itemize}
+
+
 \subsection{Przykłady uzycia języka}
 
 Aplikacja potrafi wygenerować podstawowe elementy diagramu klas oraz diagramu przypadków użycia zdefiniowane w standardzie UML 2.0.
