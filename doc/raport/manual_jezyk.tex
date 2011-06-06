@@ -1,6 +1,6 @@
-\section{Instrukcja użycia jezyka}
+\section{Instrukcja użycia języka}
 
-Głownym elementem języka jest \textbf{obiekt}. Obiekty mogą posiadać nazwę. Właściwości obiektu definiuje się za pomocą \textbf{par klucz-wartość}. Ważną właściwoscią obiektu jest nazwa obiektu bazowego, tj. obiektu który jest prototypem dla danego obiektu.
+Głównym elementem języka jest \textbf{obiekt}. Obiekty mogą posiadać nazwę. Właściwości obiektu definiuje się za pomocą \textbf{par klucz-wartość}. Ważną właściwością obiektu jest nazwa obiektu bazowego, tj. obiektu który jest prototypem dla danego obiektu.
 
 \begin{lstlisting}
 class Klasa
@@ -26,7 +26,7 @@ Słowo kluczowe \textbf{prototype} sprawi, że obiekt będzie ignorowany przez m
 
 \emph{Uwaga - dalsza wiedza o prototypach nie jest potrzebna do wygodnego użytkowania programu.}
 
-Oprócz \textbf{allow} można uzywać równiez \textbf{require}. \textbf{Require} sprawi, że użytkownik będzie zmuszony ustawić podany klucz, inaczej kompilacja diagramu nie powiedzie się.
+Oprócz \textbf{allow} można używać również \textbf{require}. \textbf{Require} sprawi, że użytkownik będzie zmuszony ustawić podany klucz, inaczej kompilacja diagramu nie powiedzie się.
 
 Przykład \textbf{require}:
 \begin{lstlisting}
@@ -80,7 +80,7 @@ Typem wbudowanym nazywamy obiekty które są interpretowane przez \omlet \footno
 	\item relation
 \end{itemize}
 
-Każdy z typów wbudowanych rysuje elementy diagramu używając zdefiniowanych kluczy. Biblioteka standardowa używa ograniczeń allow/require na kluczach uzywanych przez typy wbudowane w celu umożliwienia kompilatorowi sygnalizowania błędów.
+Każdy z typów wbudowanych rysuje elementy diagramu używając zdefiniowanych kluczy. Biblioteka standardowa używa ograniczeń allow/require na kluczach używanych przez typy wbudowane w celu umożliwienia kompilatorowi sygnalizowania błędów.
 
 \subsection{Prototypy dostępne w bibliotece standardowej}
 
@@ -147,13 +147,13 @@ Dodatkowo, zdefiniowane są następujące prototypy, bazujące na \textbf{relati
 \end{itemize}
 
 
-\subsection{Przykłady uzycia języka}
+\subsection{Przykłady użycia języka}
 
 Aplikacja potrafi wygenerować podstawowe elementy diagramu klas oraz diagramu przypadków użycia zdefiniowane w standardzie UML 2.0.
 
 \subsubsection{Klasa}
 
-Klasę definiuje się na podstawie prototypu \textbf{class}.\footnote{O prototypach będziem mowa w dalszej częsci}
+Klasę definiuje się na podstawie prototypu \textbf{class}.\footnote{O prototypach będzie mowa w dalszej części}
 
 \begin{lstlisting}
 class Klasa
@@ -163,12 +163,12 @@ class Klasa
     _+statyczna_metoda()
 \end{lstlisting}
 \includegraphics{klasa}
-Utworzony został obiekt o identyfikatorze \textbf{Klasa}. Na diagramie będzie to nazwą klasy. Można również nadać inną nazwę korzystając z klucza \textbf{name}(którego nie ma w przykładzie). Klucz \textbf{stereotype} pełni rolę stereotypów w języku UML. Przykładowa klasa posiada metodę(wraz ze statyczną) oraz pole. Na uwagę zasługuje okreslenie widocznosci metod i pól: +, -, ~, \#. Statyczne metody lub pola oznacza się poprzez \_.
-Mając już zdefiniowaną klasę \textbf{Klasa} można utworzyć na jej podstawie następny obiekt, kopiując wszystkie ustawione wartosci kluczy z \textbf{Klasa}: \textbf{Klasa} NewObject.
+Utworzony został obiekt o identyfikatorze \textbf{Klasa}. Na diagramie będzie to nazwą klasy. Można również nadać inną nazwę korzystając z klucza \textbf{name}(którego nie ma w przykładzie). Klucz \textbf{stereotype} pełni rolę stereotypów w języku UML. Przykładowa klasa posiada metodę(wraz ze statyczną) oraz pole. Na uwagę zasługuje określenie widoczności metod i pól: +, -, ~, \#. Statyczne metody lub pola oznacza się poprzez \_.
+Mając już zdefiniowaną klasę \textbf{Klasa} można utworzyć na jej podstawie następny obiekt, kopiując wszystkie ustawione wartości kluczy z \textbf{Klasa}: \textbf{Klasa} NewObject.
 
 \subsubsection{Relacja}
 
-Relację okresla się na podstawie prototypu \textbf{relation}.
+Relację określa się na podstawie prototypu \textbf{relation}.
 \begin{lstlisting}
 relation
     source-object : Aktor
@@ -183,15 +183,15 @@ actor Aktor
 usecase uc
 \end{lstlisting}
 \includegraphics{relacja}
-Relację jak wyżej można zdefiniować bez nazwy, jeżeli nie ma potrzeby wykorzystywać do tworzenia nowych obiektów pochodnych od relacji. Klucz \textbf{source-object} wskazuje obiekt na diagramie od którego relacja wychodzi, natomiast \textbf{target-object} wskazuje obiekt docelowy dla końca relacji. Klucze \textbf{source-role} oraz \textbf{target-role} odpowiadają za nadanie obiektowi źródłowemu i docelowemu ról zgodnie z notacją UML. Oczywiscie nazwa relacji na diagramie poprzez \textbf{name}. Ponadto relacja może zawierać klucze: \textbf{arror} odpowiadający za okreslenie rodzaju strzałki relacji oraz \textbf{direction}, który odpowiada za miejsce umieszczenia tej strzałki.
+Relację jak wyżej można zdefiniować bez nazwy, jeżeli nie ma potrzeby wykorzystywać do tworzenia nowych obiektów pochodnych od relacji. Klucz \textbf{source-object} wskazuje obiekt na diagramie od którego relacja wychodzi, natomiast \textbf{target-object} wskazuje obiekt docelowy dla końca relacji. Klucze \textbf{source-role} oraz \textbf{target-role} odpowiadają za nadanie obiektowi źródłowemu i docelowemu ról zgodnie z notacją UML. Oczywiście nazwa relacji na diagramie poprzez \textbf{name}. Ponadto relacja może zawierać klucze: \textbf{arror} odpowiadający za określenie rodzaju strzałki relacji oraz \textbf{direction}, który odpowiada za miejsce umieszczenia tej strzałki.
 
 \subsubsection{Asocjacja}
 
-Jako przykład asocjacji można użyć powyższy listing. Oczywiscie należałoby zmienić \textbf{relation} na \textbf{association}. Oparta jest również na odpowiednim prototypie. Asocjacja ma już na wstępie zdefiniowane klucze: \textbf{arrow} i \textbf{direction}. Można traktować asocjację jako podstawową formę relacji, tzn. bez kierunków.
+Jako przykład asocjacji można użyć powyższy listing. Oczywiście należałoby zmienić \textbf{relation} na \textbf{association}. Oparta jest również na odpowiednim prototypie. Asocjacja ma już na wstępie zdefiniowane klucze: \textbf{arrow} i \textbf{direction}. Można traktować asocjację jako podstawową formę relacji, tzn. bez kierunków.
 
 \subsubsection{Generalizacja}
 
-Jest relacją o okreslonym zwrocie i kierunku strzałki.
+Jest relacją o określonym zwrocie i kierunku strzałki.
 \begin{lstlisting}
 generalization
     source-object : Aktor

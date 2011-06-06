@@ -29,11 +29,11 @@ Kolejno na pasku narzędzi znajdują się:
 	\item ,,Export'' - zapisuje diagram widoczny w panelu podglądu do pliku obrazka
 \end{itemize}
 
-Dodatkowo na pasku menu znajduje się kategoria ,,Layout''. Menu ,,Layout'' służy do wyboru algorytmu rozkładania diagramów przy generacji. Do wyboru są różne algorytmy, zaleznie od platformy (a mianowicie obecności biblioteki \textbf{graphviz}).
+Dodatkowo na pasku menu znajduje się kategoria ,,Layout''. Menu ,,Layout'' służy do wyboru algorytmu rozkładania diagramów przy generacji. Do wyboru są różne algorytmy, zależnie od platformy (a mianowicie obecności biblioteki \textbf{Graphviz}).
 
 \subsection{Praca z programem}
 
-Zazwyczaj praca z programem rozpoczyna odczytania istniejącego dokumentu lub rozpoczęcia pracy nad nowym dokumentem - w drugim przypadku można zacząć pracować na pustym dokumencie który jest dostępny odrazu po otwarciu aplikacji. Użytkownik powinien najpierw zamodelować diagram opisująć jego strukturę, zgodnie z regułami języka, w panelu edycji diagramu. Następnie kliknięcie uzycie funkcji Generuj spowoduje wygenerowanie diagramu oraz wyświetlenie go w oknie podglądu. Nie stanie się tak w przypadku błędów krytycznych. Wszystkie błędy oraz ostrzeżenia sygnalizowane są w panelu błędów. Po wprowadzeniu poprawek do diagramu, można znowu kliknąć Generuj. W panelu podglądu powinniśmy wtedy zobaczyć uaktualniony diagram. W panelu podglądu możemy również przemieszczać elementy diagramu, wykonując gest ,,przeciągnij i upuść'' za pomocą myszy. Jeśli jesteśmy zadowoleni z diagramu, możemy użyć funkcji Eksportuj, która zapisze diagram do obrazka.
+Zazwyczaj praca z programem rozpoczyna odczytania istniejącego dokumentu lub rozpoczęcia pracy nad nowym dokumentem - w drugim przypadku można zacząć pracować na pustym dokumencie który jest dostępny od razu po otwarciu aplikacji. Użytkownik powinien najpierw zamodelować diagram opisując jego strukturę, zgodnie z regułami języka, w panelu edycji diagramu. Następnie kliknięcie użycie funkcji Generuj spowoduje wygenerowanie diagramu oraz wyświetlenie go w oknie podglądu. Nie stanie się tak w przypadku błędów krytycznych. Wszystkie błędy oraz ostrzeżenia sygnalizowane są w panelu błędów. Po wprowadzeniu poprawek do diagramu, można znowu kliknąć Generuj. W panelu podglądu powinniśmy wtedy zobaczyć uaktualniony diagram. W panelu podglądu możemy również przemieszczać elementy diagramu, wykonując gest ,,przeciągnij i upuść'' za pomocą myszy. Jeśli jesteśmy zadowoleni z diagramu, możemy użyć funkcji Eksportuj, która zapisze diagram do obrazka.
 
 \section{Interfejs konsolowy}
 
@@ -61,12 +61,12 @@ Available layouters:
         - Dot layout
 \end{lstlisting}
 
-Funkcja \emph{help} wyświetla dostępne flagi oraz dostępne algorytmy rozmieszczenia diagramów (zaleznie od tego, czy jest dostępna biblioteka \textbf{graphviz}).
+Funkcja \emph{help} wyświetla dostępne flagi oraz dostępne algorytmy rozmieszczenia diagramów (zależnie od tego, czy jest dostępna biblioteka \textbf{Graphviz}).
 
 \subsection{Plik wyjściowy, wejściowy}
 Za pomocą flagi \textbf{-i} lub \textbf{--input} można zdefiniować położenie pliku wejściowego. Jeśli nie zostanie zdefiniowany plik wejściowy, program będzie czytał dokument ze standardowego wejścia.
 
-Za pomoca flagi \textbf{-o} lub \textbf{--output} należy zdefiniować położenie pliku wyjściowego. Program nie zadziała, jeśli nie będzie możliwości pisania do podanego pliku.
+Za pomocą flagi \textbf{-o} lub \textbf{--output} należy zdefiniować położenie pliku wyjściowego. Program nie zadziała, jeśli nie będzie możliwości pisania do podanego pliku.
 
 \subsection{Margines oraz skala diagramu}
 Za pomocą flagi \textbf{-m} lub \textbf{--margin} można zdefiniować marginesy diagramu. Definiowany jest margines z każdej strony płótna. Domyślny margines to 10 pikseli.
