@@ -1,4 +1,5 @@
 \documentclass[a4paper]{scrartcl}
+
 \usepackage{mdwlist}
 \usepackage{polski}
 \usepackage[utf8x]{inputenc}
@@ -25,8 +26,7 @@ frame=single,                   % adds a~frame around the code
 % Nazwy plików, modułów: \textt
 % Inne nazwy własne, np. nazwy organizacji: \emph
 % listingi:
-
-%   \lstinputlisting[language=Python,caption={caption}]{source_filename.py}
+% \lstinputlisting[language=Python,caption={caption}]{source_filename.py}
 
 
 \begin{document}
@@ -45,30 +45,32 @@ frame=single,                   % adds a~frame around the code
 \maketitle
 
 \part{Historia projektu}
-	\input{historia.tex}
-	\input{zarzadzanie.tex}
+\input{historia.tex}
+\input{zarzadzanie.tex}
 
 \part{Podział obowiązków}
-	\section{Sławomir Blatkiewicz}
-		\input{slave.tex}
-	\section{Piotr Piechal}
-		\input{blondy.tex}
-	\section{Barnaba Turek}
-		\input{barnaba.tex}
-	\section{Michał Zochniak}
-		\input{zapu.tex}
+\section{Sławomir Blatkiewicz}
+\input{slave.tex}
+\section{Piotr Piechal}
+\input{blondy.tex}
+\section{Bartosz Pieńkowski}
+\input{pienkowb.tex}
+\section{Barnaba Turek}
+\input{barnaba.tex}
+\section{Michał Zochniak}
+\input{zapu.tex}
 
 \part{Opis architektury aplikacji}
-  \section{Opis i~uzasadnienie technologii}
-    \input{technologie.tex}
-  \section{Diagramy Klas}
-    \input{klasy.tex}
-  \section{Działanie programu}
-    \subsection{Kompilacja}
-      \input{kompilacja.tex}
+\section{Opis i~uzasadnienie technologii}
+\input{technologie.tex}
+\section{Diagramy Klas}
+\input{klasy.tex}
+\section{Działanie programu}
+\subsection{Kompilacja}
+\input{kompilacja.tex}
 
 \part{Instrukcja użytkownika}
-	\input{manual.tex}
-	\input{manual_jezyk.tex}
+\input{manual.tex}
+\input{manual_jezyk.tex}
 
 \end{document}
