@@ -1,58 +1,41 @@
-/**********************************************************/
-/*      Gramatyka Barneksa-Patyka w ujęciu Jogiego        */
-/*                    wersja 1.0.2                        */
-/*                                                        */
-/* http://www-cgi.uni-regensburg.de/~brf09510/syntax.html */
-/**********************************************************/
-/* Wykorzystano następujące wbudowane tokeny biblioteki   */
-/* pyparsing:                                             */
-/*                                                        */
-/*  - Word(alphanums) - słowo złożone ze znaków           */
-/*    alfanumerycznych                                    */
-/*  - Word(alphanums+'-_') - j.w., uzupełnione o znaki    */
-/*    podkreślenia i myślnik                              */
-/*  - quotedString - dowolny napis zamknięty w            */
-/*    cudzysłowach pojedynczym lub podwójnym              */
-/**********************************************************/
+grammar ::= (definition | error)*
+definition ::= ('\n')* header (element | '\n' | error)*
 
-grammar = {definition}
-definition = header "\\n" {element "\\n"}
+header ::= ( | prototype) parent_name ( | object_name) '\n'
+parent_name ::= name
+object_name ::= name
 
-header = [prototype] parent_name [object_name]
-parent_name = name
-object_name = name
+element ::= (operation | attribute | property | constraint) '\n'
 
-element = operation | attribute | property
+attribute ::= ( | static) visibility attribute_name ( |(':' attribute_type)) ( |('=' attribute_default))
+attribute_name ::= name
+attribute_type ::= name
+attribute_default ::= number | string
 
-operation = [static] scope method_name '(' [parameters] ')' [':' return_type]
-method_name = name
-return_type = name
-parameters = {parameter ','} parameter
-parameter = parameter_name ':' parameter_type
-parameter_name = name
-paramter_type = name
+operation ::= ( | static) visibility method_name '(' ( | parameters) ')' ( |(':' return_type))
+method_name ::= name
+return_type ::= name
+parameters ::= (parameter ',')* parameter
+parameter ::= parameter_name ':' parameter_type
+parameter_name ::= name
+paramter_type ::= name
 
-attribute = [static] scope attribute_name [':' attribute_type] ['=' attribute_default]
-attribute_name = name
-attribute_type = name
-attribute_default = attribute_value
-attribute_value = number | string
+property ::= property_name ':' property_value
+property_name ::= name
+property_value ::= multiplicity | name | string
 
-property = property_name ':' property_values
-property_name = name
+constraint ::= constraint_type constraint_key constraint_value
+constraint_type ::= 'allow' | 'require'
+constraint_key ::= name
+constraint_value ::= 'OBJECT' | 'STRING' | 'MULTIPLICITY' | ('[' constraint_constants ']')
+constraint_constants ::= ( ( |(constraint_constant ',')) constraint_constant)
+constraint_constant ::= name
 
-/*uproszczenie garmatyki - property moze miec 1 wartosc*/
-/*property_values = {property_value} property_value*/
-property_values = property_value
-
-property_value = multiplicity | name | string
-
-multiplicity = (number|'*') ".." (number|'*')
-number = "Word(nums)"
-name = "Word(alphanums+'_-')"
-string = "quotedString"
-
-scope = '+' | '-' | '#' | '~'
-static = "_"
-/*błędnie generowany diagram - nie mogą istnieć różne tokeny o takiej samej wartości.*/
-prototype = "prototype"
+multiplicity ::= (number|'*') ( | (".." (number|'*')))
+number ::= "Word(nums)"
+name ::= "Word(alphanums, alphanums + '-_')"
+string ::= "quotedString"
+visibility ::= '+' | '-' | '#' | '~'
+static ::= '_'
+prototype ::= 'prototype'
+error ::= ''
