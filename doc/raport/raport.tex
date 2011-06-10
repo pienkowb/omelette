@@ -14,10 +14,13 @@
 \graphicspath{{./images/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
 
-\lstset{ %
-basicstyle=\footnotesize,       % the size of the fonts that are used for the code
-frame=single,                   % adds a~frame around the code
+\lstset{
+basicstyle=\footnotesize, % the size of the fonts that are used for the code
+frame=single,             % adds a~frame around the code
 }
+
+\let\stdpart\part
+\renewcommand\part{\newpage\stdpart}
 
 % Tego używamy do odnoszenia się do projektu
 \newcommand{\omlet}{\textbf{Omelette} }
@@ -42,7 +45,9 @@ frame=single,                   % adds a~frame around the code
   Barnaba Turek       \and
   Michał Zochniak
 }
+
 \maketitle
+\thispagestyle{empty}
 
 \part{Historia projektu}
 \input{historia.tex}
@@ -51,6 +56,8 @@ frame=single,                   % adds a~frame around the code
 \part{Podział obowiązków}
 \section{Sławomir Blatkiewicz}
 \input{slave.tex}
+\section{Jakub Górniak}
+\input{gorniakj.tex}
 \section{Piotr Piechal}
 \input{blondy.tex}
 \section{Bartosz Pieńkowski}
@@ -59,6 +66,9 @@ frame=single,                   % adds a~frame around the code
 \input{barnaba.tex}
 \section{Michał Zochniak}
 \input{zapu.tex}
+
+\part{Projekt gramatyki}
+\input{gramatyka.tex}
 
 \part{Opis architektury aplikacji}
 \section{Opis i~uzasadnienie technologii}
