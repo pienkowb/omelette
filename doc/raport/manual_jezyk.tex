@@ -56,7 +56,7 @@ usecase uc
 \includegraphics{relacja}
 \end{center}
 
-Relację jak wyżej można zdefiniować bez nazwy, jeżeli nie ma potrzeby wykorzystywać do tworzenia nowych obiektów pochodnych od relacji. Klucz \textbf{source-object} wskazuje obiekt na diagramie od którego relacja wychodzi, natomiast \textbf{target-object} wskazuje obiekt docelowy dla końca relacji. Klucze \textbf{source-role} oraz \textbf{target-role} odpowiadają za nadanie obiektowi źródłowemu i docelowemu ról zgodnie z notacją UML. Oczywiście nazwa relacji na diagramie poprzez \textbf{name}. Ponadto relacja może zawierać klucze: \textbf{arror} odpowiadający za określenie rodzaju strzałki relacji oraz \textbf{direction}, który odpowiada za miejsce umieszczenia tej strzałki.
+Relację jak wyżej można zdefiniować bez nazwy, jeżeli nie chcemy odwoływać się do niej w innych obiektach. Klucz \textbf{source-object} wskazuje obiekt na diagramie od którego relacja wychodzi, natomiast \textbf{target-object} wskazuje obiekt docelowy dla końca relacji. Klucze \textbf{source-role} oraz \textbf{target-role} odpowiadają za nadanie obiektowi źródłowemu i docelowemu ról zgodnie z notacją UML. Oczywiście nazwa relacji na diagramie poprzez \textbf{name}. Ponadto relacja może zawierać klucze: \textbf{arror} odpowiadający za określenie rodzaju strzałki relacji oraz \textbf{direction}, który odpowiada za miejsce umieszczenia tej strzałki.
 
 \subsubsection{Asocjacja}
 
@@ -262,7 +262,7 @@ Definiować można również: \textbf{target-count} oraz \textbf{source-count} j
 
 Kierunek relacji można zdefiniować na dwa sposoby: Ustawić \textbf{target-arrow} lub \textbf{source-arrow} na wybraną strzałkę (tak jak w kluczu \textbf{arrow}) lub użyć kluczy \textbf{arrow} (definiujący rodzaj strzałki) oraz \textbf{direction} przyjmujący [none, source, target, both], definiujący położenie strzałki.
 
-Dodatkowo, zdefiniowane są następujące prototypy, bazujące na \textbf{relation}. Odpowiadają one danym relacją w notacji UML.
+Dodatkowo, zdefiniowane są następujące prototypy, bazujące na \textbf{relation}. Odpowiadają one danym relacjom w notacji UML.
 \begin{itemize}
 	\item generalization
 	\item association
