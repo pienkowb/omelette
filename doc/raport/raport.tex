@@ -4,7 +4,7 @@
 \usepackage{polski}
 \usepackage[utf8x]{inputenc}
 \usepackage{color}
-\usepackage[unicode=true]{hyperref}
+\usepackage{hyperref}
 \usepackage[table]{xcolor}
 \usepackage{listings}
 \usepackage{float}
@@ -13,6 +13,12 @@
 \usepackage{graphicx}
 \graphicspath{{./images/}}
 \DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\hypersetup{
+unicode=true,
+pdfborder=0 0 0,
+pdfstartview=FitH
+}
 
 \lstset{
 basicstyle=\footnotesize, % the size of the fonts that are used for the code
@@ -52,6 +58,7 @@ frame=single,             % adds a~frame around the code
 \part{Historia projektu}
 \input{historia.tex}
 \input{zarzadzanie.tex}
+\input{narzedzia.tex}
 \input{obowiazki.tex}
 
 \part{Projekt gramatyki}

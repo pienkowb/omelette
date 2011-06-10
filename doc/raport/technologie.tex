@@ -59,37 +59,6 @@ Do graficznego projektowania interfejsu użytkownika użyliśmy programu \textbf
 
 Zdecydowaliśmy się na środowisko \textbf{Qt} ze względu na jego popularność, dostępność na platformy mobilne (wierzymy, że znajomość tego środowiska będzie dla nas cenna w przyszłości), fakt że jest to środowisko w pełni zorientowane obiektowo, oraz dostępność dojrzałej biblioteki do języka \textbf{Python}.
 
-\subsection{Nosetests}
-\textbf{Nosetests}, to biblioteka, której używaliśmy do testowania wytwarzanego przez nas oprogramowania.
-Biblioteka bazuje na module \texttt{unittest} dostarczanym w standardowej bibliotece języka \textbf{Python}.
-
-Głównym powodem, dla którego zdecydowaliśmy się na korzystanie z tej biblioteki jest jej zdolność do automatycznego dodawania potrzebnych ścieżek.
-Ta cecha jest niezbędna do uruchamiania testów bez IDE, a alternatywą jest dopisanie kilku linii, ustawiających ścieżki na prawidłowe w każdym teście.
-
-Ponadto \textbf{Nosetests} udostępnia wiele rozszerzeń, ułatwiających pisanie testów, takich jak generatory testów.
-
-\subsection{Git i Github}
-\begin{wrapfigure}{r}{0.22\textwidth}
-  \begin{center}
-    \includegraphics[width=0.2\textwidth]{github}
-    \includegraphics[width=0.2\textwidth]{git}
-  \end{center}
-\end{wrapfigure}
-\textbf{Git} to otwarty rozproszony system kontroli wersji.
-Pozwala na łatwe tworzenie i łączenie gałęzi rozwoju projektu, szybkie przemieszczanie się pomiędzy wersjami i sprawdzanie różnic pomiędzy nimi.
-\textbf{Git} jest stosowany w takich projektach, jak jądro systemu Linux i umożliwia bardzo wiele (nawet w stosunku do innych nowoczesnych rozproszonych systemów kontroli wersji).
-Niestety, powoduje to, że nie jest to system łatwy w nauce.
-
-Zdecydowaliśmy się na system \textbf{Git}, ze względu na doskonały serwis \emph{Github}\footnote{\url{http://github.com}}
-
-Serwis \emph{Github} posłużył nam nie tylko, jako przestrzeń do współdzielenia kodu.
-Serwis ten udostępnia wiele narzędzi, które były bardzo przydatne w czasie prac nad projektem.
-Korzystaliśmy z wykresów, które pomagały się zorientować, który członek zespołu co robi.
-Inna przydatna opcja, z której korzystaliśmy, aby zapewnić wysoką jakość kodu, to komentowanie kodu napisanego przez innych.
-Od kiedy został wprowadzony ulepszony system zadań (\emph{Issues 2.0}), korzystaliśmy z niego w celu przechowywania wymagań i komunikacji z opiekunem projektu.
-
-Ponadto serwis pozwala na automatyczne powiadamianie o nowych zmianach w projekcie na kanale IRC, co było bardzo pomocne~--- motywowało do przeglądania kodu innych i usprawniało integrację.
-
 \subsection{Graphviz}
 Kiedy stało się jasne, że nie uda nam się napisać dobrego algorytmu rozkładającego elementy grafów, zaczęliśmy rozglądać się za gotową alternatywą.
 Znaleźliśmy program \textbf{Graphviz}~--- otwarte narzędzie służące do wizualizacji grafów, które obsługuje wiele metod rozkładania grafów.
@@ -98,22 +67,3 @@ Sam program \textbf{Graphviz} przyjmuje grafy opisane za pomocą prostego język
 Jednak twórcy tego programu udostępnili jego funkcjonalności w formie biblioteki.
 
 Skorzystaliśmy z biblioteki \textbf{pygraphviz}, która oferuje możliwość wywoływania funkcji udostępnianych przez bibliotekę \textbf{Graphviz} z poziomu \textbf{Pythona}.
-
-\subsection{Inne narzędzia}
-\subsubsection{Zintegrowane środowisko programistyczne}
-W zespole nie zostało ustalone żadne środowisko programistyczne.
-Część członków zespołu używała środowiska \emph{Eclipse}, część \emph{Netbeans}.
-
-Niektórzy członkowie zespołu tworzyli kod za pomocą zwykłych edytorów tekstowych.
-
-\subsubsection{Kanały komunikacji}
-Głównymi kanałami komunikacji wewnątrz zespołu były rozmowy w rzeczywistości i na kanale IRC.
-
-Ponadto, przez pewien czas korzystaliśmy z serwisu \emph{Scrumd}\footnote{\url{http://scrumd.com}}, służącego do zarządzania projektami prowadzonymi w metodyce Scrum.
-Głównym zastosowaniem tego narzędzia było przechowywanie wymagań.
-Wprowadzenie systemu \emph{issues 2.0} w serwisie \emph{Github} sprawiło, że serwis przestał być przydatny.
-
-Korzystaliśmy także z serwisu \emph{piratepad}\footnote{\url{http://piratepad.net}}.
-Serwis ten pozwala na jednoczesną edycję plików tekstowych i łatwe dzielenie się nimi.
-Z serwisu korzystaliśmy we wczesnych wersjach projektu, kiedy ustalaliśmy ogólne cele i założenia.
-
