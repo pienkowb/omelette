@@ -67,6 +67,7 @@ Jeżeli obiekt '''A''' jest prototypem obiektu '''B''', to:
 
 
 ==== Podobne obiekty na diagramie - implementacja====
+<[exampleblock]
 <[code]
 generalization student
     source-object : Barnaba
@@ -79,6 +80,7 @@ student
     source-object : Bartosz 
 ...
 [code]>
+[exampleblock]>
 
 ==== Słowo kluczowe prototype ====
 
@@ -93,6 +95,7 @@ Istnieje specjalny typ obiektów, prototype.
 [center]>
 
 ==== cech wspólne konstrukcji - implementacja ====
+<[exampleblock]
 <[code]
 prototype jeden-do-wielu
   source-count  : 1
@@ -102,12 +105,14 @@ jeden-do-wielu
   source-object : a
   target-object : b
 [code]>
+[exampleblock]>
 
 ==== Dane walidacji ====
 <[block]{Możliwości}
 Możemy '''wymusić''' ustawienie jakiegoś klucza, podać listę '''dozwolonych''' dla tego klucza wartości, lub '''zabronić''' używania tego klucza.
 [block]>
 
+<[exampleblock]
 <[code]
 prototype base relation
     allow name STRING
@@ -119,6 +124,7 @@ prototype base relation
     allow source-count MULTIPLICITY
     ...
 [code]>
+[exampleblock]>
 
 ==== Struktura biblioteki ====
 <[center]

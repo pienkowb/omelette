@@ -8,8 +8,13 @@ usepackage={wrapfig}
 usepackage={graphicx}
 graphicspath={{./images/}}
 usetheme={Rochester}
+
+date={\today}
+title={Omelette vi froamage}
+author={ Sławomir Blatkiewicz\and Jakub Górniak       \and Piotr Piechal       \and Bartosz Pieńkowski  \and Barnaba Turek       \and Michał Zochniak }
+titleframe=True
 [autotemplate]>
 
-== prezka ==
+== Omelette vi fromage ==
 === prototypy ===
 >>>prototypy.wiki<<<
