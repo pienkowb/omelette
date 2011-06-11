@@ -7,6 +7,7 @@ usepackage={float}
 usepackage={wrapfig}
 usepackage={graphicx}
 graphicspath={{./images/}}
+usetheme={Rochester}
 [autotemplate]>
 
 == prezka ==

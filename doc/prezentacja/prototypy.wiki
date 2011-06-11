@@ -1,8 +1,35 @@
 ==== Przesłanki ====
 
-* Powszechność cech wspólnych pomiędzy konstrukcjami
 * Biblioteka standardowa
+* Powszechność cech wspólnych pomiędzy konstrukcjami
 * Podobne obiekty na diagramie
+
+==== Biblioteka standardowa ====
+
+<[columns]
+[[[0.5\textwidth]]]
+<[block]{Biblioteka w kodzie}
+* Łatwe wczytywanie
+[block]>
+[[[0.5\textwidth]]]
+<[block]{Oddzielna biblioteka}
+* Łatwa modyfikacja
+* Łatwe rozszerzanie
+* Łatwe wykorzystanie
+[block]>
+[columns]>
+
+% Kolejną przesłanką, za wprowadzeniem systemu prototypów był fakty, że gdzieś musieliśmy opisać dostępne w języku konstrukcje.
+% Mogliśmy zrobić to bezpośrednio w kodzie, lub zdecydować się na oddzielną bibliotekę.
+
+% Naszym zdaniem korzyści płynące z zastosowania oddzielnej biblioteki przewyższają korzyści płynące z zakodowania jej "na twardo".
+% Po pierwsze bibliotekę taką można łatwo modyfikować, bez konieczności znajomości żadnego dodatkowego języka programowania.
+% Po drugie użytkownik może ją łatwo zmodyfikować (Albo nawet dopisać i dystrybuować własne biblioteki).
+% Można też łatwo wykorzystać tak zadeklarowaną bibliotekę w różnego rodzaju narzędziach, np. IDE, podczas gdy wczytanie jej z 
+% kodu dość skomplikowanego języka programowania, jakmi jest python byłoby niebagatelnym problemem.
+
+% Napisanie oddzielnej biblioteki wymagało jednak jakiegoś mechanizmu prototypowania/dziedziczenia (klasa Student to obiekt typu Klasa) 
+% i wymagało stworzenia kategorii obiektów, które są niewidoczne na diagramie, czyli właśnie prototypów.
 
 ==== Powszechność cech wspólnych pomiędzy konstrukcjami ====
 <[center]
@@ -16,34 +43,84 @@
 % Naszym zdaniem, nie ma powodu, żeby dodanie tak powszechnych atrybutów jak 1..* wymagało specjalnego pisania.
 % Jednym z założeń projektu było więc pozwolenie użytkownikowi na wygodne korzystanie z najczęściej stosowanych konstrukcji.
 
-==== Biblioteka standardowa ====
-<[columns]
-[[[0.5\textwidth]]]
-'''Biblioteka w kodzie'''
-[[[0.5\textwidth]]]
-'''Oddzielna biblioteka'''
-[columns]>
-
-<[columns]
-[[[0.5\textwidth]]]
-* Łatwe wczytywanie
-[[[0.5\textwidth]]]
-* Łatwa modyfikacja
-* Łatwe rozszerzanie
-* Łatwe wykorzystanie
-[columns]>
-
-% Kolejną przesłanką, za wprowadzeniem systemu prototypów był fakty, że gdzieś musieliśmy opisać dostępne w języku konstrukcje.
-% Mogliśmy zrobić to bezpośrednio w kodzie, lub zdecydować się na oddzielną bibliotekę.
-
-% Naszym zdaniem korzyści płynące z zastosowania oddzielnej biblioteki przewyższają korzyści płynące z zakodowania jej "na twardo".
-% Po pierwsze bibliotekę taką można łatwo modyfikować, bez konieczności znajomości żadnego dodatkowego języka programowania.
-% Po drugie użytkownik może ją łatwo zmodyfikować (Albo nawet dopisać i dystrybuować własne biblioteki).
-% Można też łatwo wykorzystać tak zadeklarowaną bibliotekę w różnego rodzaju narzędziach, np. IDE, podczas gdy wczytanie jej z 
-% kodu dość skomplikowanego języka programowania, jakmi jest python byłoby niebagatelnym problemem.
 
 ==== Podobne obiekty na diagramie ====
 <[center]
 <<<dziedziczenie,scale=0.5>>>
 [center]>
 
+% Może się też zdarzyć tak, że wiele obiektów na diagramie ma jedną bądź więcej cech wspólnych.
+% W tym przypadku widzimy wiele relacji, z których każda jest połączona z tym samym obiektem.
+% Podawanie obiektu docelowego dla każdej z nich oddzielnie byłoby niezbyt efektywne.
+% Prototypy pozwalają rozwiązać ten problem.
+
+==== Na czym polega prototypowanie ====
+
+Jeżeli obiekt '''A''' jest prototypem obiektu '''B''', to:
+* Niezainicjowane właściwości obiektu '''B''' przyjmują wartości własności obiektu '''A'''
+* Obiekt '''B''' musi spełniać wszystkie wymagania walidacji które musiał spełniać obiekt '''A''' oraz wymagania walidacji zdefiniowane w obiekcie '''A'''
+
+==== Podobne obiekty na diagramie - przypomnienie ====
+<[center]
+<<<dziedziczenie,scale=0.5>>>
+[center]>
+
+
+==== Podobne obiekty na diagramie - implementacja====
+<[code]
+generalization student
+    source-object : Barnaba
+    target-object : Student
+
+student
+    source-object : Michal
+
+student
+    source-object : Bartosz 
+...
+[code]>
+
+==== Słowo kluczowe prototype ====
+
+Istnieje specjalny typ obiektów, prototype.
+* Obiekt prototype nie jest umieszczany na diagramie.
+* Obiekt prototype nie musi być poprawnym obiektem - nie musi spełniać wymagań walidacji.
+
+
+==== cech wspólne konstrukcji - przypomnienie ====
+<[center]
+<<<krotnosci,scale=0.5>>>
+[center]>
+
+==== cech wspólne konstrukcji - implementacja ====
+<[code]
+prototype jeden-do-wielu
+  source-count  : 1
+  target-count  : *
+
+jeden-do-wielu
+  source-object : a
+  target-object : b
+[code]>
+
+==== Dane walidacji ====
+<[block]{Możliwości}
+Możemy '''wymusić''' ustawienie jakiegoś klucza, podać listę '''dozwolonych''' dla tego klucza wartości, lub '''zabronić''' używania tego klucza.
+[block]>
+
+<[code]
+prototype base relation
+    allow name STRING
+
+    allow arrow STRING
+    allow direction \[none, source, target, both\]
+
+    require source-object OBJECT
+    allow source-count MULTIPLICITY
+    ...
+[code]>
+
+==== Struktura biblioteki ====
+<[center]
+<<<biblioteka,scale=0.4>>>
+[center]>
