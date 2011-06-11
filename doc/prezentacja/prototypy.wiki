@@ -130,3 +130,12 @@ prototype base relation
 <[center]
 <<<biblioteka,scale=0.4>>>
 [center]>
+
+==== Błędy związane z prototypami ====
+* Cykliczne zależności
+* Nieistniejące zależności
+* Błędy walidacji
+** Brak wymaganego klucza
+** Złý typ wartości klucza
+** Niedozwolona wartość klucza
+** Referencja do nieistniejącego obiektu
