@@ -1,0 +1,26 @@
+class Student
+class Barnaba
+class Michal
+class Bartosz
+class Piotr
+class Slawomir
+class Jakub
+
+generalization student
+    source-object : Barnaba
+    target-object : Student
+
+student
+    source-object : Michal
+
+student
+    source-object : Bartosz 
+
+student
+    source-object : Piotr 
+
+student
+    source-object : Slawomir 
+
+student
+    source-object : Jakub 

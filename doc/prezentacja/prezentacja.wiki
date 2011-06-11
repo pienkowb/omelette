@@ -1,0 +1,14 @@
+<[autotemplate]
+usepackage={polski}
+usepackage=[utf8x]{inputenc}
+usepackage={color}
+usepackage={hyperref}
+usepackage={float}
+usepackage={wrapfig}
+usepackage={graphicx}
+graphicspath={{./images/}}
+[autotemplate]>
+
+== prezka ==
+=== prototypy ===
+>>>prototypy.wiki<<<

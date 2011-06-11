@@ -1,0 +1,49 @@
+==== Przesłanki ====
+
+* Powszechność cech wspólnych pomiędzy konstrukcjami
+* Biblioteka standardowa
+* Podobne obiekty na diagramie
+
+==== Powszechność cech wspólnych pomiędzy konstrukcjami ====
+<[center]
+<<<krotnosci,scale=0.5>>>
+[center]>
+
+% Niektóre konstrukcje są częstsze niż inne, nie ma powodu, żeby te częste zajmowały tyle samo czasu, co te rzadkie.
+% Za przyklad niech posluza asocjacje. Bardzo czesto mozna sie spotkać z asocjacją 1 do 1, 1 do *, czy * do *.
+% z kolei asocjacja 7 do 9..13 jest raczej rzadka.
+
+% Naszym zdaniem, nie ma powodu, żeby dodanie tak powszechnych atrybutów jak 1..* wymagało specjalnego pisania.
+% Jednym z założeń projektu było więc pozwolenie użytkownikowi na wygodne korzystanie z najczęściej stosowanych konstrukcji.
+
+==== Biblioteka standardowa ====
+<[columns]
+[[[0.5\textwidth]]]
+'''Biblioteka w kodzie'''
+[[[0.5\textwidth]]]
+'''Oddzielna biblioteka'''
+[columns]>
+
+<[columns]
+[[[0.5\textwidth]]]
+* Łatwe wczytywanie
+[[[0.5\textwidth]]]
+* Łatwa modyfikacja
+* Łatwe rozszerzanie
+* Łatwe wykorzystanie
+[columns]>
+
+% Kolejną przesłanką, za wprowadzeniem systemu prototypów był fakty, że gdzieś musieliśmy opisać dostępne w języku konstrukcje.
+% Mogliśmy zrobić to bezpośrednio w kodzie, lub zdecydować się na oddzielną bibliotekę.
+
+% Naszym zdaniem korzyści płynące z zastosowania oddzielnej biblioteki przewyższają korzyści płynące z zakodowania jej "na twardo".
+% Po pierwsze bibliotekę taką można łatwo modyfikować, bez konieczności znajomości żadnego dodatkowego języka programowania.
+% Po drugie użytkownik może ją łatwo zmodyfikować (Albo nawet dopisać i dystrybuować własne biblioteki).
+% Można też łatwo wykorzystać tak zadeklarowaną bibliotekę w różnego rodzaju narzędziach, np. IDE, podczas gdy wczytanie jej z 
+% kodu dość skomplikowanego języka programowania, jakmi jest python byłoby niebagatelnym problemem.
+
+==== Podobne obiekty na diagramie ====
+<[center]
+<<<dziedziczenie,scale=0.5>>>
+[center]>
+
