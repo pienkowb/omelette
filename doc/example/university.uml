@@ -1,0 +1,36 @@
+    class Student
+      +learn(stuff)
+    class University
+
+    association
+        source-object : Student
+        source-count : *
+       
+        target-object : University 
+        target-count : 1
+        
+    aggregation
+        target-object : Course
+        source-object : University
+
+    prototype class course
+        stereotype : "course"
+
+    course Course
+
+    course compSci
+        name : "Computer Science"
+        +code()
+
+    course Art
+        +dance()
+        +paint()
+        +play()
+
+    prototype generalization is_crs 
+        target-object : Course 
+
+    is_crs
+        source-object : compSci
+    is_crs
+        source-object : Art
