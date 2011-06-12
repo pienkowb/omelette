@@ -1,0 +1,99 @@
+<[autotemplate]
+usepackage={polski}
+usepackage=[utf8]{inputenc}
+usepackage={color}
+usepackage={hyperref}
+usepackage={float}
+usepackage={wrapfig}
+usepackage={graphicx}
+graphicspath={{/home/piechalp/Studia/Sem6/PZ/omelette/doc/prezentacja/images/}}
+usetheme={Rochester}
+
+date={\today}
+title={test}
+author={ blondy }
+titleframe=True
+[autotemplate]>
+
+==== Układ diagramów ====
+* +<1-2,5>{Co to jest uład diagramów?}
+%Jest to sposób rozłożenia elementów diagramu na jego płaszczyźnie.
+%Polska nazwa jest nieco niezgrabna w stosunku do oryginalnej "graph layout".
+* +<2,5>{Dlaczego jest taki ważny?}
+%Przytłaczająca większość informacji odbieranej przez człowieka pochodzi
+%ze zmysłu wzroku. Dlatego sposób przedstawienia informacji wpływa na
+%ilość przyswojonych danych. Nie wspomnę już o tym że informacje przedstawione
+%w sposób schludny są dla odbiorcy bardziej interesujące.
+-<3-4>{
+<<<00.png,width=0.49\textwidth>>>
+}
+-<4>{
+<<<01.png,width=0.49\textwidth>>>
+}
+* +<5>{Czym tak naprawdę jest diagram?}
+%Jest to graf, a więc możemy wykorzystać do ich analizy dalece rozwiniętą teorię
+%grafów.
+
+==== Wybrane algorytmy grafowe ====
+* Planaryzacja
+* Rozkład kołowy
+* Metody energetyczne
+
+==== Planaryzacja ====
+* +<1-2>{Co znaczy planarny?}
+%Planarny oznacza płaski. W odniesieniu do grafu oznacza to, że jego krawędzie
+%się nie przecinają.
+* +<2>{Czym więc jest planaryzacja?}
+%Jest to proces usuwania przecięć krawędzi w grafie.
+-<3-4>{
+<<<02.png,width=0.49\textwidth>>>
+}
+-<4>{
+<<<03.png,width=0.49\textwidth>>>
+}
+
+==== Algorytmy kołowe ====
+* +<1>{Jak działają?}
+%Ta klasa algorytmów umieszcza wierzchołki grafów na jednym lub wielu okręgach.
+%Polska nazwa jest trochę myląca w stosunku do nazwy oryginalnej "circular
+%layouter".
+-<2-3>{
+<<<04.png,width=0.49\textwidth>>>
+}
+-<3>{
+<<<05.png,width=0.49\textwidth>>>
+}
+
+==== Algorytmy energetyczne ====
+* +<1-3>{Model mechaniczny}
+%W 1984r niejaki Eades opracował metodę rozkładania grafu w oparciu o model
+%mechaniczny. W tym modelu każdy wierzchołek to metalowa obręcz, a między
+%każdymi dwiema obręczami jest sprężyna. Jeśli wierzchołki ze sobą sąsiadują
+%sprężyna jest ściśnięta, w przeciwnym razie - rozciągnięta. Taki układ będzie
+%dążył do minimalizacji naprężeń, w wyniku czego powstanie symetryczny diagram
+%z minimalną liczbą przecięć krawędzi.
+-<1-2>{
+<<<06.png,width=0.49\textwidth>>>
+}
+-<2>{
+<<<07.png,width=0.24\textwidth>>>
+}
+-<3>{
+<<<08.png,width=0.49\textwidth>>>
+}
+
+* +<4-9>{Modyfikacje}
+** +<5-9>{Kamada-Kawai}
+%Założenie, że idealna długość sprężyn nie jest równa 0 ale teoretycznej
+%odległości wierzchołków w grafie.
+** +<6-9>{Fruchterman-Reingold}
+%Uwzględnienie wierzchołków wstępnie przywiązanych
+** +<7-9>{Hadany-Harel}
+%Zastosowanie mechanizmu skali. Najpierw patrzymy nań z oddali grupując wiele
+%wierzchołków i rozpatrując je jak jeden. Następnie "przybliżamy" te grupy
+%i dalej je rozkładamy.
+** +<8-9>{Harel-Koren}
+%Tak jak powyższy, ale inaczej grupuje wierzchołki
+** +<9>{Model grawitacyjny}
+
+==== Graphviz ====
