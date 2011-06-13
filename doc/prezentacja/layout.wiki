@@ -97,3 +97,11 @@ titleframe=True
 ** +<9>{Model grawitacyjny}
 
 ==== Graphviz ====
+* +<1,2>{Co to jest?}
+%Jest to zestaw narzędzi do wizualizacji grafów. Umożliwia przekształcanie
+%tekstowego opisu grafów na ich graficzną reprezentację. Udostępnia
+%użytkonikowi całą gamę różnych metod rozkładu grafów, a także możliwości
+%ich dostrojenia do własnych potrzeb.
+* +<2>{Dlaczego o nim mówię?}
+%Bo użyliśmy go w naszym projekcie jako alternatywę dla algorytmów
+%zaimplementowanych przez nas.
