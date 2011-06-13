@@ -1,0 +1,44 @@
+class b
+    name : "base"
+
+class c
+    name : "class"
+
+class r
+    name : "relation"
+
+class g
+    name : "generalization"
+
+class a
+    name : "association"
+
+class A
+    name : "aggregation"
+
+class C
+    name : "composition"
+
+class n
+    name : "note"
+
+generalization isbase
+    source-object : c
+    target-object : b
+
+isbase
+    source-object : r
+
+isbase
+    source-object : n
+
+generalization isrel
+    source-object : r
+    target-object : g
+
+isrel
+    target-object : a
+isrel
+    target-object : A
+isrel
+    target-object : C

@@ -1,0 +1,16 @@
+class a
+class b
+class c
+class d
+
+association 
+    source-object : a
+    target-object : b
+    source-count  : 1
+    target-count  : *
+
+association 
+    source-object : c
+    target-object : d
+    source-count  : 3
+    target-count  : 7..19
