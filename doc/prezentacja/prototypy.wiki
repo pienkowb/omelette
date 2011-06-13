@@ -19,40 +19,15 @@
 [block]>
 [columns]>
 
-% Kolejną przesłanką, za wprowadzeniem systemu prototypów był fakty, że gdzieś musieliśmy opisać dostępne w języku konstrukcje.
-% Mogliśmy zrobić to bezpośrednio w kodzie, lub zdecydować się na oddzielną bibliotekę.
-
-% Naszym zdaniem korzyści płynące z zastosowania oddzielnej biblioteki przewyższają korzyści płynące z zakodowania jej "na twardo".
-% Po pierwsze bibliotekę taką można łatwo modyfikować, bez konieczności znajomości żadnego dodatkowego języka programowania.
-% Po drugie użytkownik może ją łatwo zmodyfikować (Albo nawet dopisać i dystrybuować własne biblioteki).
-% Można też łatwo wykorzystać tak zadeklarowaną bibliotekę w różnego rodzaju narzędziach, np. IDE, podczas gdy wczytanie jej z 
-% kodu dość skomplikowanego języka programowania, jakmi jest python byłoby niebagatelnym problemem.
-
-% Napisanie oddzielnej biblioteki wymagało jednak jakiegoś mechanizmu prototypowania/dziedziczenia (klasa Student to obiekt typu Klasa) 
-% i wymagało stworzenia kategorii obiektów, które są niewidoczne na diagramie, czyli właśnie prototypów.
-
 ==== Powszechność cech wspólnych pomiędzy konstrukcjami ====
 <[center]
 <<<krotnosci,scale=0.5>>>
 [center]>
 
-% Niektóre konstrukcje są częstsze niż inne, nie ma powodu, żeby te częste zajmowały tyle samo czasu, co te rzadkie.
-% Za przyklad niech posluza asocjacje. Bardzo czesto mozna sie spotkać z asocjacją 1 do 1, 1 do *, czy * do *.
-% z kolei asocjacja 7 do 9..13 jest raczej rzadka.
-
-% Naszym zdaniem, nie ma powodu, żeby dodanie tak powszechnych atrybutów jak 1..* wymagało specjalnego pisania.
-% Jednym z założeń projektu było więc pozwolenie użytkownikowi na wygodne korzystanie z najczęściej stosowanych konstrukcji.
-
-
 ==== Podobne obiekty na diagramie ====
 <[center]
 <<<dziedziczenie,scale=0.5>>>
 [center]>
-
-% Może się też zdarzyć tak, że wiele obiektów na diagramie ma jedną bądź więcej cech wspólnych.
-% W tym przypadku widzimy wiele relacji, z których każda jest połączona z tym samym obiektem.
-% Podawanie obiektu docelowego dla każdej z nich oddzielnie byłoby niezbyt efektywne.
-% Prototypy pozwalają rozwiązać ten problem.
 
 ==== Na czym polega prototypowanie ====
 
@@ -64,7 +39,6 @@ Jeżeli obiekt '''A''' jest prototypem obiektu '''B''', to:
 <[center]
 <<<dziedziczenie,scale=0.5>>>
 [center]>
-
 
 ==== Podobne obiekty na diagramie - implementacja====
 <[exampleblock]
@@ -136,6 +110,6 @@ prototype base relation
 * Nieistniejące zależności
 * Błędy walidacji
 ** Brak wymaganego klucza
-** Złý typ wartości klucza
+** Zły typ wartości klucza
 ** Niedozwolona wartość klucza
 ** Referencja do nieistniejącego obiektu
