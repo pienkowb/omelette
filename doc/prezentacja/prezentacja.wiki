@@ -10,11 +10,23 @@ graphicspath={{./images/}}
 usetheme={Rochester}
 
 date={\today}
-title={Omelette vi froamage}
+title={Omelette du Froamage}
 author={ Sławomir Blatkiewicz\and Jakub Górniak       \and Piotr Piechal       \and Bartosz Pieńkowski  \and Barnaba Turek       \and Michał Zochniak }
 titleframe=True
 [autotemplate]>
+<[nowiki]
+\AtBeginSection[]
+{
+  \begin{frame}
+  \frametitle{Omelette du Fromage}
+  \tableofcontents[currentsection]
+  \end{frame}
+}
+[nowiki]>
 
-== Omelette vi fromage ==
-=== prototypy ===
+== Prototypy ==
 >>>prototypy.wiki<<<
+== Layout ==
+>>>layout.wiki<<<
+== Rozdział 3 ==
+== Rozdział 4 ==
