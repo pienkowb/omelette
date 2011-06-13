@@ -209,6 +209,7 @@ class GraphvizLayout(Layout):
         self.alg = algorithm
 
     def apply(self, diagram):
+        import pygraphviz as pgv
         A=pgv.AGraph()
         A.node_attr['shape']='square'
         for node in diagram.nodes.values():

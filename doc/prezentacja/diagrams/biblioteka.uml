@@ -33,12 +33,12 @@ isbase
     source-object : n
 
 generalization isrel
-    source-object : r
-    target-object : g
+    target-object : r
+    source-object : g
 
 isrel
-    target-object : a
+    source-object : a
 isrel
-    target-object : A
+    source-object : A
 isrel
-    target-object : C
+    source-object : C
