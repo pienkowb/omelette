@@ -1,22 +1,5 @@
-<[autotemplate]
-usepackage={polski}
-usepackage=[utf8]{inputenc}
-usepackage={color}
-usepackage={hyperref}
-usepackage={float}
-usepackage={wrapfig}
-usepackage={graphicx}
-graphicspath={{/home/piechalp/Studia/Sem6/PZ/omelette/doc/prezentacja/images/}}
-usetheme={Rochester}
-
-date={\today}
-title={test}
-author={ blondy }
-titleframe=True
-[autotemplate]>
-
 ==== Układ diagramów ====
-* +<1-2,5>{Co to jest uład diagramów?}
+* +<1-2,5>{Co to jest układ diagramów?}
 * +<2,5>{Dlaczego jest taki ważny?}
 * +<5>{Czym tak naprawdę jest diagram?}
 -<3-4>{

@@ -63,12 +63,12 @@ Istnieje specjalny typ obiektów, prototype.
 * Obiekt prototype nie musi być poprawnym obiektem - nie musi spełniać wymagań walidacji.
 
 
-==== cech wspólne konstrukcji - przypomnienie ====
+==== Cechy wspólne konstrukcji - przypomnienie ====
 <[center]
 <<<krotnosci,scale=0.5>>>
 [center]>
 
-==== cech wspólne konstrukcji - implementacja ====
+==== Cechy wspólne konstrukcji - implementacja ====
 <[exampleblock]
 <[code]
 prototype jeden-do-wielu
