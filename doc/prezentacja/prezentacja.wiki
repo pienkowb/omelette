@@ -26,6 +26,8 @@ titleframe=True
 
 == Wprowadzenie ==
 >>>wprowadzenie.wiki<<<
+== Gramatyka ==
+>>>gramatyka.wiki<<<
 == Prototypy ==
 >>>prototypy.wiki<<<
 == Układ diagramów ==

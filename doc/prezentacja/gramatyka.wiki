@@ -1,15 +1,3 @@
-%<[autotemplate]
-%usepackage={color}
-%usepackage={hyperref}
-%usepackage={graphicx}
-% graphicspath={{./images/}}
-%usetheme={Rochester}
-
-%date={\today}
-%title={Omelette vi froamage}
-%titleframe=True
-%[autotemplate]>
-
 ==== Opis gramatyki ====
 
 % W celu zwiększenia elastyczności staraliśmy się sformułować składnię minimalistyczną, na wysokim poziomie abstrakcji. Nie istnieją w niej elementy typu "klasa" czy "aktor" - ich definicje znajdują się w zewnętrznej bibliotece, która łączona jest z kodem użytkownika. Więcej na ten temat powiedzą koledzy, przyjrzyjmy się tymczasem samej składni.
@@ -54,15 +42,15 @@ dziewczynka ala
 <[columns]
 [[[0.5\textwidth]]]
 Grammar:\newline
-<<<images/grammar/grammar.png,scale=0.4>>>\newline
+<<<grammar/grammar.png,scale=0.4>>>\newline
 
 [[[0.5\textwidth]]]
 Definition:\newline
-<<<images/grammar/definition.png,scale=0.4>>>\newline
+<<<grammar/definition.png,scale=0.4>>>\newline
 [columns]>
 
 Header:\newline
-<<<images/grammar/header.png,scale=0.4>>>\newline
+<<<grammar/header.png,scale=0.4>>>\newline
 
 <[tiny]
 grammar --> definition --> parent\_name name --> 'dziewczynka' 'ala'
@@ -85,15 +73,15 @@ dziewczynka ala
 <[columns]
 [[[0.5\textwidth]]]
 Element:\newline
-<<<images/grammar/element.png,scale=0.4>>>\newline
+<<<grammar/element.png,scale=0.4>>>\newline
 
 [[[0.5\textwidth]]]
 Visibility:\newline
-<<<images/grammar/visibility.png,scale=0.4>>>\newline
+<<<grammar/visibility.png,scale=0.4>>>\newline
 [columns]>
 
 Attribute:\newline
-<<<images/grammar/attribute.png,scale=0.4>>>\newline
+<<<grammar/attribute.png,scale=0.4>>>\newline
 
 <[tiny]
 element --> attribute --> visibility ':' type '=' attribute\_value --> '+' 'kot' ':' 'String' '=' 'buras'
@@ -112,11 +100,11 @@ dziewczynka ala
 [exampleblock]>
 
 Operation:\newline
-<<<images/grammar/operation.png,scale=0.4>>>\newline
+<<<grammar/operation.png,scale=0.4>>>\newline
 Parameters:\newline
-<<<images/grammar/parameters.png,scale=0.4>>>\newline
+<<<grammar/parameters.png,scale=0.4>>>\newline
 Parameter:\newline
-<<<images/grammar/parameter.png,scale=0.4>>>\newline
+<<<grammar/parameter.png,scale=0.4>>>\newline
 
 <[tiny]
 element --> operation --> visibility method\_name '(' parameters ')' ':' return\_type \newline
