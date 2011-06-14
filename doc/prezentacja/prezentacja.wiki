@@ -44,7 +44,4 @@ titleframe=True
 [nowiki]>
 [center]>
 == Podsumowanie ==
-==== Podsumowanie ====
-<[center]
-@github.com/pienkowb/omelette@
-[center]>
+>>>podsumowanie.wiki<<<

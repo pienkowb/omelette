@@ -1,0 +1,12 @@
+==== Podsumowanie ====
+
+* Projekt języka
+* Graficzny interfejs 
+* Konsolowy interfejs
+* Podręcznik użytkownika
+
+==== Repozytorium ====
+
+<[center]
+@github.com/pienkowb/omelette@
+[center]>
