@@ -10,7 +10,7 @@ graphicspath={{./images/}}
 usetheme={Rochester}
 
 date={\today}
-title={Omelette}
+title={Omelette - UML dla programistów}
 author={Sławomir Blatkiewicz \and Jakub Górniak \and Piotr Piechal \and Bartosz Pieńkowski \and Barnaba Turek \and Michał Zochniak}
 titleframe=True
 [autotemplate]>
@@ -18,6 +18,10 @@ titleframe=True
 \AtBeginSection[]
 {
   \begin{frame}
+  \begin{center}
+    \Huge{Omelette}\\
+    \LARGE{UML dla programistów}
+  \end{center}
   \frametitle{Omelette}
   \tableofcontents[currentsection]
   \end{frame}
@@ -32,6 +36,13 @@ titleframe=True
 >>>prototypy.wiki<<<
 == Układ diagramów ==
 >>>layout.wiki<<<
+== Demonstracja ==
+==== Demonstracja ====
+<[center]
+<[nowiki]
+  \Huge{Demonstracja}
+[nowiki]>
+[center]>
 == Podsumowanie ==
 ==== Podsumowanie ====
 <[center]

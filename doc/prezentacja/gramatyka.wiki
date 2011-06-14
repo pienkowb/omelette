@@ -1,7 +1,3 @@
-==== Opis gramatyki ====
-
-% W celu zwiększenia elastyczności staraliśmy się sformułować składnię minimalistyczną, na wysokim poziomie abstrakcji. Nie istnieją w niej elementy typu "klasa" czy "aktor" - ich definicje znajdują się w zewnętrznej bibliotece, która łączona jest z kodem użytkownika. Więcej na ten temat powiedzą koledzy, przyjrzyjmy się tymczasem samej składni.
-
 ==== Opis formalny ====
 <[exampleblock]
 <[code][basicstyle=\tiny]

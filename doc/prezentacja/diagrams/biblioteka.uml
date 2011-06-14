@@ -22,6 +22,12 @@ class C
 class n
     name : "note"
 
+class ua
+    name : "actor"
+
+class uc
+    name : "usecase"
+
 generalization isbase
     source-object : c
     target-object : b
@@ -31,6 +37,11 @@ isbase
 
 isbase
     source-object : n
+isbase
+    source-object : ua
+
+isbase
+    source-object : uc
 
 generalization isrel
     target-object : r

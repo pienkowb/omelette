@@ -29,17 +29,6 @@
 <<<dziedziczenie,scale=0.5>>>
 [center]>
 
-==== Na czym polega prototypowanie ====
-
-Jeżeli obiekt '''A''' jest prototypem obiektu '''B''', to:
-* Niezainicjowane właściwości obiektu '''B''' przyjmują wartości własności obiektu '''A'''
-* Obiekt '''B''' musi spełniać wszystkie wymagania walidacji które musiał spełniać obiekt '''A''' oraz wymagania walidacji zdefiniowane w obiekcie '''A'''
-
-==== Podobne obiekty na diagramie - przypomnienie ====
-<[center]
-<<<dziedziczenie,scale=0.5>>>
-[center]>
-
 ==== Podobne obiekty na diagramie - implementacja====
 <[exampleblock]
 <[code]
@@ -56,13 +45,6 @@ student
 [code]>
 [exampleblock]>
 
-==== Słowo kluczowe prototype ====
-
-Istnieje specjalny typ obiektów, prototype.
-* Obiekt prototype nie jest umieszczany na diagramie.
-* Obiekt prototype nie musi być poprawnym obiektem - nie musi spełniać wymagań walidacji.
-
-
 ==== Cechy wspólne konstrukcji - przypomnienie ====
 <[center]
 <<<krotnosci,scale=0.5>>>
@@ -71,7 +53,7 @@ Istnieje specjalny typ obiektów, prototype.
 ==== Cechy wspólne konstrukcji - implementacja ====
 <[exampleblock]
 <[code]
-prototype jeden-do-wielu
+prototype relation jeden-do-wielu
   source-count  : 1
   target-count  : *
 
@@ -102,7 +84,7 @@ prototype base relation
 
 ==== Struktura biblioteki ====
 <[center]
-<<<biblioteka,scale=0.4>>>
+<<<biblioteka,width=\textwidth>>>
 [center]>
 
 ==== Błędy związane z prototypami ====
