@@ -1,0 +1,130 @@
+%<[autotemplate]
+%usepackage={color}
+%usepackage={hyperref}
+%usepackage={graphicx}
+% graphicspath={{./images/}}
+%usetheme={Rochester}
+
+%date={\today}
+%title={Omelette vi froamage}
+%titleframe=True
+%[autotemplate]>
+
+==== Opis gramatyki ====
+
+% W celu zwiększenia elastyczności staraliśmy się sformułować składnię minimalistyczną, na wysokim poziomie abstrakcji. Nie istnieją w niej elementy typu "klasa" czy "aktor" - ich definicje znajdują się w zewnętrznej bibliotece, która łączona jest z kodem użytkownika. Więcej na ten temat powiedzą koledzy, przyjrzyjmy się tymczasem samej składni.
+
+==== Opis formalny ====
+<[exampleblock]
+<[code][basicstyle=\tiny]
+grammar ::= (definition)*
+
+definition ::= ('\n')* header (element | '\n')*
+
+header ::= ( | prototype) parent_name ( | object_name) '\n'
+
+element ::= (operation | attribute | property | constraint) '\n'
+
+attribute ::= ( | static) visibility attribute_name ( |(':' attribute_type))
+    ( |('=' attribute_default))
+
+operation ::= ( | static) visibility method_name '(' ( | parameters) ')'
+    ( |(':' return_type))
+
+property ::= property_name ':' property_value
+
+constraint ::= constraint_type constraint_key constraint_value
+[code]>
+[exampleblock]>
+
+
+% Na slajdzie widzimy fragment formalnego opisu gramatyki. Jest on zapisany w notacji Backusa-Naura. W dużym skrócie - kod naszej gramatyki składa się z definicji, a definicje - z nagłówka i pewnej ilości elementów, zapisanych w kolejnych liniach.
+
+==== Przykładowy rozbior ====
+
+<[exampleblock]
+<[code][basicstyle=\tiny]
+
+dziewczynka ala
+    + kot : String = 'buras'
+    + idz(gdzie : String) : void
+[code]>
+[exampleblock]>
+
+<[columns]
+[[[0.5\textwidth]]]
+Grammar:\newline
+<<<images/grammar/grammar.png,scale=0.4>>>\newline
+
+[[[0.5\textwidth]]]
+Definition:\newline
+<<<images/grammar/definition.png,scale=0.4>>>\newline
+[columns]>
+
+Header:\newline
+<<<images/grammar/header.png,scale=0.4>>>\newline
+
+<[tiny]
+grammar --> definition --> parent\_name name --> 'dziewczynka' 'ala'
+[tiny]>
+
+% Aby trochę to rozjaśnić, prześledźmy szybko rozkład pewnego krótkiego kodu. Mamy w nim definicję Ali, która dziedziczy po definicji Dziewczynki.
+
+% Na górze po prawej widzimy graficzne zobrazowanie odpowiednich produkcji z wcześniej zaprezentowanego opisu w notacji BNF, a na dole ciąg przekształceń które prowadzą do rozkładu kodu po lewej.
+
+==== Przykładowy rozbior 2 ====
+
+<[exampleblock]
+<[code][basicstyle=\tiny]
+dziewczynka ala
+    + kot : String = 'buras'
+    + idz(gdzie : String) : void
+[code]>
+[exampleblock]>
+
+<[columns]
+[[[0.5\textwidth]]]
+Element:\newline
+<<<images/grammar/element.png,scale=0.4>>>\newline
+
+[[[0.5\textwidth]]]
+Visibility:\newline
+<<<images/grammar/visibility.png,scale=0.4>>>\newline
+[columns]>
+
+Attribute:\newline
+<<<images/grammar/attribute.png,scale=0.4>>>\newline
+
+<[tiny]
+element --> attribute --> visibility ':' type '=' attribute\_value --> '+' 'kot' ':' 'String' '=' 'buras'
+[tiny]>
+
+% Druga linia to opis elementu typu atrybut. Intuicyjnie widzimy, że Ala jest dziewczynką, która ma kota, którego domyślną wartością jest łańcuch "buras".
+
+==== Przykładowy rozbior 3 ====
+
+<[exampleblock]
+<[code][basicstyle=\tiny]
+dziewczynka ala
+    + kot : String = 'buras'
+    + idz(gdzie : String) : void
+[code]>
+[exampleblock]>
+
+Operation:\newline
+<<<images/grammar/operation.png,scale=0.4>>>\newline
+Parameters:\newline
+<<<images/grammar/parameters.png,scale=0.4>>>\newline
+Parameter:\newline
+<<<images/grammar/parameter.png,scale=0.4>>>\newline
+
+<[tiny]
+element --> operation --> visibility method\_name '(' parameters ')' ':' return\_type \newline
+ --> 'idz' '(' parameter ')' ':' void' --> 'idz' '(' parameter\_name ':' parameter\_type ')' ':' 'void' \newline
+ --> 'idz' '(' 'gdzie' ':' 'String' ')' ':' 'void'
+[tiny]>
+
+% Kolejna, trzecia linia to operacja idz, która nic nie zwraca i przyjmuje jeden parametr typu String o nazwie gdzie.
+
+% Poza atrybutami i metodami, gramatyka pozwala zdefiniować także elementy nazywane kluczami i ograniczeniami, które pełnią funkcje kontrolne w kodzie. Więcej na ich temat opowie teraz kolega Barnaba.
+
