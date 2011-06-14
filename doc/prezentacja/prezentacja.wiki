@@ -10,23 +10,28 @@ graphicspath={{./images/}}
 usetheme={Rochester}
 
 date={\today}
-title={Omelette du Froamage}
-author={ Sławomir Blatkiewicz\and Jakub Górniak       \and Piotr Piechal       \and Bartosz Pieńkowski  \and Barnaba Turek       \and Michał Zochniak }
+title={Omelette}
+author={Sławomir Blatkiewicz \and Jakub Górniak \and Piotr Piechal \and Bartosz Pieńkowski \and Barnaba Turek \and Michał Zochniak}
 titleframe=True
 [autotemplate]>
 <[nowiki]
 \AtBeginSection[]
 {
   \begin{frame}
-  \frametitle{Omelette du Fromage}
+  \frametitle{Omelette}
   \tableofcontents[currentsection]
   \end{frame}
 }
 [nowiki]>
 
+== Wprowadzenie ==
+>>>wprowadzenie.wiki<<<
 == Prototypy ==
 >>>prototypy.wiki<<<
-== Layout ==
+== Układ diagramów ==
 >>>layout.wiki<<<
-== Rozdział 3 ==
-== Rozdział 4 ==
+== Podsumowanie ==
+==== Podsumowanie ====
+<[center]
+@github.com/pienkowb/omelette@
+[center]>

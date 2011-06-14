@@ -1,0 +1,60 @@
+==== Dostępne oprogramowanie ====
+
+<[center]
+<<<uml-tools,scale=0.25>>>
+[center]>
+
+==== Alternatywa w postaci opisu tekstowego ====
+
+<[exampleblock]
+<[code]
+class Student
+  - imie
+  - nazwisko
+
+class Uczelnia
+  - nazwa
+
+association
+	source-object: Student
+	target-object: Uczelnia
+[code]>
+[exampleblock]>
+
+
+==== Wynikowy diagram ====
+
+<[center]
+<<<simple,scale=0.8>>>
+[center]>
+
+
+==== Główne zalety ====
+
+* Szybkość modelowania
+* Minimalizm składni
+* Rozszerzalność języka
+* Modularna architektura klas rysujących
+
+
+==== Wykorzystane technologie -- Python ====
+
+<[center]
+<<<python,scale=0.5>>>
+[center]>
+
+
+==== Wykorzystane technologie -- Qt ====
+
+<[center]
+<<<qt,scale=0.5>>>
+[center]>
+
+
+==== Wykorzystane technologie -- cd. ====
+
+* Python
+* Qt
+* pyQt
+* pyparsing
+* graphviz
