@@ -43,20 +43,14 @@
 %Ta klasa algorytmów umieszcza wierzchołki grafów na jednym lub wielu okręgach. Polska nazwa jest trochę myląca w stosunku do nazwy oryginalnej "circular layouter".
 
 ==== Algorytmy energetyczne ====
-* +<1-3>{Model mechaniczny}
-* +<4-9>{Modyfikacje}
-** +<5-9>{Kamada-Kawai}
-** +<6-9>{Fruchterman-Reingold}
-** +<7-9>{Hadany-Harel}
-** +<8-9>{Harel-Koren}
-** +<9>{Model grawitacyjny}
--<1-2>{
+* +<1-4>{Model mechaniczny}
+-<2-3>{
 <<<layout06.png,width=0.49\textwidth>>>
 }
--<2>{
+-<3>{
 <<<layout07.png,width=0.24\textwidth>>>
 }
--<3>{
+-<4>{
 <<<layout08.png,width=0.49\textwidth>>>
 }
 
