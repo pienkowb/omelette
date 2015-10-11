@@ -1,66 +1,73 @@
 # Omelette 
 
-Omelette is a language dedicated to describe UML diagrams. Currently we support only class and use case diagrams, but the language and compiler are designed to be extensible.
+Omelette is a language dedicated to describe UML diagrams.
+Currently we only support class and use case diagrams, but the language and compiler are designed to be extensible.
 
-Omelette consists of three parts:
+The project consists of three parts:
 
-1. Omelette - Language used to describe UML diagrams
-2. Fromage - Simple IDE for editing, generating and exporting diagrams.
-3. cli - command line compiler of Omelette
+- Omelette – the language used to describe UML diagrams
+- Fromage – a simple IDE for editing, generating and exporting diagrams
+- cli – a command-line compiler
 
 ## Dependencies
+
 Omelette requires **pyQT** and **pyparsing**.
 
-Although it's not required, we encourage you to install **pygraphviz**. We offer two built-in layout algorithms, but they aren't very impressive.
+Although it's not required, we encourage you to install **pygraphviz**.
+We offer two built-in layout algorithms, but they aren't very impressive.
 
-## User Manual
+## User manual
 
 Currently there's no such thing.
 
-If you speak polish you can read [our report](omelette/raw/master/doc/raport/raport.pdf). 
-You will find the manual and semi-formal description of language syntax there.
+If you speak Polish, you can read [our report](doc/raport/raport.pdf).
+You will find a semi-formal description of the language syntax there.
 
-## Code Example
-    class Student
-      +learn(stuff)
+## Code example
 
-    class University
+```
+class Student
+    + learn(stuff)
 
-    association
-        source-object : Student
-        target-object : University 
+class University
 
-    prototype class course
-        stereotype : "course"
+association
+    source-object: Student
+    target-object: University
 
-    course Course
+prototype class course
+    stereotype: "course"
 
-    course compSci
-        name : "Computer Science"
-        +code()
+course Course
 
-    course Art
-        +dance()
-        +paint()
-        +play()
+course compSci
+    name: "Computer Science"
+    + code()
 
-    prototype generalisation is_crs 
-        target-object : Course 
+course Art
+    + dance()
+    + paint()
+    + play()
 
-    is_crs
-        source-object : compSci
-    is_crs
-        source-object : Art
+prototype generalisation is_crs
+    target-object: Course
+
+is_crs
+    source-object: compSci
+is_crs
+    source-object: Art
+```
 
 This compiles to:
 
-![uml diagram](raw/master/doc/example/university.png)
+![UML diagram](doc/example/university.png)
 
 As you can see, the language is pretty powerful.
 This example covers some features of Omelette:
 
-1. classes, and different types of relations (currently we also support notes, use cases, actors, and other types of relations)
-2. properties and operations (we also support attributes)
-3. prototyping (objects `compSci`, `Course` and `Art` inherit stereotype from `course`; There are also two anonymous `is_crs` objects, which inherit theirs target object from `is_crs`).
+- classes and different types of relations (currently we also support notes, use cases and actors)
+- properties and methods (we also support attributes)
+- prototyping (`Course`, `compSci` and `Art` inherit stereotype from `course`)
+- anonymous objects (inheriting target object from `is_crs`)
 
-[more examples](tree/master/doc/example)
+[more examples](doc/example/)
